@@ -1,0 +1,45 @@
+{
+  "name": "polymer-app",
+  "homepage": "https://github.com/pongpanot-t/polymer-app",
+  "authors": [
+    "pongpanot-t <pongpanot.t@nexts-corp.com>"
+    "Nutthawut-Ice <nutthawut.l@nexts-corp.com"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.6.0",
+    "app-route": "PolymerElements/app-route#0.9.0",
+    "iron-pages": "PolymerElements/iron-pages#^1.0.7",
+    "jwt-decode": "^2.0.1",
+    "app-localize-behavior": "PolymerElements/app-localize-behavior#0.9.0",
+    "iron-elements": "PolymerElements/iron-elements#^1.0.10",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.7",
+    "gold-elements": "PolymerElements/gold-elements#^1.0.1",
+    "neon-elements": "PolymerElements/neon-elements#^1.0.0",
+    "platinum-elements": "PolymerElements/platinum-elements#^2.0.0",
+    "google-web-components": "GoogleWebComponents/google-web-components#^1.1.0",
+    "marked-element": "PolymerElements/marked-element#1.0.0",
+    "prism-element": "PolymerElements/prism-element#1.0.0",
+    "app-layout": "PolymerElements/app-layout#0.9.0",
+    "app-pouchdb": "PolymerElements/app-pouchdb#0.9.0",
+    "app-storage": "PolymerElements/app-storage#0.9.0",
+    "jquery": "^3.0.0",
+    "jquery-ui": "^1.11.4",
+    "Sortable": "angular-ng-sortablejs#^1.4.2",
+    "vaadin-grid": "^1.0.0",
+    "gridster": "^0.5.6",
+    "paper-badge": "PolymerElements/paper-badge#^1.1.2",
+    "paper-button": "PolymerElements/paper-button#^1.0.12",
+    "paper-listbox": "polymerelements/paper-listbox#^1.1.2",
+    "nx-system": "nx-element/nx-system#^0.0.1"
+  }
+}
