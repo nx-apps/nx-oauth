@@ -24,20 +24,20 @@
   <template>
       <title>title</title>
 
-      <paper-drawer-panel responsive-width="960px">
+      <paper-drawer-panel responsive-width="600px" drawer-width="180px">
         <paper-header-panel drawer>
           <paper-toolbar>
-            <div class="title">Menu</div>
+            <div class="title"></div>
           </paper-toolbar>
           <div> <my-menu></my-menu> </div>
         </paper-header-panel>
-        <paper-header-panel main>
-          <paper-toolbar>
+        <paper-header-panel main >
+          <paper-toolbar >
             <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-            <span class="flex text"><iron-icon class="icon" icon="icons:perm-identity"></iron-icon>ระบบรักษาความมั่นคงปลอดภัยด้วยการพิสูจน์บุคคล</span>
+            <span class="flex text"  > <iron-icon class="icon" icon="icons:perm-identity"></iron-icon>ระบบรักษาความมั่นคงปลอดภัยด้วยการพิสูจน์บุคคล</span>
             <paper-icon-button id="number" icon="social:notifications"></paper-icon-button>
             <paper-badge for="number" label="3"></paper-badge>
-            <div>Admin</div>
+            <div>ผู้ดูแลระบบ</div>
             <paper-menu-button>
               <paper-icon-button icon="icons:assignment-ind" class="dropdown-trigger"></paper-icon-button>
               <paper-menu class="dropdown-content">
