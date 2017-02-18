@@ -1,3 +1,6 @@
+sha1 = require('js-sha1');
+config = require('../../config/config');
+
 exports.list = function (req, res) {
     var r = req.r;
     r.db('oauth').table('apps')
@@ -23,6 +26,9 @@ exports.get = function (req, res) {
 }
 exports.insert = function (req, res) {
     var r = req.r;
+    req.body.app_secret = sha1(req.body.app_domain);
+    req.body.allow_callback_url = "https://localhost:" + config.server.port + "/" + req.body.app_name.toLowerCase() + "/oauth/callback";
+    req.body.allow_logout_url = "https://localhost:" + config.server.port + "/" + req.body.app_name.toLowerCase() + "/oauth/logout";
     r.db('oauth').table('apps')
         .insert(req.body)
         .run()
