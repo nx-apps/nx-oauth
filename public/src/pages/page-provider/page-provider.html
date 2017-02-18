@@ -1,9 +1,11 @@
 <link rel="import" href="./provider-list.html">
 <link rel="import" href="./provider-panel.html">
+<link rel="import" href="/src/nylon-param.html">
 
 
 <dom-module id="page-provider">
     <template>
+
         <style include="page-style">
             .page{
                 background-color: white;
@@ -20,13 +22,13 @@
             }
         </style>
 
-
+        <nylon-param params="{{getParam}}" pattern="id"></nylon-param>
 
 
         <div class="xcontainer">
             
             <div class="header gl-large">
-                จัดการ Provider
+                จัดการ Provider   [[getParam.id]]
             </div>
             <provider-list></provider-list>
             <panel-right title="จัดการ Provider">
@@ -42,6 +44,8 @@
             is: 'page-provider',
             behaviors: [nylonBehavior,ReduxBehavior,providerAction],
             nylonPageActive:function(){
+                //this.getParam.id
+                //this.dispatchAction('PROVIDER_LIST',this.getParam,sddd);
                 this.dispatchAction('PROVIDER_LIST');
             },
             openPanelRight:function(){
