@@ -8,7 +8,6 @@ exports.list = function (req, res) {
                 })
             }
         })
-        .without('password')
         .run()
         .then(function (result) {
             res.json(result);
@@ -28,7 +27,6 @@ exports.get = function (req, res) {
                 })
             }
         })
-        .without('password')
         .run()
         .then(function (result) {
             res.json(result);
@@ -48,7 +46,6 @@ exports.getById = function (req, res) {
                 })
             }
         })
-        .without('password')
         .run()
         .then(function (result) {
             res.json(result);
