@@ -1,4 +1,7 @@
 <link rel="import" href="./provider-list.html">
+<link rel="import" href="./provider-panel.html">
+
+
 <dom-module id="page-provider">
     <template>
         <style include="page-style">
@@ -19,17 +22,6 @@
 
 
 
-        <!--<div class="xcontainer">
-            <div class="header gl-large">
-                จัดการชุดข้อสอบ
-            </div>
-            <examination-list data-list="[[dataList]]" type-list="examination"></examination-list>
-            <panel-right title="จัดการชุดข้อสอบ">
-                <examination-page selected="0" data="[[data]]"></examination-page>
-                
-            </panel-right>
-        </div>-->
-
 
         <div class="xcontainer">
             
@@ -38,11 +30,11 @@
             </div>
             <provider-list type-list="examination"></provider-list>
             <panel-right title="จัดการ Provider">
-                <provider-manage selected="0" data="[[data]]"></provider-manage>
+                <provider-panel></provider-panel>
             </panel-right>
         </div>
 
-
+        <paper-fab icon="icons:add" title="นำเข้ารายงาน" on-tap="openPanelRight"></paper-fab>
 
     </template>
     <script>
@@ -51,6 +43,10 @@
             behaviors: [nylonBehavior,ReduxBehavior,providerAction],
             nylonPageActive:function(){
                 this.dispatchAction('PROVIDER_LIST');
+            },
+            openPanelRight:function(){
+                this.dispatchAction('PROVIDER_CLEAR_SELECT');
+                this.$$('panel-right').open();
             }
         });
     </script>

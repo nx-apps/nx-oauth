@@ -1,56 +1,173 @@
-<!--<link rel="import" href="./examination-list.html">
-<link rel="import" href="./examination-manage.html">-->
-
-
 <dom-module id="provider-manage">
-    <template>   
+    <template>
         <style include="page-style">
-            paper-tabs{
-                --paper-tabs-selection-bar-color:#95bf31;
-                --paper-tabs-selection-bar:{
-                    border: 2px solid #95bf31;
-                }
-                --paper-tabs:{
-                    background-color: white;
-                }
+            .question{
+                margin-top: 8px;
+                text-align: right;
+                font-size: 20px;
             }
-            paper-tab{
-                color:#95bf31;
-                font-family: 'CSChatThaiUI', sans-serif;
-                font-size: 18px;
-                --paper-tab-content-unselected:{
-                    color: black;
+            paper-radio-button{
+                --paper-radio-button-size:22px;
+            }
+            gl-form-input{
+                --paper-input-container-label:{
+                    font-size: 12px;
+                    font-weight:normal;
                 }
             }
             .flex-end-justified {
                 @apply(--layout-horizontal);
                 @apply(--layout-end-justified);
             }
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+            .flexchild {
+                @apply(--layout-flex);
+            }
+            .flex2child {
+                @apply(--layout-flex-2);
+            }
+            .flex3child {
+                @apply(--layout-flex-3);
+            }
+            .flex4child {
+                @apply(--layout-flex-4);
+            }
+            .hideBorder{
+                border-bottom: 2px solid white;
+            }
         </style>
-        <!--<paper-material elevation="1">
-            <paper-tabs selected="{{selected}}">
-                <paper-tab>กำหนดชุดข้อสอบ</paper-tab>
-                <paper-tab>คำถาม</paper-tab>
-            </paper-tabs>
-        </paper-material>-->
-        <!--<iron-pages selected="{{selected}}">
-            <section>
-                <examination-manage data="{{data}}"></examination-manage>
-            </section>
-            <section>
-                <examination-list type-list="question" data-list="[[data.question]]" obj="[[data.obj]]"></examination-list>
-            </section>
-        </iron-pages>-->
-        <!--<div class="flex-end-justified">
-            <template is="dom-if" if="[[data.id]]">
-                <paper-button class="gl-btn-danger" on-tap="confirmDel" raised>ลบข้อมูล</paper-button>
-            </template>
-            <paper-button class="gl-btn-success" on-tap="getForm" raised>บันทึก</paper-button>
-        </div>-->
+        <div class="container">
+            
+
+            <paper-material elevation="1">
+                <table class="gl-table-default">
+                    <thead>
+                        <tr class="hideBorder">
+                            <th style="width:30%;text-align: right; font-size: 18px;">ชื่อ</th>
+                            <th><gl-form-input no-label-float value="{{select.provider_name}}"></gl-form-input></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th style="width:30%;text-align: right; font-size: 18px;">Provider</th>
+                            <th><gl-combo-box  always-float-label items="{{providerList}}" value="{{select.provider}}"></gl-combo-box></th>
+                             <th style="width:20%;">
+                                 <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hideBorder">
+                            <td style="text-align: right;">
+                                <!--<paper-radio-button checked="{{item.checked}}" index="[[index]]" on-tap="selectRadio"></paper-radio-button>-->
+                            </td>
+                            <td>
+                                <div class="flex-horizontal-with-ratios">
+                                    <div class="flex4child">
+                                        <gl-form-input label="Server / Endpoint" value="{{select.server}}"></gl-form-input>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width:10%;text-align: center;">
+                            </td>
+                        </tr>
+                        <tr class="hideBorder">
+                            <td style="text-align: right;">
+                                <!--<paper-radio-button checked="{{item.checked}}" index="[[index]]" on-tap="selectRadio"></paper-radio-button>-->
+                            </td>
+                            <td>
+                                <div class="flex-horizontal-with-ratios">
+                                    <div class="flex4child">
+                                        <gl-form-textarea label="Client ID" value="{{select.client_id}}"></gl-form-textarea>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width:10%;text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr class="hideBorder">
+                            <td style="text-align: right;">
+                                <!--<paper-radio-button checked="{{item.checked}}" index="[[index]]" on-tap="selectRadio"></paper-radio-button>-->
+                            </td>
+                            <td>
+                                <div class="flex-horizontal-with-ratios">
+                                    <div class="flex4child">
+                                        <gl-form-textarea label="Client ID" value="{{select.client_secret}}"></gl-form-textarea>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width:10%;text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr class="hideBorder">
+                            <td style="text-align: right;">
+                                <!--<paper-radio-button checked="{{item.checked}}" index="[[index]]" on-tap="selectRadio"></paper-radio-button>-->
+                            </td>
+                            <td>
+                                <div class="flex-horizontal-with-ratios">
+                                    <div class="flex4child">
+                                        <gl-form-input label="Scope" value="{{select.scope}}"></gl-form-input>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width:10%;text-align: center;">
+                            </td>
+                        </tr>
+
+                        
+
+                        </template>
+                        <tr class="hideBorder" on-tap="addChoice" style="cursor: pointer">
+                           <td></td>
+                           <td colspan="2" style="text-align: right;">
+                                <iron-icon icon="add"></iron-icon>
+                               เพิ่มวัตถุประสงค์
+                           </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="container" style="background-color: white">
+                 <div class="flex-horizontal-with-ratios">
+                    <div class="flex2child">
+                        <div class="fontCSC right" style="margin: 10px; font-size:18px;">กำหนดเวลา </div>
+                    </div>
+                    <div class="flex2child">
+                        <gl-form-input class="right" type="number" placeholder="" no-label-float value="{{data.time}}">
+                             <div suffix>นาที</div>
+                        </gl-form-input>
+                    </div>
+                     <div class="flex3child"></div>
+                    <div class="flex2child">
+                        <div class="fontCSC right" style="margin: 10px; font-size:18px;">
+                            จำนวนข้อทั้งหมด
+                        </div>
+                        
+                    </div>
+                    <div class="flex2child">
+                        [[countQty(data.obj.*)]]
+                        <gl-form-input class="right" no-label-float value="[[data.qty]]" readonly></gl-form-input>
+                    </div>
+                     <div class="flex2child"></div>
+                 </div>
+                </div>
+            </paper-material>
+        </div>
+        
     </template>
     <script>
         Polymer({
-            is: 'provider-manage'
+            is: 'provider-manage',
+            properties:{
+                providerList:{
+                    value:['LOCAL','GOOGLE','FACEBOOK','LDAP','AD']
+                },
+                select:{
+                    notify:true
+                }
+            }
         });
     </script>
 </dom-module>
