@@ -12,7 +12,7 @@
         }
         app-toolbar{
             color: white;
-            background-color: #95bf31;
+            background-color: #FF753F;
             font-size: 22px;
             /*user-drag: none; 
             user-select: none;
@@ -41,16 +41,27 @@
         paper-icon-item[selected]{
             background-color: #DDD;
         }
+
+        .mymask {
+            width: 32px;
+            height: 32px;
+            mask: url(#mymask);
+            -webkit-mask-box-image: url(/images/icon/default/app-icon-32.png);
+        }
     </style>
         <div class="menu">
                 
                 <paper-material elevation="1">
                     <app-toolbar>
 
-                        <iron-image src="/images/icon/white/app-icon-32.png">
-                        </iron-image>
+                        <div style="background-color:#FFFFFF; margin-right: 10px" class="mymask"></div>
+                        <svg height="0" width="0">
+                        <mask id="mymask">
+                            <image id="img" xlink:href="/images/icon/default/app-icon-32.png" x="0" y="0" height="50px" width="50px" />
+                        </mask>
+                        </svg>
                         <!--<iron-icon icon="home" item-icon></iron-icon>-->
-                            PENGUIN
+                            OAUTH
                     </app-toolbar>
                 </paper-material>
 				<div role="listbox">

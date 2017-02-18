@@ -1,6 +1,6 @@
 {
-  "name": "nx-lms",
-  "homepage": "https://github.com/9lon/nylon",
+  "name": "oauth",
+  "homepage": "https://github.com/nx-apps/nx-oauth.git",
   "authors": [
     "Namkhaeng PC-NEXT <pongpanot.t@nexts-corp.com>"
   ],

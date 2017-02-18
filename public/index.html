@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-  <title>PENGUIN</title>
+  <title>OAUTH</title>
   
   <link rel="shortcut icon" sizes="32x32" href="/images/icon/green/app-icon-32.png">
   <link rel="manifest" href="/manifest.json">
@@ -31,7 +31,7 @@
     }
     
     #toolbar {
-      background-color: #95bf31;
+      background-color: #FF753F;
       color: white;
       font-family: 'rsuregular', sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -100,6 +100,12 @@
       float: left;
       
     }
+    .mymask {
+      width: 32px;
+      height: 32px;
+      mask: url(#mymask);
+      -webkit-mask-box-image: url(/images/icon/default/app-icon-32.png);
+    }
 
     
   </style>
@@ -110,10 +116,15 @@
   <nylon-app unresolved>
     <div id="toolbar">
       <div class="icon">
-        <img src="/images/icon/white/app-icon-32.png" alt="">
+        <div style="background-color:#FFFFFF;" class="mymask"></div>
+        <svg height="0" width="0">
+          <mask id="mymask">
+            <image id="img" xlink:href="/images/icon/default/app-icon-32.png" x="0" y="0" height="50px" width="50px" />
+          </mask>
+        </svg>
       </div>
       <div class="title">
-        PENGUIN
+        OAUTH
       </div>
     </div>
     <div class="middle">
