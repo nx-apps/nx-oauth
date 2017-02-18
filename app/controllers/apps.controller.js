@@ -4,6 +4,14 @@ config = require('../../config/config');
 exports.list = function (req, res) {
     var r = req.r;
     r.db('oauth').table('apps')
+        .merge((apps_merge) => {
+            return {
+                connections: apps_merge('connections')
+                    .map((cons_map) => {
+                        return r.db('oauth').table('providers').get(cons_map)
+                    })
+            }
+        })
         .run()
         .then(function (result) {
             res.json(result);
@@ -16,6 +24,14 @@ exports.get = function (req, res) {
     var r = req.r;
     r.db('oauth').table('apps')
         .filter(req.query)
+        .merge((apps_merge) => {
+            return {
+                connections: apps_merge('connections')
+                    .map((cons_map) => {
+                        return r.db('oauth').table('providers').get(cons_map)
+                    })
+            }
+        })
         .run()
         .then(function (result) {
             res.json(result);
@@ -28,6 +44,14 @@ exports.getById = function (req, res) {
     var r = req.r;
     r.db('oauth').table('apps')
         .get(req.params.id)
+        .merge((apps_merge) => {
+            return {
+                connections: apps_merge('connections')
+                    .map((cons_map) => {
+                        return r.db('oauth').table('providers').get(cons_map)
+                    })
+            }
+        })
         .run()
         .then(function (result) {
             res.json(result);
