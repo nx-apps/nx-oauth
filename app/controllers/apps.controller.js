@@ -24,6 +24,18 @@ exports.get = function (req, res) {
             res.status(500).json(err);
         })
 }
+exports.getById = function (req, res) {
+    var r = req.r;
+    r.db('oauth').table('apps')
+        .get(req.params.id)
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+}
 exports.insert = function (req, res) {
     var r = req.r;
     req.body.app_secret = sha1(req.body.app_domain);

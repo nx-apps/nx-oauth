@@ -35,6 +35,25 @@ exports.get = function (req, res) {
             res.status(500).json(err);
         })
 }
+exports.getById = function (req, res) {
+    var r = req.r;
+    r.db('oauth').table('providers')
+        .get(req.params.id)
+        .merge((pv_merge) => {
+            return {
+                scope: pv_merge('scope').reduce((l, r) => {
+                    return l.add(',', r);
+                })
+            }
+        })
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+}
 exports.insert = function (req, res) {
     var r = req.r;
     r.db('oauth').table('providers')
