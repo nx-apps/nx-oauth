@@ -29,6 +29,22 @@
         </style>
 
         <provider-manage select="{{select}}"></provider-manage>
+
+        <!--<paper-material elevation="1">
+            <paper-tabs selected="{{selected}}">
+                <paper-tab>กำหนดชุดข้อสอบ</paper-tab>
+                <paper-tab>คำถาม</paper-tab>
+            </paper-tabs>
+        </paper-material>
+        <iron-pages selected="{{selected}}">
+            <section>
+                <examination-manage data="{{data}}"></examination-manage>
+            </section>
+            <section>
+                <examination-list type-list="question" data-list="[[data.question]]" obj="[[data.obj]]"></examination-list>
+            </section>
+        </iron-pages>-->
+
         <div class="flex-end-justified">
             <template is="dom-if" if="[[select.id]]">
                 <paper-button class="gl-btn-danger" on-tap="confirmDel" raised>ลบข้อมูล</paper-button>
