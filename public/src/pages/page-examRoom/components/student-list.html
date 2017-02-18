@@ -1,0 +1,120 @@
+
+<dom-module id="student-list">
+    <template>
+        <style include="page-style">
+            tbody>tr>td{
+                 cursor: pointer;
+            }
+            tbody>tr:hover{
+                font-weight: bold;
+                border-bottom: 2px solid dodgerblue;
+            }
+            .responsive{
+                max-height: 300px;
+                overflow-y:auto; 
+            }
+        </style>
+        <div class="container">
+            <paper-material elevation="1">
+                <div class="responsive">
+                <table class="gl-table-default">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%">#</th>
+                            <th>ชื่อ-สกุล</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template is="dom-repeat" items="{{data}}" filter="{{computeFilter(active)}}">
+                            <tr on-tap="controller" item="[[item]]">
+                                
+                                <template is="dom-if" if="[[status]]">
+                                    <td>
+                                        [[cont(index)]]
+                                        <!--<iron-icon icon="[[icon]]" index="[[index]]" item="[[item]]" on-tap="controller"></iron-icon>-->
+                                    </td>
+                                </template>
+                                <template is="dom-if" if="[[!status]]">
+                                    <td>
+                                       [[cont(index)]]
+                                    </td>
+                                </template>
+                                <td>
+                                    [[item.name]]
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                </div>
+            </paper-material>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'student-list',
+            properties:{
+                active:{
+                    type:String
+                },
+                data:{
+                    type:Array,
+                    value:[],
+                    notify:true
+                }
+            },
+            cont:function(index){
+                return index+1;
+            },
+            computeFilter:function(string){
+                if (!string) {
+                    return null;
+                } else {
+                    return function(row) {
+                        if(string=="join"){
+                            return (row.check == false) || (typeof row.check == "undefined")
+                        }else{
+                            return (row.check == true)
+                        }
+                        
+                    };
+                }
+            },
+            controller:function(e){
+                switch (this.active) {
+                    case 'join':
+                        // e.currentTarget.item.check = true;
+                        break;
+                    case 'cancel':
+                        // e.currentTarget.item.check = false;
+                        break;
+                    case 'view': 
+                        this.chagePage(e);
+                        break;
+                    default:
+                        break;
+                }
+                this.data = [].concat(this.data);
+            },
+            chagePage:function(e){
+                console.log(e.currentTarget.item);
+                this.fire('nylon-change-page',{path:'/examResult/'+e.currentTarget.item.exam_room_id+'/'+e.currentTarget.item.id})
+            },
+            getValue:function(){
+                this.data.map((item)=>{
+                    if(typeof item.check == 'undefined'){
+                        item.check = false;
+                    }
+                    return item.check 
+                })
+                var data = this.data.filter((item)=>{
+                    return item.check == true;
+                })
+                var newData = data.map((item)=>{
+                    return item.id;
+                })
+                return newData;
+            }
+        });
+    </script>
+</dom-module>

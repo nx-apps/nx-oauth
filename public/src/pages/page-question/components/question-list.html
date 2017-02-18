@@ -1,0 +1,80 @@
+
+<dom-module id="question-list">
+    <template>
+        <style include="page-style">
+             tbody>tr>td{
+                 cursor: pointer;
+             }
+            tbody>tr:hover{
+                font-weight: bold;
+                border-bottom: 2px solid dodgerblue;
+            }
+     
+        </style>
+        <div class="container">
+            
+            <paper-material elevation="1">
+                <div class="content">
+                    <table class="gl-table-default">
+                        <thead>
+                            <tr>
+                                <th style="width:10%">ข้อที่</th>
+                                <th>คำถาม</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template is="dom-repeat" items="[[dataList]]">
+                                
+                                <tr on-tap="selectList" item="[[item]]" question-id="[[item.id]]">
+                                    <td>
+                                        <div>[[toIndex(index)]]</div>
+                                    </td>
+                                    <td>
+                                        [[item.topic]] 
+                                        <template is="dom-repeat" as="module" items="[[item.tag]]">
+                                            <span class="tag">[[module]]</span>
+                                        </template>
+                                        
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <iron-icon icon="create"></iron-icon>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                     <!--<paper-icon-button icon="alarm-on" title="wake up" class="giant"></paper-icon-button>
+                     <span>toppic</span>-->
+                </div>
+            </paper-material>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'question-list',
+            behaviors:[ReduxBehavior,questionAction],
+            properties:{
+                dataList:{
+                    statePath:'question.dataList'
+                }
+            },
+            ready:function(){
+                //this.QUESTION_GET_LIST();
+            },
+            selectList:function(e){
+                this.QUESTION_SELECT(e.currentTarget.questionId)
+                .then((response)=>{
+                      this.fire('select-data',response.data);
+                 })
+                .catch((error)=>{
+                    console.log(error);
+                });
+               
+            },
+            toIndex:function(index){
+                return ++index;
+            }
+        });
+    </script>
+</dom-module>

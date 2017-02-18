@@ -1,0 +1,100 @@
+
+<link rel="import" href="./components/exam-list.html">
+<link rel="import" href="/src/nylon-param.html">
+
+<dom-module id="page-exam">
+    <template>
+        <nylon-param params="{{getParam}}" pattern="id"></nylon-param>
+        
+        <style include="page-style"></style>
+        <div class="xcontainer">
+            <div class="header gl-large">แบบทดสอบ</div>
+            <paper-material elevation="1">
+                 <table class="gl-table-default">
+                    <thead>
+                        <tr class="hideBorder">
+                            <th style="width:20%;text-align: right; font-size: 18px;">ชื่อข้อสอบ</th>
+                            <th><gl-form-input placeholder="" no-label-float value="[[dataList.0.ex_name]]" disabled></gl-form-input></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th style="width:20%;text-align: right; font-size: 18px;">คำอธิบาย</th>
+                            <th><gl-form-textarea placeholder="" no-label-float value="[[dataList.0.description]]" disabled></gl-form-textarea></th>
+                             <th></th>
+                        </tr>
+                    </thead>
+                 </table>
+            </paper-material>
+            <template is="dom-repeat" items="[[dataList.0.question]]">
+                <exam-list data="[[item]]" index="[[cont(index)]]"></exam-list>
+                
+            </template>
+            
+        </div>
+         <paper-fab icon="icons:send" title="ส่งข้อสอบ" on-tap="confirmToast"></paper-fab>
+    </template>
+    <script>
+        Polymer({
+            is: 'page-exam',
+            behaviors:[ReduxBehavior,examHistoryAction,examAction],
+            observers:['getTest(getParam.id)'],
+            properties:{
+                dataList:{
+                    statePath:'examHistory.examSelect',
+                    observer:'getData'
+                }
+                // user:{
+                //     statePath:'auth.user'
+                // }
+            },
+            getTest:function(id){
+                if(this.getParam.page=="exam"){
+                    this.stat = true;
+                    console.log(id);
+                    this.exam_room_id = id;
+                    this.EXAM_HISTORY_EXAM_LIST_SELECT(id);
+                }
+            },
+            getData:function(data){
+                console.log(this.dataList);
+            },
+            cont:function(index){
+                return index+1;
+            },
+            confirmToast:function(){
+                this.fire('toast',{ 
+                 status:'openDialog',
+                 text:'ต้องการส่งแบบทดสอบใช่หรือไม่ ?',
+                 confirmed:this.sendAnswer.bind(this), 
+                 })
+            },
+            sendAnswer:function(check){
+                // console.log(this.dataList);
+                if(check == true){
+                    var data = {
+                        examination_id: this.dataList[0].id, 
+                        exam_room_id: this.exam_room_id,
+                        // std_id: this.user.id,
+                    }
+                    data.question = this.dataList[0].question.map((item)=>{
+                        var {topic,question_id,choice} = item;
+                        var newItem = {topic,question_id,choice};
+                        newItem.choice = item.choice.map((item)=>{
+                            var {checked,answer,choice,image_id} = item;
+                            var newItem = {checked,answer,choice,image_id};
+                            if(typeof newItem.answer == 'undefined'){
+                                newItem.answer = false;
+                            }
+                            // newItem.answer = newItem.answer;
+                            return newItem;
+                        })
+                        return newItem;
+                    })
+                    this.EXAM_INSERT_DATA(data);
+                    this.fire('nylon-change-page',{path:'/examResult/'+this.exam_room_id})
+                }
+            }
+
+        });
+    </script>
+</dom-module>

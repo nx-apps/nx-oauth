@@ -1,0 +1,57 @@
+
+<dom-module id="examHistory-list-complete">
+    <template>
+        <style include="page-style">
+            tbody>tr>td{
+                 cursor: pointer;
+            }
+            tbody>tr:hover{
+                font-weight: bold;
+                border-bottom: 2px solid dodgerblue;
+            }
+        </style>
+        <div class="container">
+            <paper-material elevation="1">
+            <table class="gl-table-default">
+                <thead>
+                    <tr>
+                        <th style="width:10%">#</th>
+                        <th>รายการผลสอบ</th>
+                        <th style="text-align: right">จำนวนข้อที่ถูก (ข้อ)</th>
+                        <th style="text-align: right">จำนวนข้อทั้งหมด (ข้อ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template is="dom-repeat" items="[[examList]]">
+                        <tr on-tap="selectData" item="[[item]]">
+                            <td>[[getIndex(index)]]</td>
+                            <td>[[item.exam_room_name]]</td>
+                            <td style="text-align: right">[[item.score]]</td>
+                            <td style="text-align: right">[[item.count_question]]</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+             </paper-material>
+             </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'examHistory-list-complete',
+            behaviors:[ReduxBehavior],
+            getIndex:function(index){
+                return index+1;
+            },
+            properties:{
+                examList:{
+                    statePath:'examHistory.examListComplete'
+                }
+            },
+            selectData:function(e){
+                console.log(this.examList);
+                console.log(e.currentTarget.item);
+                this.fire('nylon-change-page',{path:'/examResult/'+e.currentTarget.item.exam_room_id})
+            }
+        });
+    </script>
+</dom-module>
