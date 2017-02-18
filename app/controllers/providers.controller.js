@@ -84,6 +84,13 @@ exports.delete = function (req, res) {
     r.db('oauth').table('providers')
         .get(req.params.id)
         .delete()
+        .do((app_del) => {
+            return r.db('apps').getAll(req.params.id, { index: 'connections' }).update(function (row) {
+                return {
+                    connections: row('connections').setDifference([req.params.id])
+                }
+            })
+        })
         .run()
         .then(function (result) {
             res.json(result);
