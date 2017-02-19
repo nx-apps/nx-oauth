@@ -2,44 +2,45 @@ import axios from '../axios'
 import { commonAction } from '../config'
 
 const initialState = {
-    list: [],
-    select: {}
+    list: []
 }
 
-export function connectionReducer(state = initialState, action) {
+export function appConnectReducer(state = initialState, action) {
 
     switch (action.type) {
-        case 'CONNECTION_LIST':
+        case 'APP_CONNECT_LIST':
             return Object.assign({}, state, { list: action.payload });
-        case 'CONNECTION_SELECT':
-            return Object.assign({}, state, { select: action.payload });
-        case 'CONNECTION_CLEAR_SELECT':
-            return Object.assign({}, state, { select: {} });
         default:
             return state
     }
 
 }
 
-export function connectionAction(store) {
+export function appConnectAction(store) {
 
     return [commonAction(),
     {
-        CONNECTION_LIST: function (id) {
-            axios.get(`/connections/${id}`)
+        APP_CONNECT_LIST: function (id) {
+            axios.get(`/apps/connects/${id}`)
                 .then(res => {
-                    store.dispatch({ type: 'CONNECTION_LIST', payload: res.data })
+                    store.dispatch({ type: 'APP_CONNECT_LIST', payload: res.data })
                 })
                 .catch(err => {
 
                 })
         },
-        CONNECTION_UPDATE: function (data) {
+        APP_CONNECT_UPDATE: function (data) {
             this.fire('toast', { status: 'load' });
-
+            var conns=[]
+            data.connections.forEach(function (conn) {
+                   if (conn.status == true) {
+                      conns.push(conn.id);
+                   }
+            });
+            data.connections=conns;
             axios.put(`/apps/app`, data)
                 .then(res => {
-                    this.CONNECTION_LIST(data.id);
+                    this.APP_CONNECT_LIST(data.id);
                     this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
