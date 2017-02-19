@@ -1,7 +1,7 @@
-<link rel="import" href="./app-list.html">
-<link rel="import" href="./app-panel.html">
+<link rel="import" href="./my-app-list.html">
+<link rel="import" href="./my-app-panel.html">
 
-<dom-module id="page-app">
+<dom-module id="page-my-app">
     <template>
 
         <style include="page-style">
@@ -23,11 +23,11 @@
         <div class="xcontainer">
             
             <div class="header gl-large">
-                จัดการ App
+                App ของฉัน
             </div>
-            <app-list></app-list>
-            <panel-right title="จัดการ App">
-                <app-panel></app-panel>
+            <my-app-list></my-app-list>
+            <panel-right title="ลงทะเบียน App">
+                <my-app-panel></my-app-panel>
             </panel-right>
         </div>
 
@@ -36,11 +36,12 @@
     </template>
     <script>
         Polymer({
-            is: 'page-app',
-            behaviors: [nylonBehavior,ReduxBehavior,appAction],
+            is: 'page-my-app',
+            behaviors: [nylonBehavior,ReduxBehavior,myAppAction],
             nylonPageActive:function(){
                 //this.dispatchAction('APP_PROVIDER_LIST');
-                this.dispatchAction('APP_LIST');
+                this.dispatchAction('MY_APP_LIST');
+                this.dispatchAction('MY_APP_LIST_REQUEST');
             },
             openPanelRight:function(){
                 this.dispatchAction('APP_CLEAR_SELECT');

@@ -53,6 +53,12 @@ exports.getById = function (req, res) {
                 apps: r.db('oauth').table('user_apps')
                     .getAll(users_merge('id'), { index: 'uid' })
                     .coerceTo('array')
+                    .innerJoin(r.db('oauth').table('apps'),function(left,right){
+                        return left('app_id').eq(right('id'))
+                    })
+                    .map(function(row){
+                        return row('left').merge(row('right').pluck('app_name','icon_url'))
+                    })
             }
         })
         .run()
