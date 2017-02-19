@@ -5,11 +5,13 @@ import {dispatchActionBehavior} from './config'
 import {commonSystemReducer,commonSystemAction} from './reducer/commonSystem'
 import {authReducer,authAction} from './reducer/auth'
 import {providerReducer,providerAction} from './reducer/provider'
+import {appReducer,appAction} from './reducer/app'
 
 const rootReducer = combineReducers({
     commonSystem:commonSystemReducer,
     auth:authReducer,
-    provider:providerReducer
+    provider:providerReducer,
+    app:appReducer
 });
 const storeApp = createStore(
     rootReducer,
@@ -22,3 +24,4 @@ window.dispatchActionBehavior = dispatchActionBehavior();
 window.commonSystemAction = commonSystemAction(storeApp);
 window.authAction = authAction(storeApp);
 window.providerAction = providerAction(storeApp);
+window.appAction = appAction(storeApp);
