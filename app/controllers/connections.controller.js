@@ -16,6 +16,7 @@ exports.getById = function (req, res) {
                             )
                         }
                     })
+                    .orderBy('provider', 'provider_name')
             }
         })
         .run()
