@@ -6,4 +6,8 @@ module.exports = function (app) {
     app.post('/app', controller.insert);
     app.put('/app', controller.update);
     app.delete('/app/:id', controller.delete);
+    app.get('/connects/:id', controller.connects);
+    app.get('/roles/:id', controller.roles);
+    app.get('/users/:id', controller.users);
+    app.put('/users', controller.update_users);
 }

@@ -101,3 +101,117 @@ exports.delete = function (req, res) {
             res.status(500).json(err);
         })
 }
+
+exports.roles = function (req, res) {
+    var r = req.r;
+    r.db('oauth').table('apps')
+        .get(req.params.id)
+        .pluck('id', 'app_name', 'role')
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+}
+
+exports.connects = function (req, res) {
+    var r = req.r;
+    r.db('oauth').table('apps')
+        .get(req.params.id)
+        .pluck('id', 'app_name', 'connections')
+        .merge(function (apps_merge) {
+            return {
+                connections: r.db('oauth').table('providers').coerceTo('array')
+                    .merge((conx_merge) => {
+                        return {
+                            status: r.branch(
+                                apps_merge('connections').contains((apps_contains) => {
+                                    return apps_contains.eq(conx_merge('id'))
+                                }),
+                                true, false
+                            )
+                        }
+                    })
+                    .orderBy('provider', 'provider_name')
+            }
+        })
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+}
+
+exports.users = function (req, res) {
+    var r = req.r;
+    r.db('oauth').table('apps')
+        .get(req.params.id)
+        .pluck('id', 'app_name', 'role')
+        .merge((apps_merge) => {
+            return {
+                users: r.db('oauth').table('user_apps')
+                    .getAll(apps_merge('id'), { index: 'app_id' })
+                    .coerceTo('array')
+                    .merge(function (row) {
+                        return r.db('oauth').table('users').get(row('uid')).pluck('name', 'email')
+                    })
+
+            }
+        })
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        });
+}
+
+exports.update_users = function (req, res) {
+    res.send(req.body);
+    var r = req.r;
+    if (req.body.updates.length > 0) {
+        r.expr(req.body.updates)
+            .forEach(function (row) {
+                return r.db('oauth').table('user_apps').get(row('id')).update(row.without('id'))
+            })
+            .run()
+            .then(function (result) {
+
+                if (req.body.deletes.length > 0) {
+                    r.expr(req.body.deletes)
+                        .forEach(function (row) {
+                            return r.db('oauth').table('user_apps').get(row('id')).delete(row)
+                        })
+                        .run()
+                        .then(function (result) {
+                            res.json(result);
+                        })
+                        .catch(function (err) {
+                            res.status(500).json(err);
+                        })
+                } else {
+                    res.json(result);
+                }
+            }).catch(function (err) {
+                res.status(500).json(err);
+            })
+    } else if (req.body.deletes.length > 0) {
+        r.expr(req.body.deletes)
+            .forEach(function (row) {
+                return r.db('oauth').table('user_apps').get(row('id')).delete(row)
+            })
+            .run()
+            .then(function (result) {
+                res.json(result);
+            })
+            .catch(function (err) {
+                res.status(500).json(err);
+            })
+    }
+
+}

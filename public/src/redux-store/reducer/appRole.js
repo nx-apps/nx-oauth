@@ -2,20 +2,15 @@ import axios from '../axios'
 import {commonAction} from '../config'
 
 const initialState = {
-    list:[],
-    select:{}
+    list:[]
 }
 
 
 export function appRoleReducer(state = initialState,action){
 
     switch (action.type) {
-        case 'APPROLE_LIST':
+        case 'APP_ROLE_LIST':
             return Object.assign({},state,{list:action.payload});
-        case 'APPROLE_SELECT':
-            return Object.assign({},state,{select:action.payload});
-        case 'APPROLE_CLEAR_SELECT':
-            return Object.assign({},state,{select:{}});
         default:
             return state
     }
@@ -26,74 +21,31 @@ export function appRoleAction(store){
 
     return [commonAction(),
         {
-            APPROLE_LIST:function(){
-                axios.get('/apps/roles')
+            APP_ROLE_LIST:function(id){
+                axios.get(`/apps/roles/${id}`)
                 .then(res=>{
-                    store.dispatch({type:'APPROLE_LIST',payload:res.data})
+                    res.data.role.push("");
+                    store.dispatch({type:'APP_ROLE_LIST',payload:res.data})
                 })
                 .catch(err=>{
 
                 })
             },
-            APPROLE_SELECT:function(id){
-                axios.get('/apps/roles/${id}')
-                .then(res=>{
-                    store.dispatch({type:'APPROLE_SELECT',payload:res.data})
-                    this.$$('panel-right').open();
-                })
-                .catch(err=>{
-                    console.log(err);
-                })
-            },
-            APPROLE_CLEAR_SELECT:function(){
-                store.dispatch({type:'APPROLE_CLEAR_SELECT'})
-            },
-            APPROLE_INSERT:function(data){
-
+            APP_ROLE_UPDATE:function(data){
                 this.fire('toast',{status:'load'});
-                data.scope = data.scope.split(",");
-
-                axios.post('/apps/roles',data)
+               // data.scope = data.scope.split(",");
+               // /apps/app
+                var len=data.role.length;
+                if(data.role[len-1]==""){
+                  //  data.role.pop(len);
+                   data.role.splice(len-1,1);
+                }
+                axios.put(`/apps/app`,data)
                 .then(res=>{
-                    this.PROVIDER_LIST();
+                    this.APP_ROLE_LIST(data.id);
                     this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
                         callback:()=>{
-                            this.$$('panel-right').close();
-                        }
-                    });
-                })
-                .catch(err=>{
-                    console.log(err);
-                })
-
-            },
-            APPROLE_DELETE:function(id){
-                
-                this.fire('toast',{status:'load'});
-
-                axios.delete(`/apps/role/${id}`)
-                .then(res=>{
-                    this.PROVIDER_LIST();
-                    this.fire('toast',{status:'success',text:'ลบข้อมูลสำเร็จ',
-                        callback:()=>{
-                            this.$$('panel-right').close();
-                        }
-                    });
-                })
-                .catch(err=>{
-                    console.log(err);
-                })
-            },
-            APPROLE_UPDATE:function(data){
-                this.fire('toast',{status:'load'});
-                data.scope = data.scope.split(",");
-
-                axios.put(`/apps/role`,data)
-                .then(res=>{
-                    this.PROVIDER_LIST();
-                    this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
-                        callback:()=>{
-                            this.$$('panel-right').close();
+                          //  this.$$('panel-right').close();
                         }
                     });
                 })
