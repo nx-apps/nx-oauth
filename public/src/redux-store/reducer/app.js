@@ -1,63 +1,78 @@
 import axios from '../axios'
 import {commonAction} from '../config'
+import async from 'async'
 
 const initialState = {
     list:[],
-    select:{}
+    select:{},
+    providerList:[]
 }
 
-export function providerReducer(state = initialState,action){
+export function appReducer(state = initialState,action){
 
     switch (action.type) {
-        case 'PROVIDER_LIST':
+        case 'APP_LIST':
             return Object.assign({},state,{list:action.payload});
-        case 'PROVIDER_SELECT':
+        case 'APP_SELECT':
             return Object.assign({},state,{select:action.payload});
-        case 'PROVIDER_CLEAR_SELECT':
-            return Object.assign({},state,{select:{}});
+        case 'APP_CLEAR_SELECT':
+            return Object.assign({},state,{select:action.payload});
+        case 'APP_PROVIDER_LIST':
+            return Object.assign({},state,{providerList:action.payload});
         default:
             return state
     }
 
 }
 
-export function providerAction(store){
+export function appAction(store){
 
     return [commonAction(),
         {
-            PROVIDER_TEST:function(id){
-                console.log(id);
-            },
-            PROVIDER_LIST:function(){
+
+            APP_PROVIDER_LIST:function(){
                 axios.get('/providers')
                 .then(res=>{
-                    store.dispatch({type:'PROVIDER_LIST',payload:res.data})
+                    store.dispatch({type:'APP_PROVIDER_LIST',payload:res.data})
                 })
                 .catch(err=>{
 
                 })
             },
-            PROVIDER_SELECT:function(id){
-                axios.get(`/providers/provider/${id}`)
+            APP_LIST:function(){
+                axios.get('/apps')
                 .then(res=>{
-                    store.dispatch({type:'PROVIDER_SELECT',payload:res.data})
+                    store.dispatch({type:'APP_LIST',payload:res.data})
+                })
+                .catch(err=>{
+
+                })
+            },
+            APP_SELECT:function(id){
+                axios.get(`/apps/app/${id}`)
+                .then(res=>{
+                    store.dispatch({type:'APP_SELECT',payload:res.data})
                     this.$$('panel-right').open();
                 })
                 .catch(err=>{
                     console.log(err);
                 })
             },
-            PROVIDER_CLEAR_SELECT:function(){
-                store.dispatch({type:'PROVIDER_CLEAR_SELECT'})
+            APP_CLEAR_SELECT:function(){
+                var providerList = store.getState().app.providerList;
+                async.map(providerList ,function(row, callback){
+                    callback(null, {id:row.id,provider_name:row.provider_name,checked:false});
+                } ,function (err, result) {
+                    store.dispatch({type:'APP_CLEAR_SELECT',payload:{provider:result}})
+                });
             },
-            PROVIDER_INSERT:function(data){
+            APP_INSERT:function(data){
 
                 this.fire('toast',{status:'load'});
-                data.scope = data.scope.split(",");
 
-                axios.post(`/providers/provider`,data)
+                axios.post(`/apps/app`,data)
                 .then(res=>{
-                    this.PROVIDER_LIST();
+                    this.APP_LIST();
                     this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
                         callback:()=>{
                             this.$$('panel-right').close();
@@ -69,13 +84,12 @@ export function providerAction(store){
                 })
 
             },
-            PROVIDER_DELETE:function(id){
+            APP_DELETE:function(id){
                 
                 this.fire('toast',{status:'load'});
-
-                axios.delete(`/providers/provider/${id}`)
+                axios.delete(`/apps/app/${id}`)
                 .then(res=>{
-                    this.PROVIDER_LIST();
+                    this.APP_LIST();
                     this.fire('toast',{status:'success',text:'ลบข้อมูลสำเร็จ',
                         callback:()=>{
                             this.$$('panel-right').close();
@@ -86,13 +100,12 @@ export function providerAction(store){
                     console.log(err);
                 })
             },
-            PROVIDER_UPDATE:function(data){
+            APP_UPDATE:function(data){
                 this.fire('toast',{status:'load'});
-                data.scope = data.scope.split(",");
 
-                axios.put(`/providers/provider`,data)
+                axios.put(`/apps/app`,data)
                 .then(res=>{
-                    this.PROVIDER_LIST();
+                    this.APP_LIST();
                     this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
                         callback:()=>{
                             this.$$('panel-right').close();

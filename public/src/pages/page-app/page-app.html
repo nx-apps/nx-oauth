@@ -1,9 +1,7 @@
-<link rel="import" href="./provider-list.html">
-<link rel="import" href="./provider-panel.html">
-<link rel="import" href="/src/nylon-param.html">
+<link rel="import" href="./app-list.html">
+<link rel="import" href="./app-panel.html">
 
-
-<dom-module id="page-provider">
+<dom-module id="page-app">
     <template>
 
         <style include="page-style">
@@ -22,17 +20,14 @@
             }
         </style>
 
-        <nylon-param params="{{getParam}}" pattern="id"></nylon-param>
-
-
         <div class="xcontainer">
             
             <div class="header gl-large">
-                จัดการ Provider   [[getParam.id]]
+                จัดการ App
             </div>
-            <provider-list></provider-list>
-            <panel-right title="จัดการ Provider">
-                <provider-panel></provider-panel>
+            <app-list></app-list>
+            <panel-right title="จัดการ App">
+                <app-panel></app-panel>
             </panel-right>
         </div>
 
@@ -41,19 +36,14 @@
     </template>
     <script>
         Polymer({
-            is: 'page-provider',
-            behaviors: [nylonBehavior,ReduxBehavior,providerAction],
-            observers:['obGetParam(getParam)'],
-            obGetParam:function(param){
-                if(param.page=="provider"){
-                    this.dispatchAction('PROVIDER_TEST',param.id);
-                }
-            },
+            is: 'page-app',
+            behaviors: [nylonBehavior,ReduxBehavior,appAction],
             nylonPageActive:function(){
-                this.dispatchAction('PROVIDER_LIST');
+                this.dispatchAction('APP_PROVIDER_LIST');
+                this.dispatchAction('APP_LIST');
             },
             openPanelRight:function(){
-                this.dispatchAction('PROVIDER_CLEAR_SELECT');
+                this.dispatchAction('APP_CLEAR_SELECT');
                 this.$$('panel-right').open();
             }
         });
