@@ -65,8 +65,18 @@
                     </app-toolbar>
                 </paper-material>
 				<div role="listbox">
+
+                    <!--<template is="dom-repeat" items="{{listMenu}}" filter="{{menuFilter(user.role)}}">
+                        <paper-icon-item on-tap="selectPage" path$="{{item.path}}" focused  index="{{index}}" selected$="{{_checkSelect(path,item.path)}}">
+                            <iron-icon icon="chevron-right" item-icon></iron-icon>
+                            [[item.name]]
+                            <div hidden$="{{!item.loading}}">
+                                <paper-spinner active></paper-spinner>
+                            </div>
+                        </paper-icon-item>
+                    </template>-->
                     
-                    <template is="dom-repeat" items="{{listMenu}}" filter="{{menuFilter(user.role)}}">
+                    <template is="dom-repeat" items="{{listMenu}}">
                         <paper-icon-item on-tap="selectPage" path$="{{item.path}}" focused  index="{{index}}" selected$="{{_checkSelect(path,item.path)}}">
                             <iron-icon icon="chevron-right" item-icon></iron-icon>
                             [[item.name]]
@@ -91,34 +101,29 @@
                     type:Array,
                     value:[
                         {
-                            name: 'จัดการคำถาม',
-                            path: '/question',
+                            name: 'แอปของฉัน',
+                            path: '/my-app',
                             role: 'teacher'
                         },
                         {
-                            name: 'จัดการข้อสอบ',
-                            path: '/examination',
+                            name: 'จัดการแอป',
+                            path: '/app',
                             role: 'teacher'
                         },
                         {
-                            name: 'จัดการห้องสอบ',
-                            path: '/examRoom',
+                            name: 'การเชื่อมต่อ',
+                            path: '/app-connect',
                             role: 'teacher'
                         },
                         {
-                            name: 'จัดการข้อมูลผู้ใช้งาน',
-                            path: '/userManage',
+                            name: 'สิทธิ์การใช้งาน',
+                            path: '/app-role',
                             role: 'teacher'
                         },
                         {
-                            name: 'จัดการ Module',
-                            path: '/module',
+                            name: 'ผู้ใช้งาน',
+                            path: '/app-user',
                             role: 'teacher'
-                        },
-                        {
-                            name: 'รายการสอบ',
-                            path: '/examHistory',
-                            role: 'learner'
                         }
                     ]
                 },

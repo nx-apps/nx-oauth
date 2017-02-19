@@ -42,7 +42,9 @@
             behaviors: [nylonBehavior, ReduxBehavior, appRoleAction],
             observers: ['obGetParam(getParam.AppId)'],
             obGetParam: function (AppId) {
-                this.dispatchAction('APP_ROLE_LIST', AppId);
+                if(this.getParam.page=='app-role'){
+                    this.dispatchAction('APP_ROLE_LIST', AppId);
+                }
             },
             properties: {
                 list: {

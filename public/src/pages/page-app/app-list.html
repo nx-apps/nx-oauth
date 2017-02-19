@@ -11,9 +11,6 @@
                 color:#FFF;
                 font-weight:100;
             }
-            .b-small{
-                background-color:#FF753F;
-            }
         </style>
         <div class="container">
             <paper-material elevation="1">
@@ -36,9 +33,9 @@
                                         [[item.app_name]]
                                     </td>
                                     <td style="text-align: right;">
-                                        <paper-button class="b-small gl-small" on-tap="" raised>การเชื่อมต่อ</paper-button>
-                                        <paper-button class="b-small gl-small" on-tap="" raised>ผู้ใช้งาน</paper-button>
-                                        <paper-button class="b-small gl-small" on-tap="" raised>เงื่อนไข</paper-button>
+                                        <paper-button class="gl-btn-success gl-small" on-tap="linkPath" path="app-connect" item="[[item]]" raised>การเชื่อมต่อ</paper-button>
+                                        <paper-button class="gl-btn-success gl-small" on-tap="linkPath"  path="app-role" item="[[item]]" raised>สิทธิ์การใช้งาน</paper-button>
+                                        <paper-button class="gl-btn-success gl-small" on-tap="linkPath" path="app-user" item="[[item]]" raised>ผู้ใช้งาน</paper-button>
                                         <paper-button class="gl-btn-warning gl-small" on-tap="selectList" item="[[item]]" raised>แก้ไข</paper-button>
                                     </td>
                                 </tr>
@@ -65,6 +62,9 @@
             selectList:function(e){
                 this.dispatchAction('APP_SELECT',e.currentTarget.item.id)
                 //this.fire('select-list',e.currentTarget.item.id);
+            },
+            linkPath:function(e){
+                this.fire('nylon-change-page',{path:`/${e.currentTarget.getAttribute('path')}/${e.currentTarget.item.id}`})
             }
         });
     </script>

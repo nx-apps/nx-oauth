@@ -184,5 +184,6 @@ module.exports = [
     {path:'/bower_components/vaadin-combo-box/vaadin-overlay-behavior.html',type:'html'},
     {path:'/bower_components/vaadin-combo-box/vaadin-spinner.html',type:'html'},
     {path:'/src/pages/page-examination/components/examination-manage.html',type:'html'},
-    {path:'/bower_components/iron-scroll-target-behavior/iron-scroll-target-behavior.html',type:'html'}
+    {path:'/bower_components/iron-scroll-target-behavior/iron-scroll-target-behavior.html',type:'html'},
+    {path:'/bower_components/iron-icons/social-icons.html',type:'html'}
 ]
