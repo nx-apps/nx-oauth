@@ -1,0 +1,72 @@
+<dom-module id="connection-list">
+    <template>
+        <style include="page-style">
+            tbody>tr>td {
+                cursor: pointer;
+            }
+            
+            tbody>tr:hover {
+                font-weight: bold;
+                border-bottom: 2px solid dodgerblue;
+            }
+        </style>
+        <div class="container">
+            <paper-material elevation="1">
+                <div class="content">
+                    <table class="gl-table-default">
+                        <thead>
+                            <tr>
+                                <th style="width:10%">ลำดับ</th>
+                                <th>Provider</th>
+                                <th>Name</th>
+                                <th>Enable</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <template is="dom-repeat" items="[[list.connections]]">
+                                <tr>
+                                    <td>[[toIndex(index)]]</td>
+                                    <td>[[item.provider]]</td>
+                                    <td>[[item.provider_name]]</td>
+                                    <td>
+                                        <paper-checkbox checked="{{item.status}}" class="green" on-tap="selectList" item="[[list.connections]]"></paper-checkbox>
+                                    </td>
+                                </tr>
+                            </template>
+
+                        </tbody>
+                    </table>
+                </div>
+            </paper-material>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'connection-list',
+            behaviors: [ReduxBehavior],
+            properties: {
+                list: {
+                    statePath: 'connection.list'
+                }
+            },
+            toIndex: function (index) {
+                return index + 1
+            },
+            selectList: function (e) {
+                var datacon = {
+                    id: this.list.id,
+                    connections: []
+                };
+                e.currentTarget.item.forEach(function (element) {
+                    if (element.status == true) {
+                        datacon.connections.push(element.id);
+                    }
+                });
+                // console.log(datacon);
+                this.dispatchAction('CONNECTION_UPDATE', datacon)
+                //this.fire('select-list',e.currentTarget.item.id);
+            }
+        });
+    </script>
+</dom-module>

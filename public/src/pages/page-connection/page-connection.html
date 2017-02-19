@@ -1,0 +1,59 @@
+<link rel="import" href="./connection-list.html">
+<link rel="import" href="/src/nylon-param.html">
+
+
+<dom-module id="page-connection">
+    <template>
+
+        <style include="page-style">
+            .page {
+                background-color: white;
+            }
+            
+            .fabSave {
+                position: fixed;
+                bottom: 90px;
+                right: 20px;
+                --paper-fab-background: #337ab7;
+            }
+            
+            paper-dialog {
+                width: 50%;
+                height: auto;
+            }
+        </style>
+
+        <nylon-param params="{{getParam}}" pattern="id"></nylon-param>
+
+
+        <div class="xcontainer">
+
+            <div class="header gl-large">
+                จัดการ connection [[getParam.id]]
+            </div>
+            <connection-list></connection-list>
+            <!--<panel-right title="จัดการ connection">
+                <connection-panel></connection-panel>
+            </panel-right>-->
+        </div>
+
+        <!--<paper-fab icon="icons:add" title="นำเข้ารายงาน" on-tap="openPanelRight"></paper-fab>-->
+
+    </template>
+    <script>
+        Polymer({
+            is: 'page-connection',
+            behaviors: [nylonBehavior, ReduxBehavior, connectionAction],
+            observers: ['obGetParam(getParam.id)'],
+            obGetParam: function (id) {
+                // if (param.page == "connection") {
+                this.dispatchAction('CONNECTION_LIST', id);
+                // }
+            },
+            nylonPageActive: function (id) {
+                //this.getParam.id
+                //this.dispatchAction('CONNECTION_LIST',id);
+            }
+        });
+    </script>
+</dom-module>
