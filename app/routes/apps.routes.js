@@ -6,4 +6,7 @@ module.exports = function (app) {
     app.post('/app', controller.insert);
     app.put('/app', controller.update);
     app.delete('/app/:id', controller.delete);
+
+    app.get('/balanceList/:user_id', controller.getBalanceList);
+    app.post('/request', controller.insertRequest);
 }

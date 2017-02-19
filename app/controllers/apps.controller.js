@@ -101,3 +101,50 @@ exports.delete = function (req, res) {
             res.status(500).json(err);
         })
 }
+
+exports.getBalanceList = function (req, res) {
+    var r = req.r;
+    var params = req.params;
+    r.db('oauth').table('apps').pluck('id','app_name').merge(function(row){
+        return {
+            users:
+            r.db('oauth').table('user_apps').getAll(row('id'),{index:'app_id'})
+            .map(function(row2){
+                return row2('uid')
+            })
+            .coerceTo('array')
+            
+        }
+    })
+    .filter(function(row){
+        return row('users').contains(params.user_id).not()
+    })
+    .without('users')
+    .run()
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    })
+
+    
+}
+
+exports.insertRequest = function(req, res){
+    var r = req.r;
+    var params = req.body;
+    params.role = 'user';
+    params.status = false;
+
+    r.db('oauth').table('user_apps').insert(params)
+    .run()
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    })
+}
+
+

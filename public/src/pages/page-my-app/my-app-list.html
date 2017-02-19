@@ -17,21 +17,38 @@
                 display: inline-block;
                 width:200px;
                 cursor: pointer;
+                margin-bottom: 30px;
             }
             .app>.item{
                 text-align: center;
+                font-weight: bold;
+            }
+            .app>.item>iron-image{
+                border: 3px solid #efefef;
+            }
+            .app:hover[enable] {
+                 transform: scale(1.1);
+            }
+            .app[enable]>.item>iron-image:hover{
+                /*text-align: center;
+                font-weight: bold;*/
+                border: 3px solid #2d6301;
+            }
+
+            .app[wait]{
+                filter: grayscale(100%);
+                cursor: default;
             }
         </style>
         <div class="container">
             
             <template is="dom-repeat" items="[[list.apps]]">
-                <div class="app">
+                <div class="app" enable$="[[item.status]]" wait$="[[!item.status]]">
                     <div class="item">
                         <iron-image style="width:150px; height:150px; border-radius: 10px;" sizing="cover" src="[[item.icon_url]]"></iron-image>                    
                     </div>
                     <div class="item">
                         [[item.app_name]]
-                        
                     </div>
                 </div>
             </template>

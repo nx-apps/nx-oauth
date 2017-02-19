@@ -1,18 +1,11 @@
 
-<dom-module id="my-app-list-request">
+<dom-module id="my-app-balance-list">
     <template>
         <style include="page-style">
              
             tbody>tr:hover{
                 font-weight: bold;
                 border-bottom: 2px solid dodgerblue;
-            }
-            .gl-small{
-                color:#FFF;
-                font-weight:100;
-            }
-            .b-small{
-                background-color:#FF753F;
             }
         </style>
         <div class="container">
@@ -27,7 +20,7 @@
                         </thead>
                         <tbody>
                             
-                            <template is="dom-repeat" items="[[list]]">
+                            <template is="dom-repeat" items="{{balanceList}}">
                                 <tr>
                                     <td>
                                         [[toIndex(index)]]
@@ -36,10 +29,7 @@
                                         [[item.app_name]]
                                     </td>
                                     <td style="text-align: right;">
-                                        <paper-button class="b-small gl-small" on-tap="" raised>การเชื่อมต่อ</paper-button>
-                                        <paper-button class="b-small gl-small" on-tap="" raised>ผู้ใช้งาน</paper-button>
-                                        <paper-button class="b-small gl-small" on-tap="" raised>เงื่อนไข</paper-button>
-                                        <paper-button class="gl-btn-warning gl-small" on-tap="selectList" item="[[item]]" raised>แก้ไข</paper-button>
+                                        <paper-button class="gl-btn-primary gl-small" item="[[item]]" on-tap="request" raised>ร้องของ</paper-button>
                                     </td>
                                 </tr>
                             </template>
@@ -52,19 +42,28 @@
     </template>
     <script>
         Polymer({
-            is: 'my-app-list-request',
+            is: 'my-app-balance-list',
             behaviors:[ReduxBehavior],
             properties:{
-                list:{
-                    statePath:'app.list'
+                balanceList:{
+                    statePath:'myApp.balanceList'
                 }
             },
             toIndex:function(index){
                 return index+1
             },
-            selectList:function(e){
-                this.dispatchAction('APP_SELECT',e.currentTarget.item.id)
-                //this.fire('select-list',e.currentTarget.item.id);
+            request:function(e){
+                var target = e.currentTarget;
+                this.fire('toast',{ 
+                    status:'openDialog',
+                    text:`ต้องการลงทะเบียน APP '${e.currentTarget.item.app_name}' ใช่หรือไม่ ?`,
+                    confirmed:(result)=>{
+                        if(result == true){
+                            this.dispatchAction('MY_APP_REQUEST',target.item.id)
+                        }
+                    }
+                 })
+                
             }
         });
     </script>
