@@ -9,7 +9,11 @@ import { providerReducer, providerAction } from './reducer/provider'
 import { appReducer, appAction } from './reducer/app'
 import { appConnectReducer, appConnectAction } from './reducer/appConnect'
 import { appRoleReducer, appRoleAction } from './reducer/appRole'
+
+import {appReducer,appAction} from './reducer/app'
+import {  myAppReducer, myAppAction } from './reducer/myApp'
 import { appUserReducer, appUserAction } from './reducer/appUser'
+
 
 const rootReducer = combineReducers({
     commonSystem: commonSystemReducer,
@@ -19,6 +23,7 @@ const rootReducer = combineReducers({
     appConnect: appConnectReducer,
     appRole: appRoleReducer,
     appUser: appUserReducer,
+    myApp:myAppReducer
 
 });
 const storeApp = createStore(
@@ -36,3 +41,4 @@ window.appAction = appAction(storeApp);
 window.appRoleAction = appRoleAction(storeApp);
 window.appConnectAction = appConnectAction(storeApp);
 window.appUserAction = appUserAction(storeApp);
+window.myAppAction = myAppAction(storeApp);
