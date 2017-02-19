@@ -89,7 +89,6 @@
 
                         <tr class="hideBorder">
                             <td style="text-align: right;">
-                                <!--<paper-radio-button checked="{{item.checked}}" index="[[index]]" on-tap="selectRadio"></paper-radio-button>-->
                             </td>
                             <td>
                                 <div class="flex-horizontal-with-ratios">
@@ -104,7 +103,6 @@
 
                         <tr class="hideBorder">
                             <td style="text-align: right;">
-                                <!--<paper-radio-button checked="{{item.checked}}" index="[[index]]" on-tap="selectRadio"></paper-radio-button>-->
                             </td>
                             <td>
                                 <div class="flex-horizontal-with-ratios">
@@ -117,42 +115,9 @@
                             </td>
                         </tr>
 
-                        
-
-                        </template>
-                        <tr class="hideBorder" on-tap="addChoice" style="cursor: pointer">
-                           <td></td>
-                           <td colspan="2" style="text-align: right;">
-                                <iron-icon icon="add"></iron-icon>
-                               เพิ่มวัตถุประสงค์
-                           </td>
-                        </tr>
                     </tbody>
                 </table>
-                <div class="container" style="background-color: white">
-                 <div class="flex-horizontal-with-ratios">
-                    <div class="flex2child">
-                        <div class="fontCSC right" style="margin: 10px; font-size:18px;">กำหนดเวลา </div>
-                    </div>
-                    <div class="flex2child">
-                        <gl-form-input class="right" type="number" placeholder="" no-label-float value="{{data.time}}">
-                             <div suffix>นาที</div>
-                        </gl-form-input>
-                    </div>
-                     <div class="flex3child"></div>
-                    <div class="flex2child">
-                        <div class="fontCSC right" style="margin: 10px; font-size:18px;">
-                            จำนวนข้อทั้งหมด
-                        </div>
-                        
-                    </div>
-                    <div class="flex2child">
-                        [[countQty(data.obj.*)]]
-                        <gl-form-input class="right" no-label-float value="[[data.qty]]" readonly></gl-form-input>
-                    </div>
-                     <div class="flex2child"></div>
-                 </div>
-                </div>
+                
             </paper-material>
         </div>
         
