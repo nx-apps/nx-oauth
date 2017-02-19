@@ -43,9 +43,13 @@
         Polymer({
             is: 'page-provider',
             behaviors: [nylonBehavior,ReduxBehavior,providerAction],
+            observers:['obGetParam(getParam)'],
+            obGetParam:function(param){
+                if(param.page=="provider"){
+                    this.dispatchAction('PROVIDER_TEST',param.id);
+                }
+            },
             nylonPageActive:function(){
-                //this.getParam.id
-                //this.dispatchAction('PROVIDER_LIST',this.getParam,sddd);
                 this.dispatchAction('PROVIDER_LIST');
             },
             openPanelRight:function(){

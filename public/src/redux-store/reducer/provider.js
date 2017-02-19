@@ -25,6 +25,9 @@ export function providerAction(store){
 
     return [commonAction(),
         {
+            PROVIDER_TEST:function(id){
+                console.log(id);
+            },
             PROVIDER_LIST:function(){
                 axios.get('/providers')
                 .then(res=>{
