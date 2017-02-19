@@ -1,0 +1,57 @@
+<link rel="import" href="./approle-list.html">
+<link rel="import" href="./approle-panel.html">
+<link rel="import" href="/src/nylon-param.html">
+
+
+<dom-module id="page-approle">
+    <template>
+
+        <style include="page-style">
+            .page{
+                background-color: white;
+            }
+            .fabSave{
+                position: fixed;
+                bottom: 90px;
+                right: 20px;
+                --paper-fab-background: #337ab7;
+            }
+            paper-dialog{
+                width: 50%;
+                height: auto;
+            }
+        </style>
+
+        <nylon-param params="{{getParam}}" pattern="id"></nylon-param>
+
+
+        <div class="xcontainer">
+            
+            <div class="header gl-large">
+                จัดการ Provider   [[getParam.id]]
+            </div>
+            <provider-list></provider-list>
+            <panel-right title="จัดการ Provider">
+                <provider-panel></provider-panel>
+            </panel-right>
+        </div>
+
+        <paper-fab icon="icons:add" title="นำเข้ารายงาน" on-tap="openPanelRight"></paper-fab>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'page-approle',
+            behaviors: [nylonBehavior,ReduxBehavior,appRoleAction],
+            nylonPageActive:function(){
+                //this.getParam.id
+                //this.dispatchAction('PROVIDER_LIST',this.getParam,sddd);
+                this.dispatchAction('APPROLE_LIST');
+            },
+            openPanelRight:function(){
+                this.dispatchAction('APPROLE_CLEAR_SELECT');
+                this.$$('panel-right').open();
+            }
+        });
+    </script>
+</dom-module>
