@@ -6,25 +6,29 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
   <title>OAUTH</title>
-  
+
+
   <link rel="shortcut icon" sizes="32x32" href="/images/icon/default/app-icon-32.png">
   <link rel="manifest" href="/manifest.json">
   <link rel="import" href="/api/push/import">
 
-  <script>Polymer = {lazyRegister: true, dom: 'shadow'};</script>
+  <script>
+    Polymer = { lazyRegister: true, dom: 'shadow' };
+  </script>
   <link rel="import" href="/bower_components/polymer/polymer.html">
-  
-  
-  
+
+
+
+
   <link rel="import" href="/src/nylon-app.html" async>
-  
+  <script src='https://localhost:3000/oauth/js/396b7db2-4a38-4f55-abd5-7d229269821c/5fc02522e60958787b8298067513c5f4b44ca78a'></script>
+
   <style>
-
     @font-face {
-        font-family: 'CSChatThaiUI';
-        src: url('/bower_components/gl-font/fonts/csChatThai/CSChatThaiUI.ttf');
+      font-family: 'CSChatThaiUI';
+      src: url('/bower_components/gl-font/fonts/csChatThai/CSChatThaiUI.ttf');
     }
-
+    
     body {
       margin: 0;
       background: #efefef;
@@ -79,35 +83,32 @@
       display: -webkit-flex;
       display: flex;
     }
-
-    *{
+    
+    * {
       font-family: 'CSChatThaiUI', sans-serif;
       -webkit-font-smoothing: antialiased;
     }
-
-    #toolbar > .icon{
-      margin-left:76px;
-      padding-top:18px;
+    
+    #toolbar > .icon {
+      margin-left: 76px;
+      padding-top: 18px;
       float: left;
     }
-
-    #toolbar > .title{
+    
+    #toolbar > .title {
       line-height: 62px;
       margin-left: 20px;
-      
       font-size: 16px;
-      font-weight:590;
+      font-weight: 590;
       float: left;
-      
     }
+    
     .mymask {
       width: 32px;
       height: 32px;
       mask: url(#mymask);
       -webkit-mask-box-image: url(/images/icon/default/app-icon-32.png);
     }
-
-    
   </style>
 
 </head>
@@ -136,19 +137,34 @@
   <script>
     window.performance && performance.mark && performance.mark('index.html');
 
-    (function() {
+    (function () {
       if ('registerElement' in document
-          && 'import' in document.createElement('link')
-          && 'content' in document.createElement('template')) {
+        && 'import' in document.createElement('link')
+        && 'content' in document.createElement('template')) {
         // platform is good!
       } else {
         // polyfill the platform!
         var e = document.createElement('script');
         e.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
         document.body.appendChild(e);
+
+
       }
+
+
     })();
+    //oauth(1, 3);
+    oauth.Login(function (user) {
+        console.log(user);
+      });
   </script>
+
+  <button onclick="login()">
+ login
+</button>
+  <button onclick="oauth.Logout()">
+  Logout
+</button>
 
 </body>
 

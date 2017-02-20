@@ -19,6 +19,19 @@ exports.list = function (req, res) {
             res.status(500).json(err);
         })
 }
+
+exports.info = function (req, res) {
+    var r = req.r;
+    r.db('oauth').table('users')
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+}
+
 exports.get = function (req, res) {
     var r = req.r;
     r.db('oauth').table('users')
@@ -69,6 +82,21 @@ exports.getById = function (req, res) {
             res.status(500).json(err);
         })
 }
+
+
+exports.infoById = function (req, res) {
+    var r = req.r;
+    r.db('oauth').table('users')
+        .get(req.params.id)
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+}
+
 exports.insert = function (req, res) {
     var r = req.r;
     r.db('oauth').table('users')

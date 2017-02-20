@@ -13,6 +13,7 @@ import { appRoleReducer, appRoleAction } from './reducer/appRole'
 import {appReducer,appAction} from './reducer/app'
 import {  myAppReducer, myAppAction } from './reducer/myApp'
 import { appUserReducer, appUserAction } from './reducer/appUser'
+import { userReducer, userAction } from './reducer/user'
 
 
 const rootReducer = combineReducers({
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
     appConnect: appConnectReducer,
     appRole: appRoleReducer,
     appUser: appUserReducer,
-    myApp:myAppReducer
+    myApp:myAppReducer,
+    user: userReducer,
 
 });
 const storeApp = createStore(
@@ -42,3 +44,4 @@ window.appRoleAction = appRoleAction(storeApp);
 window.appConnectAction = appConnectAction(storeApp);
 window.appUserAction = appUserAction(storeApp);
 window.myAppAction = myAppAction(storeApp);
+window.userAction = userAction(storeApp);
