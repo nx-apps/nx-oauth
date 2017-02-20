@@ -3,7 +3,8 @@ import {commonAction} from '../config'
 
 const initialState = {
     list:[],
-    balanceList:[]
+    balanceList:[],
+    select:{}
 }
 
 export function myAppReducer(state = initialState,action){
@@ -13,8 +14,8 @@ export function myAppReducer(state = initialState,action){
             return Object.assign({},state,{list:action.payload});
         case 'MY_APP_BALANCE_LIST':
             return Object.assign({},state,{balanceList:action.payload});
-        case 'PROVIDER_CLEAR_SELECT':
-            return Object.assign({},state,{select:{}});
+        case 'MY_APP_SELECT':
+            return Object.assign({},state,{select:action.payload});
         default:
             return state
     }
@@ -30,6 +31,7 @@ export function myAppAction(store){
                 axios.get(`/users/user/${id}`)
                 .then(res=>{
                     store.dispatch({type:'MY_APP_LIST',payload:res.data})
+                    this.nylonVisible(true);
                 })
                 .catch(err=>{
                     console.log(err);
@@ -53,6 +55,74 @@ export function myAppAction(store){
                     this.MY_APP_LIST(this.getParam.id);
                     this.MY_APP_BALANCE_LIST(this.getParam.id);
                     this.$$('panel-right').close();
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            },
+            MY_APP_SELECT:function(id){
+                var panelRight = this.$$('panel-right');
+                this.selected = 1;
+                panelRight.title = "จัดการแอป"
+                panelRight.open();
+
+                //console.log(id)
+
+                axios.get(`/apps/app/${id}`)
+                .then(res=>{
+                    store.dispatch({type:'MY_APP_SELECT',payload:res.data})
+                    this.$$('panel-right').open();
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+
+            },
+            MY_APP_INSERT:function(data){
+
+                this.fire('toast',{status:'load'});
+
+                axios.post(`/apps/app`,data)
+                .then(res=>{
+                    this.MY_APP_LIST(this.getParam.id);
+                    this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
+                        callback:()=>{
+                            this.$$('panel-right').close();
+                        }
+                    });
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+
+            },
+            MY_APP_DELETE:function(id){
+                
+                this.fire('toast',{status:'load'});
+                axios.delete(`/apps/app/${id}`)
+                .then(res=>{
+                    this.MY_APP_LIST(this.getParam.id);
+                    this.fire('toast',{status:'success',text:'ลบข้อมูลสำเร็จ',
+                        callback:()=>{
+                            this.$$('panel-right').close();
+                        }
+                    });
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            },
+            MY_APP_UPDATE:function(data){
+                this.fire('toast',{status:'load'});
+
+                axios.put(`/apps/app`,data)
+                .then(res=>{
+                    this.MY_APP_LIST(this.getParam.id);
+                    this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
+                        callback:()=>{
+                            this.$$('panel-right').close();
+                        }
+                    });
                 })
                 .catch(err=>{
                     console.log(err);

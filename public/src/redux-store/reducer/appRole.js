@@ -24,8 +24,10 @@ export function appRoleAction(store){
             APP_ROLE_LIST:function(id){
                 axios.get(`/apps/roles/${id}`)
                 .then(res=>{
+                    
                     res.data.role.push("");
                     store.dispatch({type:'APP_ROLE_LIST',payload:res.data})
+                    this.nylonVisible(true);
                 })
                 .catch(err=>{
 

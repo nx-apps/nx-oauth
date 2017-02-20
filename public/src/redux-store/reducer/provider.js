@@ -32,6 +32,7 @@ export function providerAction(store){
                 axios.get('/providers')
                 .then(res=>{
                     store.dispatch({type:'PROVIDER_LIST',payload:res.data})
+                    this.nylonVisible(true);
                 })
                 .catch(err=>{
 

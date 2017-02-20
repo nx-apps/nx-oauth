@@ -24,6 +24,7 @@ export function appConnectAction(store) {
             axios.get(`/apps/connects/${id}`)
                 .then(res => {
                     store.dispatch({ type: 'APP_CONNECT_LIST', payload: res.data })
+                    this.nylonVisible(true);
                 })
                 .catch(err => {
 
