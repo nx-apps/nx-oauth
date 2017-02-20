@@ -47,13 +47,20 @@
                 }
             },
             sendData:function(){
-                this.select.connections = this.select.connections.map(function(row){
-                    return row.id;
-                })
+                if(typeof this.select.connections != "undefined"){
+                    this.select.connections = this.select.connections.map(function(row){
+                        return row.id;
+                    })
+                }else{
+                    this.select.connections = [];
+                }
+                
 
                 if(typeof this.select.id == "undefined"){
+                    this.select.role = ['admin','user'];
                     this.dispatchAction('APP_INSERT',this.select)
                 }else{
+                    console.log(this.select)
                     this.dispatchAction('APP_UPDATE',this.select)
                 }
             },

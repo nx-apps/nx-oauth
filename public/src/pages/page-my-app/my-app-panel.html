@@ -45,29 +45,6 @@
                 select:{
                     statePath:'app.select'
                 }
-            },
-            sendData:function(){
-                this.select.connections = this.select.connections.map(function(row){
-                    return row.id;
-                })
-
-                if(typeof this.select.id == "undefined"){
-                    this.dispatchAction('APP_INSERT',this.select)
-                }else{
-                    this.dispatchAction('APP_UPDATE',this.select)
-                }
-            },
-            confirmDel:function(){
-
-                this.fire('toast',{ 
-                    status:'openDialog',
-                    text:'ต้องการลบข้อมูลใช่หรือไม่ ?',
-                    confirmed:(result)=>{
-                        if(result == true){
-                            this.dispatchAction('APP_DELETE',this.select.id)
-                        }
-                    }
-                 })
             }
         });
     </script>
