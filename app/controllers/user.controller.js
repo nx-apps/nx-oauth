@@ -57,7 +57,7 @@ exports.getById = function (req, res) {
                         return left('app_id').eq(right('id'))
                     })
                     .map(function(row){
-                        return row('left').merge(row('right').pluck('app_name','icon_url'))
+                        return row('left').merge(row('right').pluck('app_name','icon_url','allow_callback_url'))
                     })
             }
         })

@@ -23,6 +23,11 @@
                 text-align: center;
                 font-weight: bold;
             }
+
+            .item>a{
+                color:#2d6301;
+            }
+
             .app>.item>iron-image{
                 border: 3px solid #efefef;
             }
@@ -44,41 +49,19 @@
             
             <template is="dom-repeat" items="[[list.apps]]">
                 <div class="app" enable$="[[item.status]]" wait$="[[!item.status]]">
-                    <div class="item">
+                    <div class="item" on-tap="redirect" item="[[item]]">
                         <iron-image style="width:150px; height:150px; border-radius: 10px;" sizing="cover" src="[[item.icon_url]]"></iron-image>                    
                     </div>
-                    <div class="item">
+                    <div class="item" on-tap="redirect" item="[[item]]">
                         [[item.app_name]]
+                    </div>
+                    <div class="item">
+                        <a href="[[mergeUrl('app-role',item.app_id)]]">สิทธิ์การใช้งาน</a> / 
+                        <a href="[[mergeUrl('app-user',item.app_id)]]">ผู้ใช้งาน</a>
                     </div>
                 </div>
             </template>
             
-            <!--<paper-material elevation="1">
-                <div class="content">
-                    <table class="gl-table-default">
-                        <thead>
-                            <tr>
-                                <th style="width:10%">ลำดับ</th>
-                                <th colspan="2">รายการ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            <template is="dom-repeat" items="[[list]]">
-                                    <tr on-tap="selectList" item="[[item]]">
-                                        <td>
-                                            [[toIndex(index)]]
-                                        </td>
-                                        <td>
-                                            [[item.provider_name]]
-                                        </td>
-                                    </tr>
-                            </template>
-
-                        </tbody>
-                    </table>
-                </div>
-            </paper-material>-->
         </div>
 
 
@@ -92,6 +75,15 @@
                 list:{
                     statePath:'myApp.list'
                 }
+            },
+            redirect:function(e){
+                var item = e.currentTarget.item;
+                if(item.status){
+                    window.location = item.allow_callback_url;
+                }
+            },
+            mergeUrl:function(path,id){
+                return `/${path}/${id}`;
             },
             toIndex:function(index){
                 return index+1
