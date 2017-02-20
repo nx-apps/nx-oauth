@@ -1,12 +1,23 @@
 <script>
     nylonBehavior = {
+        properties:{
+            show:{
+                value:false,
+                reflectToAttribute: true
+            }
+        },
         observers:['_checkPageActive(path,currentPath)'],
         _checkPageActive:function(route,currentRoute){
             if(route==currentRoute){
                 if(typeof this.nylonPageActive != "undefined"){
                     this.nylonPageActive();
                 }
+            }else{
+                this.nylonVisible(false);
             }
+        },
+        nylonVisible:function(b=true){
+            this.show = b;
         }
     };
 

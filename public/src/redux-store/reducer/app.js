@@ -43,6 +43,7 @@ export function appAction(store){
                 axios.get('/apps')
                 .then(res=>{
                     store.dispatch({type:'APP_LIST',payload:res.data})
+                    this.nylonVisible(true);
                 })
                 .catch(err=>{
 

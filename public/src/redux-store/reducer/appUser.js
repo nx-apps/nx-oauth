@@ -39,6 +39,7 @@ export function appUserAction(store) {
                     // res.data.role.push("");
                     store.dispatch({ type: 'APP_USER_LIST', payload: res.data })
                     store.dispatch({ type: 'APP_USER_CLEAR' });
+                    this.nylonVisible(true);
                 })
                 .catch(err => {
 
