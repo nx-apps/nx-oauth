@@ -1,5 +1,7 @@
 <link rel="import" href="./my-app-list.html">
 <link rel="import" href="./my-app-panel.html">
+<link rel="import" href="./app-panel.html">
+
 <link rel="import" href="/src/nylon-param.html">
 
 <dom-module id="page-my-app">
@@ -19,6 +21,13 @@
                 width: 50%;
                 height: auto;
             }
+
+            .fabInsertApp{
+                position: fixed;
+                bottom: 20px;
+                right: 85px;
+                --paper-fab-background: #2d6301;
+            }
         </style>
         <nylon-param params="{{getParam}}" pattern="id"></nylon-param>
         <div class="xcontainer">
@@ -27,18 +36,22 @@
                 App ของฉัน
             </div>
             <my-app-list></my-app-list>
-            <panel-right title="ลงทะเบียน App">
-                <my-app-panel></my-app-panel>
+            <panel-right title="">
+                <iron-pages selected="[[selected]]">
+                    <my-app-panel></my-app-panel>
+                    <app-panel></app-panel>
+                </iron-pages>
             </panel-right>
         </div>
 
-        <paper-fab icon="icons:add" title="นำเข้ารายงาน" on-tap="openPanelRight"></paper-fab>
-
+        
+        <paper-fab class="fabInsertApp" icon="icons:add" action="addApp" on-tap="openPanelRight"></paper-fab>
+        <paper-fab icon="icons:archive" action="register" on-tap="openPanelRight"></paper-fab>
     </template>
     <script>
         Polymer({
             is: 'page-my-app',
-            behaviors: [nylonBehavior,ReduxBehavior,myAppAction],
+            behaviors: [nylonBehavior,ReduxBehavior,[myAppAction,appAction]],
             observers:['obGetParam(getParam)'],
             obGetParam:function(param){
                 if(param.page=="my-app"){
@@ -51,9 +64,18 @@
                 // this.dispatchAction('MY_APP_LIST');
                 // this.dispatchAction('MY_APP_BALANCE_LIST');
             },
-            openPanelRight:function(){
-                this.dispatchAction('APP_CLEAR_SELECT');
-                this.$$('panel-right').open();
+            openPanelRight:function(e){
+                //this.dispatchAction('APP_CLEAR_SELECT');
+                var panelRight = this.$$('panel-right');
+                if(e.currentTarget.getAttribute('action')=="register"){
+                    this.selected = 0;
+                    panelRight.title = "ลงทะเบียนแอป"
+                }else{
+                    this.selected = 1;
+                    panelRight.title = "เพิ่มแอป"
+                }
+                
+                panelRight.open();
             }
         });
     </script>

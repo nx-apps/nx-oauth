@@ -37,12 +37,26 @@
             .app[enable]>.item>iron-image:hover{
                 /*text-align: center;
                 font-weight: bold;*/
-                border: 3px solid #2d6301;
+                border: 3px solid #ff753f;
             }
 
             .app[wait]{
                 filter: grayscale(100%);
                 cursor: default;
+            }
+            
+            .paperLink{
+                /*--paper-icon-button-ink-color:{
+                    background-color:#FFF;
+                }*/
+                --paper-icon-button:{
+                    color:#2d6301;
+                }
+
+                --paper-icon-button-hover:{
+                    color:#ff753f;
+                }
+                
             }
         </style>
         <div class="container">
@@ -55,13 +69,20 @@
                     <div class="item" on-tap="redirect" item="[[item]]">
                         [[item.app_name]]
                     </div>
+                    <!--<div class="item">
+                        <a href="#" on-tap="mangeApp" item="[[item]]">จัดการแอป</a>
+                    </div>-->
                     <div class="item">
-                        <a href="[[mergeUrl('app-role',item.app_id)]]">สิทธิ์การใช้งาน</a> / 
-                        <a href="[[mergeUrl('app-user',item.app_id)]]">ผู้ใช้งาน</a>
+
+                        <paper-icon-button class="paperLink" item="[[item]]" on-tap="mangeApp" icon="settings"></paper-icon-button>
+                        <paper-icon-button class="paperLink" path="app-role" item="[[item]]" on-tap="gotoPath" icon="lock"></paper-icon-button>
+                        <paper-icon-button class="paperLink" path="app-user" item="[[item]]" on-tap="gotoPath" icon="supervisor-account"></paper-icon-button>
+                        
+                        <!--<a href="[[mergeUrl('app-role',item.app_id)]]">สิทธิ์การใช้งาน</a> / 
+                        <a href="[[mergeUrl('app-user',item.app_id)]]">ผู้ใช้งาน</a>-->
                     </div>
                 </div>
-            </template>
-            
+            </template>          
         </div>
 
 
@@ -82,15 +103,20 @@
                     window.location = item.allow_callback_url;
                 }
             },
-            mergeUrl:function(path,id){
-                return `/${path}/${id}`;
+            gotoPath:function(e){
+                var path = e.currentTarget.getAttribute('path');
+                var app_id = e.currentTarget.item.app_id;
+                console.log(`/${path}/${app_id}`);
+                this.fire('nylon-change-page',{path:`/${path}/${app_id}`})
+            },
+            mangeApp:function(e){
+                this.dispatchAction('MY_APP_SELECT',e.currentTarget.item.app_id)
             },
             toIndex:function(index){
                 return index+1
             },
-            selectList:function(e){
-                this.dispatchAction('PROVIDER_SELECT',e.currentTarget.item.id)
-                //this.fire('select-list',e.currentTarget.item.id);
+            mergeQuery:function(index,id){
+                return index+id
             }
         });
     </script>
