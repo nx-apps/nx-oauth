@@ -32,6 +32,7 @@ export function userAction(store){
                 axios.get('/users/info')
                 .then(res=>{
                     store.dispatch({type:'USER_LIST',payload:res.data})
+                    this.nylonVisible(true);
                 })
                 .catch(err=>{
 
