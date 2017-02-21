@@ -17,6 +17,7 @@
                         <thead>
                             <tr>
                                 <th style="width:10%">ลำดับ</th>
+                                  <th>บปช</th>
                                 <th>ชื่อ</th>
                                 <th>อีเมล์</th>
                             </tr>
@@ -27,6 +28,9 @@
                                 <tr on-tap="selectList" item="[[item]]">
                                     <td>
                                         [[toIndex(index)]]
+                                    </td>
+                                     <td>
+                                        [[item.pid]]
                                     </td>
                                     <td>
                                         [[item.name]]
