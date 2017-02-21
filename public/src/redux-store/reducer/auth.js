@@ -17,6 +17,8 @@ export function authReducer(state = initialState,action){
                 userInfo = action.payload;
             }
             return Object.assign({},state,{user:userInfo});
+        case 'AUTH_INFO':
+            return Object.assign({},state,{user:action.payload});
         default:
             return state
     }

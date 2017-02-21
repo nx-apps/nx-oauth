@@ -10,7 +10,7 @@
 
   <link rel="shortcut icon" sizes="32x32" href="/images/icon/default/app-icon-32.png">
   <link rel="manifest" href="/manifest.json">
-  <link rel="import" href="/api/push/import">
+  <link rel="import" href="/pusher">
 
   <script>
     Polymer = { lazyRegister: true, dom: 'shadow' };
@@ -153,21 +153,8 @@
 
 
     })();
-    //oauth(1, 3);
-
-
-    oauth.Login(function (user) {
-      console.log(user);
-
-    });
+    
   </script>
-
-  <button onclick="login()">
- login
-</button>
-  <button onclick="oauth.Logout()">
-  Logout
-</button>
 
 </body>
 

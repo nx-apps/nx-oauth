@@ -66,17 +66,7 @@
                 </paper-material>
 				<div role="listbox">
 
-                    <!--<template is="dom-repeat" items="{{listMenu}}" filter="{{menuFilter(user.role)}}">
-                        <paper-icon-item on-tap="selectPage" path$="{{item.path}}" focused  index="{{index}}" selected$="{{_checkSelect(path,item.path)}}">
-                            <iron-icon icon="chevron-right" item-icon></iron-icon>
-                            [[item.name]]
-                            <div hidden$="{{!item.loading}}">
-                                <paper-spinner active></paper-spinner>
-                            </div>
-                        </paper-icon-item>
-                    </template>-->
-                    
-                    <template is="dom-repeat" items="{{listMenu}}">
+                    <template is="dom-repeat" items="{{listMenu}}" filter="{{menuFilter(user.role)}}">
                         <paper-icon-item on-tap="selectPage" path$="{{item.path}}" focused  index="{{index}}" selected$="{{_checkSelect(path,item.path)}}">
                             <iron-icon icon="chevron-right" item-icon></iron-icon>
                             [[item.name]]
@@ -85,6 +75,16 @@
                             </div>
                         </paper-icon-item>
                     </template>
+                    
+                    <!--<template is="dom-repeat" items="{{listMenu}}">
+                        <paper-icon-item on-tap="selectPage" path$="{{item.path}}" focused  index="{{index}}" selected$="{{_checkSelect(path,item.path)}}">
+                            <iron-icon icon="chevron-right" item-icon></iron-icon>
+                            [[item.name]]
+                            <div hidden$="{{!item.loading}}">
+                                <paper-spinner active></paper-spinner>
+                            </div>
+                        </paper-icon-item>
+                    </template>-->
                     
 				</div>
 			</div>
@@ -106,9 +106,14 @@
                             role: ''
                         },
                         {
+                            name: 'การเชื่อมต่อ',
+                            path: '/provider',
+                            role: 'ADMIN'
+                        },
+                        {
                             name: 'จัดการผู้ใช้งาน',
                             path: '/user',
-                            role: ''
+                            role: 'ADMIN'
                         }
                     ]
                 },
@@ -122,7 +127,12 @@
                     return null;
                 }else{
                     return function(listMenu) {
-                        return (listMenu.role==role) 
+                        if(listMenu.role==''){
+                            return true
+                        }else{
+                            return (listMenu.role==role)
+                        }
+                         
                     };
                 }
             },

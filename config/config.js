@@ -20,7 +20,7 @@ var config = {
         key: "/ssl/server.key",
         cert: "/ssl/server.crt"
       },
-      pusher: "auto",
+      pusher: "on",
     },
  
 
@@ -31,7 +31,7 @@ var config = {
       jwt: {
         provider: 'jwt',
         clientSecret: '123456',
-        timeout: '60s'
+        timeout: '1d'
       },
       facebook: {
         provoider: 'facebook',

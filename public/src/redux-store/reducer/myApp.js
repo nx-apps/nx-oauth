@@ -28,7 +28,7 @@ export function myAppAction(store){
         {
 
             MY_APP_LIST:function(id){
-                axios.get(`/users/user/${id}`)
+                axios.get(`/apps/appList`)
                 .then(res=>{
                     store.dispatch({type:'MY_APP_LIST',payload:res.data})
                     this.nylonVisible(true);
@@ -37,8 +37,8 @@ export function myAppAction(store){
                     console.log(err);
                 })
             },
-            MY_APP_BALANCE_LIST:function(id){
-                axios.get(`/apps/balanceList/${id}`)
+            MY_APP_BALANCE_LIST:function(){
+                axios.get(`/apps/balanceList`)
                 .then(res=>{
                     store.dispatch({type:'MY_APP_BALANCE_LIST',payload:res.data})
                 })
@@ -48,8 +48,7 @@ export function myAppAction(store){
 
             },
             MY_APP_REQUEST:function(app_id){
-                var uid = this.getParam.id;
-                axios.post(`/apps/request`,{app_id,uid})
+                axios.post(`/apps/request`,{app_id})
                 .then(res=>{    
                     //console.log(res.data)
                     this.MY_APP_LIST(this.getParam.id);
