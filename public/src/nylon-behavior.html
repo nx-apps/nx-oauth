@@ -4,9 +4,12 @@
             show:{
                 value:false,
                 reflectToAttribute: true
+            },
+            visible:{
+                type:Boolean,
+                observer:'_checkVisible'
             }
         },
-        observers:['_checkPageActive(path,currentPath)'],
         _checkPageActive:function(route,currentRoute){
             if(route==currentRoute){
                 if(typeof this.nylonPageActive != "undefined"){
@@ -16,9 +19,20 @@
                 this.nylonVisible(false);
             }
         },
+        _checkVisible:function(ob){
+            if(ob){
+                if(typeof this.nylonPageActive != "undefined"){
+                    this.nylonPageActive();
+                }
+            }else{
+                this.nylonVisible(false);
+            }
+
+        },
         nylonVisible:function(b=true){
             this.show = b;
         }
+
     };
 
     nylonLocalize = {
