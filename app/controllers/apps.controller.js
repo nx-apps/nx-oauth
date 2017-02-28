@@ -3,12 +3,12 @@ config = require('../../config/config');
 
 exports.list = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('apps')
+    r.table('apps')
         .merge((apps_merge) => {
             return {
                 connections: apps_merge('connections')
                     .map((cons_map) => {
-                        return r.db('oauth').table('providers').get(cons_map)
+                        return r.table('providers').get(cons_map)
                     })
             }
         })
@@ -22,13 +22,13 @@ exports.list = function (req, res) {
 }
 exports.get = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('apps')
+    r.table('apps')
         .filter(req.query)
         .merge((apps_merge) => {
             return {
                 connections: apps_merge('connections')
                     .map((cons_map) => {
-                        return r.db('oauth').table('providers').get(cons_map)
+                        return r.table('providers').get(cons_map)
                     })
             }
         })
@@ -42,13 +42,13 @@ exports.get = function (req, res) {
 }
 exports.getById = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('apps')
+    r.table('apps')
         .get(req.params.id)
         .merge((apps_merge) => {
             return {
                 connections: apps_merge('connections')
                     .map((cons_map) => {
-                        return r.db('oauth').table('providers').get(cons_map)
+                        return r.table('providers').get(cons_map)
                     })
             }
         })
@@ -61,7 +61,7 @@ exports.getById = function (req, res) {
         })
 }
 exports.insert = function (req, res) {
-    
+
     var r = req.r;
     req.body.app_secret = sha1(req.body.app_domain);
     appKey = req.body.app_secret;
