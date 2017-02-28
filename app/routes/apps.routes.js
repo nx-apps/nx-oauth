@@ -10,6 +10,9 @@ module.exports = function (app) {
     app.get('/roles/:id', controller.roles);
     app.get('/users/:id', controller.users);
     app.put('/users', controller.update_users);
-    app.get('/balanceList/:user_id', controller.getBalanceList);
+    app.get('/balanceList', controller.getBalanceList);
     app.post('/request', controller.insertRequest);
+
+
+    app.get('/appList', controller.getAppList);
 }

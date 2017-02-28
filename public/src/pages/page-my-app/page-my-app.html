@@ -44,25 +44,27 @@
             </panel-right>
         </div>
 
+        <template is="dom-if" if="[[_checkAdmin(user)]]">
+            <paper-fab class="fabInsertApp" icon="icons:add" action="addApp" on-tap="openPanelRight"></paper-fab>
+        </template>
         
-        <paper-fab class="fabInsertApp" icon="icons:add" action="addApp" on-tap="openPanelRight"></paper-fab>
         <paper-fab icon="icons:archive" action="register" on-tap="openPanelRight"></paper-fab>
     </template>
     <script>
         Polymer({
             is: 'page-my-app',
             behaviors: [nylonBehavior,ReduxBehavior,[myAppAction,appAction]],
-            observers:['obGetParam(getParam)'],
-            obGetParam:function(param){
-                if(param.page=="my-app"){
-                    this.dispatchAction('MY_APP_LIST',param.id);
-                    this.dispatchAction('MY_APP_BALANCE_LIST',param.id);
+            properties:{
+                user:{
+                    statePath:'auth.user'
                 }
             },
+            _checkAdmin:function(user){
+                return (user.role=='ADMIN')
+            },
             nylonPageActive:function(){
-                //this.dispatchAction('APP_PROVIDER_LIST');
-                // this.dispatchAction('MY_APP_LIST');
-                // this.dispatchAction('MY_APP_BALANCE_LIST');
+                this.dispatchAction('MY_APP_LIST');
+                this.dispatchAction('MY_APP_BALANCE_LIST');
             },
             openPanelRight:function(e){
                 //this.dispatchAction('APP_CLEAR_SELECT');

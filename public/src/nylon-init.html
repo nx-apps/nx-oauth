@@ -136,7 +136,6 @@
 
 				<page-login path="login"></page-login>
 				<page-provider path="provider"></page-provider>
-				<page-app path="app"></page-app>
 				<page-app-connect path="app-connect"></page-app-connect>
 				<page-app-role path="app-role"></page-app-role>
 				<page-app-user path="app-user"></page-app-user>
@@ -170,6 +169,14 @@
 				}, (e) => {
 					console.log('error')
 					this.loader = false;
+				});
+
+				oauth.Login(function (user) {
+					//console.log(window.location.search);
+					if(window.location.search != ""){
+						window.location = "/my-app"
+					}
+					ReduxBehavior[0].dispatch({type:'AUTH_INFO',payload:user})
 				});
 			}
 		});

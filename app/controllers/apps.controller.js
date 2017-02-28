@@ -219,7 +219,6 @@ exports.update_users = function (req, res) {
 
 exports.getBalanceList = function (req, res) {
     var r = req.r;
-    var params = req.params;
     r.db('oauth').table('apps').pluck('id','app_name').merge(function(row){
         return {
             users:
@@ -232,7 +231,7 @@ exports.getBalanceList = function (req, res) {
         }
     })
     .filter(function(row){
-        return row('users').contains(params.user_id).not()
+        return row('users').contains(req.user.id).not()
     })
     .without('users')
     .run()
@@ -249,6 +248,7 @@ exports.getBalanceList = function (req, res) {
 exports.insertRequest = function(req, res){
     var r = req.r;
     var params = req.body;
+    params.uid = req.user.id;
     params.role = 'user';
     params.status = false;
 
@@ -260,4 +260,77 @@ exports.insertRequest = function(req, res){
     .catch(function (err) {
         res.status(500).json(err);
     })
+}
+
+
+exports.getAppList = function (req, res) {
+    var r = req.r;
+    //res.json(req.user);
+
+    if(req.user.role == "ADMIN"){
+
+        r.db('oauth').table('apps')
+        .merge(function(){
+            return {
+                status:true,
+                allowMange:true
+            }
+        })
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+
+
+    }else{
+
+        r.db('oauth').table('user_apps').filter({
+            uid:req.user.id
+        }).innerJoin(r.db('oauth').table('apps'),function(left,right){
+            return left('app_id').eq(right('id'))
+        })
+        .map(function(row){
+            return row('right').merge(function(row2){
+                return {
+                    status:row('left')('status'),
+                    allowMange:row('left')('role').eq('admin')
+                }
+            })
+        })
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+        
+    }
+
+    // r.db('oauth').table('users')
+    //     .get(req.params.id)
+    //     .merge((users_merge) => {
+    //         return {
+    //             providers: r.db('oauth').table('user_providers')
+    //                 .getAll(users_merge('id'), { index: 'uid' })
+    //                 .coerceTo('array'),
+    //             apps: r.db('oauth').table('user_apps')
+    //                 .getAll(users_merge('id'), { index: 'uid' })
+    //                 .coerceTo('array')
+    //                 .innerJoin(r.db('oauth').table('apps'),function(left,right){
+    //                     return left('app_id').eq(right('id'))
+    //                 })
+    //                 .map(function(row){
+    //                     return row('left').merge(row('right').pluck('app_name','icon_url','allow_callback_url'))
+    //                 })
+    //         }
+    //     })
+    //     .run()
+    //     .then(function (result) {
+    //         res.json(result);
+    //     })
+    //     .catch(function (err) {
+    //         res.status(500).json(err);
+    //     })
 }
