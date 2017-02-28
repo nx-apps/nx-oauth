@@ -3,14 +3,16 @@ var config = {
   development: {
     host:"https://localhost:3000",
     server: {
-      port: 3000,
+      port: 4000,
       cluster: 1
     },
     database: {
       max: 10,
-      servers: [
-        { host: 'rdb.codeunbug.com', port: 28015 }
-      ],
+     // servers: [
+      //  {
+           host: 'rdb.codeunbug.com', port: 28015 ,user:"admin",password:"next@2017",
+         // }
+    //  ],
       db: 'lms'
     },
 
@@ -31,7 +33,7 @@ var config = {
       jwt: {
         provider: 'jwt',
         clientSecret: '123456',
-        timeout: '60s'
+        timeout: '1d'
       },
       facebook: {
         provoider: 'facebook',
