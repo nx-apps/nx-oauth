@@ -1,40 +1,15 @@
 var config = {
-
-  development: {
-    host:"https://localhost:3000",
-    server: {
-      port: 4000,
-      cluster: 1
-    },
-    database: {
-      max: 10,
-     // servers: [
-      //  {
-           host: 'rdb.codeunbug.com', port: 28015 ,user:"admin",password:"next@2017",
-         // }
-    //  ],
-      db: 'lms'
-    },
-
-    h2: {
-      enable:true,
-      ssl: {
-        key: "/ssl/server.key",
-        cert: "/ssl/server.crt"
-      },
-      pusher: "on",
-    },
  
+  development: {
+    host: "https://localhost:3000",
+    appId: "d8fcffc5-d1ab-40f1-ac63-d2643d7b9464",
+    appKey: "5fc02522e60958787b8298067513c5f4b44ca78a",
+    database: {
+      host: 'rdb.codeunbug.com',
+      port: 28015,
+    },
 
     oauth: {
-      local: {
-        provider: 'local'
-      },
-      jwt: {
-        provider: 'jwt',
-        clientSecret: '123456',
-        timeout: '1d'
-      },
       facebook: {
         provoider: 'facebook',
         clientId: '157316171444270',
@@ -48,7 +23,7 @@ var config = {
         callbackURL: 'https://localhost:3000/oauth/google/callback'
       }
     },
-    java: true,
+
     jdbc: [
       {
         name: "mysql",
@@ -75,36 +50,7 @@ var config = {
   },
 
   production: {
-    server: {
-      port: 8080,
-      cluster: 1
-    },
-    database: {
-      servers: [
-        { host: 'rdb.codeunbug.com', port: 28015 }
-      ],
-      db: 'oauth'
-    },
 
-    pusher: "auto",
-
-    oauth: [
-      {
-        provider: 'local'
-      },
-      {
-        provoider: 'facebook',
-        clientId: '1438197499538604',
-        clientSecret: 'd39bcc969fab3f784ec24c301535b7a4',
-        callbackURL: 'http://localhost:8080/oauth/facebook/callback'
-      },
-      {
-        provoider: 'google',
-        clientId: '464475406694-skti62k23di8uemcanuc6h6ah5nnl55a.apps.googleusercontent.com',
-        clientSecret: '24WehldQ1ZPo2hXCXmxI_FFg',
-        callbackURL: 'http://localhost:8080/oauth/google/callback'
-      }
-    ]
   }
 
 };

@@ -1,12 +1,12 @@
 exports.list = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('users')
+    r.table('users')
         .merge((users_merge) => {
             return {
-                providers: r.db('oauth').table('user_providers')
+                providers: r.table('user_providers')
                     .getAll(users_merge('id'), { index: 'uid' })
                     .coerceTo('array'),
-                apps: r.db('oauth').table('user_apps')
+                apps: r.table('user_apps')
                     .getAll(users_merge('id'), { index: 'uid' })
                     .coerceTo('array')
             }
@@ -22,7 +22,7 @@ exports.list = function (req, res) {
 
 exports.info = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('users')
+    r.table('users')
         .run()
         .then(function (result) {
             res.json(result);
@@ -34,14 +34,14 @@ exports.info = function (req, res) {
 
 exports.get = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('users')
+    r.table('users')
         .filter(req.query)
         .merge((users_merge) => {
             return {
-                providers: r.db('oauth').table('user_providers')
+                providers: r.table('user_providers')
                     .getAll(users_merge('id'), { index: 'uid' })
                     .coerceTo('array'),
-                apps: r.db('oauth').table('user_apps')
+                apps: r.table('user_apps')
                     .getAll(users_merge('id'), { index: 'uid' })
                     .coerceTo('array')
             }
@@ -56,17 +56,17 @@ exports.get = function (req, res) {
 }
 exports.getById = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('users')
+    r.table('users')
         .get(req.params.id)
         .merge((users_merge) => {
             return {
-                providers: r.db('oauth').table('user_providers')
+                providers: r.table('user_providers')
                     .getAll(users_merge('id'), { index: 'uid' })
                     .coerceTo('array'),
-                apps: r.db('oauth').table('user_apps')
+                apps: r.table('user_apps')
                     .getAll(users_merge('id'), { index: 'uid' })
                     .coerceTo('array')
-                    .innerJoin(r.db('oauth').table('apps'),function(left,right){
+                    .innerJoin(r.table('apps'),function(left,right){
                         return left('app_id').eq(right('id'))
                     })
                     .map(function(row){
@@ -86,7 +86,7 @@ exports.getById = function (req, res) {
 
 exports.infoById = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('users')
+    r.table('users')
         .get(req.params.id)
         .run()
         .then(function (result) {
@@ -99,7 +99,7 @@ exports.infoById = function (req, res) {
 
 exports.insert = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('users')
+    r.table('users')
         .insert(req.body)
         .run()
         .then(function (result) {
@@ -111,7 +111,7 @@ exports.insert = function (req, res) {
 }
 exports.update = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('users')
+    r.table('users')
         .get(req.body.id)
         .update(req.body)
         .run()
@@ -124,7 +124,7 @@ exports.update = function (req, res) {
 }
 exports.delete = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('users')
+    r.table('users')
         .get(req.params.id)
         .delete()
         .run()

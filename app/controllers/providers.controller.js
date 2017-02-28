@@ -1,6 +1,6 @@
 exports.list = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('providers')
+    r.table('providers')
         .merge((pv_merge) => {
             return {
                 scope: pv_merge('scope').reduce((l, r) => {
@@ -18,7 +18,7 @@ exports.list = function (req, res) {
 }
 exports.get = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('providers')
+    r.table('providers')
         .filter(req.query)
         .merge((pv_merge) => {
             return {
@@ -37,7 +37,7 @@ exports.get = function (req, res) {
 }
 exports.getById = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('providers')
+    r.table('providers')
         .get(req.params.id)
         .merge((pv_merge) => {
             return {
@@ -56,7 +56,7 @@ exports.getById = function (req, res) {
 }
 exports.insert = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('providers')
+    r.table('providers')
         .insert(req.body)
         .run()
         .then(function (result) {
@@ -68,7 +68,7 @@ exports.insert = function (req, res) {
 }
 exports.update = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('providers')
+    r.table('providers')
         .get(req.body.id)
         .update(req.body)
         .run()
@@ -81,11 +81,11 @@ exports.update = function (req, res) {
 }
 exports.delete = function (req, res) {
     var r = req.r;
-    r.db('oauth').table('providers')
+    r.table('providers')
         .get(req.params.id)
         .delete()
         .do((app_del) => {
-            return r.db('apps').getAll(req.params.id, { index: 'connections' }).update(function (row) {
+            return r.table('apps').getAll(req.params.id, { index: 'connections' }).update(function (row) {
                 return {
                     connections: row('connections').setDifference([req.params.id])
                 }
