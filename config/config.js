@@ -1,7 +1,7 @@
 var config = {
  
   development: {
-    host: "https://localhost:3000",
+    host: "https://sys.thairiceinfo.go.th:3000",
     appId: "d8fcffc5-d1ab-40f1-ac63-d2643d7b9464",
     appKey: "5fc02522e60958787b8298067513c5f4b44ca78a",
     database: {
@@ -14,13 +14,13 @@ var config = {
         provoider: 'facebook',
         clientId: '157316171444270',
         clientSecret: '71c15fa338a11f411fc6432b04cad3ca',
-        callbackURL: 'https://localhost:3000/oauth/facebook/callback'
+        callbackURL: 'https://sys.thairiceinfo.go.th:3000/oauth/facebook/callback'
       },
       google: {
         provoider: 'google',
         clientId: '464475406694-skti62k23di8uemcanuc6h6ah5nnl55a.apps.googleusercontent.com',
         clientSecret: '24WehldQ1ZPo2hXCXmxI_FFg',
-        callbackURL: 'https://localhost:3000/oauth/google/callback'
+        callbackURL: 'https://sys.thairiceinfo.go.th:3000/oauth/google/callback'
       }
     },
 
