@@ -64,7 +64,7 @@
             <template is="dom-repeat" items="[[list]]">
                 <div class="app" enable$="[[item.status]]" wait$="[[!item.status]]">
                     <div class="item" on-tap="redirect" item="[[item]]">
-                        <iron-image style="width:150px; height:150px; border-radius: 10px;" sizing="cover" src="[[item.icon_url]]"></iron-image>                    
+                        <iron-image style="width:150px; height:150px; border-radius: 10px;" sizing="cover" src="[[item.icon_url]]" ></iron-image>                    
                     </div>
                     <div class="item" on-tap="redirect" item="[[item]]">
                         [[item.app_name]]
@@ -100,7 +100,7 @@
             redirect:function(e){
                 var item = e.currentTarget.item;
                 if(item.status){
-                    window.location = item.allow_callback_url;
+                    window.location.href = item.allow_callback_url;
                 }
             },
             gotoPath:function(e){
