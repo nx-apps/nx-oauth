@@ -250,9 +250,9 @@ exports.getBalanceList = function (req, res) {
 
         }
     })
-        .filter(function (row) {
-            return row('users').contains(req.user.id).not()
-        })
+        // .filter(function (row) {
+        //     return row('users').contains(req.user.id).not()
+        // })
         .without('users')
         .run()
         .then(function (result) {
@@ -287,35 +287,38 @@ exports.getAppList = function (req, res) {
     var r = req.r;
     //res.json(req.user);
 
-    if (req.user.role == "ADMIN") {
+    // if (req.user.role == "ADMIN") {
 
-        r.table('apps')
-            .merge(function () {
-                return {
-                    status: true,
-                    allowMange: true
-                }
-            })
-            .then(function (result) {
-                res.json(result);
-            })
-            .catch(function (err) {
-                res.status(500).json(err);
-            })
+    //     r.table('apps')
+    //         .merge(function () {
+    //             return {
+    //                 status: true,
+    //                 allowMange: true
+    //             }
+    //         })
+    //         .then(function (result) {
+    //             res.json(result);
+    //         })
+    //         .catch(function (err) {
+    //             res.status(500).json(err);
+    //         })
 
 
-    } else {
+    // } else {
 
-        r.table('user_apps').filter({
-            uid: req.user.id
-        }).innerJoin(r.table('apps'), function (left, right) {
+        r.table('user_apps')
+        // .filter({
+        //     uid: req.user.id
+        // })
+        .innerJoin(r.table('apps'), function (left, right) {
             return left('app_id').eq(right('id'))
         })
             .map(function (row) {
                 return row('right').merge(function (row2) {
                     return {
-                        status: row('left')('status'),
-                        allowMange: row('left')('role').eq('admin')
+                        status: row('left')('status')
+                        ,allowMange: true
+                        //,allowMange: row('left')('role').eq('admin')
                     }
                 })
             })
@@ -326,7 +329,7 @@ exports.getAppList = function (req, res) {
                 res.status(500).json(err);
             })
 
-    }
+    // }
 
     // r.db('oauth').table('users')
     //     .get(req.params.id)
