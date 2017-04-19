@@ -8,6 +8,18 @@
 <dom-module id="page-style">
     <template>
         <style include="gl-size gl-color gl-table gl-panel">
+            @font-face {
+                font-family: CSChatThaiUI;
+                src: url('fonts/CSChatThaiUI.eot');
+                src: url('fonts/CSChatThaiUI.eot?#iefix') format('eot'),
+                    url('fonts/CSChatThaiUI.woff') format('woff'),
+                    url('fonts/CSChatThaiUI.ttf') format('truetype'),
+                    url('fonts/CSChatThaiUI.svg') format('svg');
+            }
+            *{
+                 font-family: CSChatThaiUI, sans-serif;
+            }
+
             .header{
                 padding-top:20px;
                 text-align: left;
