@@ -60,7 +60,7 @@
 	<script>
         Polymer({
             is: 'layout-main-toolbar',
-			behaviors: [nylonLocalizeBehavior,ReduxBehavior],
+			behaviors: [ReduxBehavior],
 			properties:{
 				user:{
 					 statePath:'auth.user',
@@ -76,23 +76,13 @@
 					this.hidden = true;
 				}
 			},
-			attached:function(){
-				 this.nylonLocalizeImport('/i18n-page1.json');
-			},
             toggleDrawer:function(){
                 this.fire('toggle-drawer');
-            },
-			changeLanguage:function(){
-              if(this.language=='th'){
-                this.nylonLocalizeChange('en');
-              }else{
-                this.nylonLocalizeChange('th');
-              } 
             },
 			logout:function(){
 				//this.hidden = true;
 				
-				oauth.Logout();
+				//oauth.Logout();
 
 				// localStorage.removeItem('token');
 				// if(this.user.role=="none"){
