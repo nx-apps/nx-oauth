@@ -2,6 +2,8 @@
 <link rel="import" href="./../../../bower_components/gl-form/gl-form-input.html">
 <link rel="import" href="./../../../bower_components/gl-form/gl-form-textarea.html">
 <link rel="import" href="./../components/page-style.html">
+<link rel="import" href="./../../../bower_components/paper-checkbox/paper-checkbox.html">
+
 <dom-module id="app-manage">
     <template>
         <style include="page-style">
@@ -41,6 +43,9 @@
             .hideBorder{
                 border-bottom: 2px solid white;
             }
+            .header{
+                padding:20px 20px 5px 20px;
+            }
         </style>
         <div class="container">
             <paper-material elevation="1">
@@ -53,7 +58,7 @@
                             <th></th>
                         </tr>
                         <template is="dom-if" if="{{select.id}}">
-                            <tr class="hideBorder">
+                            <tr class="hideBorder" hidden>
                                 <th style="width:30%;text-align: right;">App ID</th>
                                 <th><gl-form-input no-label-float value="{{select.id}}" disabled></gl-form-input></th>
                                 <th></th>
@@ -64,11 +69,13 @@
                             <th><gl-form-input no-label-float value="{{select.app_domain}}"></gl-form-input></th>
                             <th></th>
                         </tr>
+                        <!--
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right;">Secret</th>
                             <th><gl-form-textarea no-label-float value="{{select.app_secret}}"></gl-form-textarea></th>
                             <th></th>
                         </tr>
+                        -->
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right;">Allow Callback URL</th>
                             <th><gl-form-textarea no-label-float value="{{select.allow_callback_url}}"></gl-form-textarea></th>
@@ -84,6 +91,15 @@
                             <th><gl-form-textarea no-label-float value="{{select.icon_url}}"></gl-form-textarea></th></th>
                             <th></th>
                         </tr>
+                        <tr class="hideBorder">
+                            <th style="width:30%;text-align: right;"></th>
+                            <th>
+                                <paper-checkbox>Auto Register</paper-checkbox> &nbsp;&nbsp;
+                                <paper-checkbox>Enable</paper-checkbox>
+                            </th>
+                            <th></th>
+                        </tr>
+                        
                     </thead>
                     <tbody>
                         <!--<tr>
@@ -110,6 +126,28 @@
                     </tbody>
                 </table>
             </paper-material>
+            </br>
+            <paper-material elevation="1">
+                <table class="gl-table-default">
+                    <tr>
+                        <th class="header">Client Name</th>
+                        <th class="header">Client Id</th>
+                        <th class="header">Secret</th>
+                        <th class="header">EXP Net</th>
+                        <th class="header">Del</th>
+                    </tr>
+                    <template is="dom-repeat" items="[[dataList]]">
+                        <tr>
+                            <td><gl-form-input value="[[item.ClientName]]"></gl-form-input></td>
+                            <td><gl-form-input value="[[item.ClientId]]"></gl-form-input></td>
+                            <td><gl-form-input value="[[item.Secret]]"></gl-form-input></td>
+                            <td><gl-form-input value="[[item.ExpNet]]"></gl-form-input></td>
+                            <td on-tap="delList" position="{{index}}"><iron-icon icon="icons:delete" style="cursor:pointer;"></iron-icon></td>
+                        </tr>
+                    </template>
+                </table>
+            </paper-material>
+            <iron-icon icon="icons:add-circle" on-tap="addList" style="padding:5px;cursor:pointer;"></iron-icon>
         </div>
         
     </template>
@@ -124,7 +162,17 @@
                 select:{
                     observer:'obSelect',
                     notify:true
+                },
+                dataList:{
+                    type:Array,
+                    value:[]
                 }
+            },
+            addList:function(){
+                this.push("dataList",{ClientName:"",ClientId:"",Secret:"",ExpNet:""})
+            },
+            delList:function(e){
+                this.splice("dataList",e.target.positon,1);
             },
             obSelect:function(ob){
                 if(typeof ob.connections!="undefined"){
