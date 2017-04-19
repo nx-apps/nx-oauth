@@ -46,6 +46,12 @@
             .header{
                 padding:20px 20px 5px 20px;
             }
+            .big {
+                --iron-icon-height: 32px;
+                --iron-icon-width: 32px;
+                padding:5px;
+                cursor:pointer;
+            }
         </style>
         <div class="container">
             <paper-material elevation="1">
@@ -134,20 +140,26 @@
                         <th class="header">Client Id</th>
                         <th class="header">Secret</th>
                         <th class="header">EXP Net</th>
-                        <th class="header">Delete</th>
+                        <th class="header">Delete </th>
+                        <th class="header"><iron-icon icon="icons:add-circle" on-tap="addList" class="big"></iron-icon></th>
                     </tr>
                     <template is="dom-repeat" items="[[dataList]]">
                         <tr>
                             <td><gl-form-input value="[[item.ClientName]]"></gl-form-input></td>
                             <td><gl-form-input value="[[item.ClientId]]"></gl-form-input></td>
-                            <td><gl-form-input value="[[item.Secret]]"></gl-form-input></td>
+                            <td>
+                                <gl-form-input value="[[item.Secret]]"> 
+                                    <div suffix><iron-icon icon="icons:refresh" style="cursor:pointer;"></div>
+                                </gl-form-input>
+                            </td>
                             <td><gl-form-input value="[[item.ExpNet]]"></gl-form-input></td>
-                            <td on-tap="delList" position="{{index}}"><iron-icon icon="icons:delete" style="cursor:pointer;"></iron-icon></td>
+                            <td on-tap="delList" position="{{index}}"><iron-icon icon="icons:delete" style="cursor:pointer;margin-bottom:-25px;"></iron-icon></td>
+                            <td></td>
                         </tr>
                     </template>
                 </table>
             </paper-material>
-            <iron-icon icon="icons:add-circle" on-tap="addList" style="padding:5px;cursor:pointer;"></iron-icon>
+            
         </div>
         
     </template>
