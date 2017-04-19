@@ -1,9 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
-<link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
-
-<script src="../bower_components/rxjs/dist/rx.lite.js"></script>
 
 <link rel="import" href="nylon-behavior.html">
 <link rel="import" href="nylon-init.html">
@@ -33,27 +30,10 @@
                     reflectToAttribute: true,
                     observer: '_pageChanged'
                 },
-                route: {
-                    observer:'_routeChange'
-                },
                 triggleLoaded:{
                     type: Boolean,
                     value: false
                 }
-            },
-            created:function(){
-
-                if(localStorage.getItem("nylonLocalize")==null){
-                    localStorage.setItem("nylonLocalize", "th");
-                }
-
-                nylonLocalize = new Rx.BehaviorSubject(localStorage.getItem("nylonLocalize"));
-                nylonLocalize.subscribe(function(x){ 
-                    if(localStorage.getItem("nylonLocalize")!=x){
-                        localStorage.setItem("nylonLocalize", x);
-                    }
-                });
-
             },
             observers: [
                 '_routePageChanged(routeData.page)'
@@ -62,71 +42,22 @@
                 this.page = page || 'my-app';
             },
             _pageChanged: function(page, oldPage) {
-                if (page != null) {
-
-                    const loadPage = (page) => {
-                        this.importHref(
-                            this.resolveUrl('/src/pages/page-' + page + '/page-' + page + '.html'),
-                            ()=>{
-                                if(this.elementLayoutMainDrawer){
-                                    this.elementLayoutMainDrawer._loaded();
-                                }
-                            },
-                            ()=>{
-                                //console.log('ok');
-                                this._routePageChanged('404');
-                            }
-                            , true
-                        );
-
+                this.importHref(
+                    this.resolveUrl('/src/pages/page-' + page + '/page-' + page + '.html'),
+                    ()=>{
+                        if(this.elementLayoutMainDrawer){
+                            this.elementLayoutMainDrawer._loaded();
+                        }
+                    },
+                    ()=>{
+                        this._routePageChanged('404');
                     }
-
-                    
-                    setTimeout(()=>{
-                        
-                        // if(this.page==""){
-                        //     if(typeof this.user !== "undefined"){
-                        //         if(this.user.role=="teacher"){
-                        //             this.page = 'examRoom';
-                        //         }else if(this.user.role=="learner"){
-                        //             this.page = 'examHistory';
-                        //         }else{
-                        //             this._routePageChanged('login');
-                        //         }
-                        //     }else{
-                        //         this._routePageChanged('login');
-                        //     }
-                            
-                        // }
-
-                        // console.log(this.user);
-
-
-                        // console.log(this.user);
-                        // var pageRole = {
-                        //     provider:['ADMIN'],
-                        //     //examination:['teacher'],
-                        //     //examHistory:['learner']
-                        // }
-
-                        // //var pageRole = {};
-                        // var pass = 
-                        // pageRole['this.page'].map(function(row){
-
-                        // })
-                                    loadPage(this.page);
-                                //this._routePageChanged('403');
-
-
-                    },100)
-                }
-            },
+                    , true
+                );
+    },
             _changePage:function(e){
                 this.$.changePath.setAttribute("href", e.detail.path);
                 this.$.changePath.click();
-            },
-            _routeChange:function(val){
-                //console.log(val);
             },
             _onSendElementLayoutMainDrawer:function(e){
                 this.elementLayoutMainDrawer = e.detail;

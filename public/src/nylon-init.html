@@ -1,4 +1,3 @@
-<script src="redux-store.js"></script>
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <!-- template -->
 <link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
@@ -163,21 +162,22 @@
 			behaviors: [commonSystemAction],
 			ready: function () {
 				this.loader = true;
-				this.importHref(this.resolveUrl('/src/import.html'), (e) => {
-					this.rendered = true;
-					this.loader = false;
-				}, (e) => {
-					console.log('error')
-					this.loader = false;
-				});
+				this.loader = false;
+				// this.importHref(this.resolveUrl('/src/import.html'), (e) => {
+				// 	this.rendered = true;
+				// 	this.loader = false;
+				// }, (e) => {
+				// 	console.log('error')
+				// 	this.loader = false;
+				// });
 
-				oauth.Login(function (user) {
-					//console.log(window.location.search);
-					if(window.location.search != ""){
-						window.location = "/my-app"
-					}
-					ReduxBehavior[0].dispatch({type:'AUTH_INFO',payload:user})
-				});
+				// oauth.Login(function (user) {
+				// 	//console.log(window.location.search);
+				// 	if(window.location.search != ""){
+				// 		window.location = "/my-app"
+				// 	}
+				// 	ReduxBehavior[0].dispatch({type:'AUTH_INFO',payload:user})
+				// });
 			}
 		});
 	</script>
