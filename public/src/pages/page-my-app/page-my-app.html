@@ -17,12 +17,12 @@
             .page{
                 background-color: white;
             }
-            .fabSave{
+            /*.fabSave{
                 position: fixed;
                 bottom: 90px;
                 right: 20px;
                 --paper-fab-background: #337ab7;
-            }
+            }*/
             paper-dialog{
                 width: 50%;
                 height: auto;
@@ -32,13 +32,13 @@
                 position: fixed;
                 bottom: 20px;
                 right: 85px;
-                --paper-fab-background: #2d6301;
+                --paper-fab-background: #337ab7;
             }
             .fabInsertUser{
                 position: fixed;
                 bottom: 20px;
                 right: 150px;
-                --paper-fab-background: #337ab7;
+                --paper-fab-background: #2d6301;
             }
         </style>
         <nylon-param params="{{getParam}}" pattern="id"></nylon-param>
@@ -60,8 +60,8 @@
         <!--<template is="dom-if" if="[[_checkAdmin(user)]]">-->
         <paper-fab class="fabInsertApp" icon="icons:add" action="addApp" on-tap="openPanelRight"></paper-fab>
         <!--</template>-->
-        <paper-fab class="fabInsertUser" icon="social:person-add" action="addUser" on-tap="openPanelRight"></paper-fab>
-        <paper-fab icon="icons:archive" action="register" on-tap="openPanelRight"></paper-fab>
+        <paper-fab icon="social:person" action="addUser" on-tap="openPanelRight"></paper-fab>
+        <paper-fab class="fabInsertUser" icon="icons:archive" action="register" on-tap="openPanelRight"></paper-fab>
         
     </template>
     <script>
@@ -94,7 +94,7 @@
                 } 
                 else if (action == 'addUser'){
                     this.selected = 2;
-                    panelRight.title = "เพิ่มผู้ใช้งาน"
+                    panelRight.title = "แก้ไขผู้ใช้งาน"
                 } 
                 //this.dispatchAction('APP_CLEAR_SELECT');
                 // var panelRight = this.$$('panel-right');
