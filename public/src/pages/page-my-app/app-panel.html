@@ -35,6 +35,7 @@
             <template is="dom-if" if="[[select.id]]">
                 <paper-button class="gl-btn-danger" on-tap="confirmDel" raised>ลบข้อมูล</paper-button>
             </template>
+            <!-- <paper-button class="gl-btn-success" on-tap="addData" raised>เพิ่ม</paper-button> -->
             <paper-button class="gl-btn-success" on-tap="sendData" raised>บันทึก</paper-button>
         </div>
     </template>
@@ -47,6 +48,9 @@
                     statePath:'myApp.select'
                 }
             },
+            // addData:function(){
+            //     this.$$("app-manage").addList();
+            // },
             sendData:function(){
                 if(typeof this.select.connections != "undefined"){
                     this.select.connections = this.select.connections.map(function(row){
