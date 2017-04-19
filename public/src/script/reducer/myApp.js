@@ -4,7 +4,9 @@ import {commonAction} from '../config'
 const initialState = {
     list:[],
     balanceList:[],
-    select:{}
+    select:{
+        clientList:[]
+    }
 }
 
 export function myAppReducer(state = initialState,action){
@@ -79,6 +81,9 @@ export function myAppAction(store){
             },
             MY_APP_INSERT:function(data){
 
+                if(typeof data.status_enable == "undefined") data.status_enable = false;
+                if(typeof data.register_auto == "undefined") data.register_auto = false;
+                
                 this.fire('toast',{status:'load'});
 
                 axios.post(`/apps/app`,data)
@@ -93,7 +98,6 @@ export function myAppAction(store){
                 .catch(err=>{
                     console.log(err);
                 })
-
             },
             MY_APP_DELETE:function(id){
                 

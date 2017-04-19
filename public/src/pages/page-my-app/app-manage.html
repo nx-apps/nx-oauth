@@ -100,8 +100,8 @@
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right;"></th>
                             <th>
-                                <paper-checkbox>Auto Register</paper-checkbox> &nbsp;&nbsp;
-                                <paper-checkbox>Enable</paper-checkbox>
+                                <paper-checkbox checked="{{select.register_auto}}">Auto Register</paper-checkbox> &nbsp;&nbsp;
+                                <paper-checkbox checked="{{select.status_enable}}">Enable</paper-checkbox>
                             </th>
                             <th></th>
                         </tr>
@@ -143,16 +143,16 @@
                         <th class="header">Delete </th>
                         <th class="header"><iron-icon icon="icons:add-circle" on-tap="addList" class="big"></iron-icon></th>
                     </tr>
-                    <template is="dom-repeat" items="[[dataList]]">
+                    <template is="dom-repeat" items="[[select.clientList]]">
                         <tr>
-                            <td><gl-form-input value="[[item.ClientName]]"></gl-form-input></td>
-                            <td><gl-form-input value="[[item.ClientId]]"></gl-form-input></td>
+                            <td><gl-form-input value="{{item.ClientName}}"></gl-form-input></td>
+                            <td><gl-form-input value="{{item.ClientId}}"></gl-form-input></td>
                             <td>
-                                <gl-form-input value="[[item.Secret]]"> 
+                                <gl-form-input value="{{item.Secret}}"> 
                                     <div suffix><iron-icon icon="icons:refresh" style="cursor:pointer;"></div>
                                 </gl-form-input>
                             </td>
-                            <td><gl-form-input value="[[item.ExpNet]]"></gl-form-input></td>
+                            <td><gl-form-input value="{{item.ExpNet}}"></gl-form-input></td>
                             <td on-tap="delList" position="{{index}}"><iron-icon icon="icons:delete" style="cursor:pointer;margin-bottom:-25px;"></iron-icon></td>
                             <td></td>
                         </tr>
@@ -174,17 +174,17 @@
                 select:{
                     observer:'obSelect',
                     notify:true
-                },
-                dataList:{
-                    type:Array,
-                    value:[]
                 }
+                // clientList:{
+                //     type:Array,
+                //     value:[]
+                // }
             },
             addList:function(){
-                this.push("dataList",{ClientName:"",ClientId:"",Secret:"",ExpNet:""})
+                this.push("select.clientList",{ClientName:"",ClientId:"",Secret:"",ExpNet:""})
             },
             delList:function(e){
-                this.splice("dataList",e.target.positon,1);
+                this.splice("select.clientList",e.target.positon,1);
             },
             obSelect:function(ob){
                 if(typeof ob.connections!="undefined"){
