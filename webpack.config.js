@@ -1,9 +1,9 @@
 module.exports = {
     entry: [
-        './public/src/redux-store/index.js'
+        './public/src/script/index.js'
     ],
     output: {
-        filename: './public/src/redux-store.js'
+        filename: './public/bundle.js'
     },
     watch: true,
     devtool:"inline-source-map"

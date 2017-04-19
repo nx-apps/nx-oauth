@@ -3,6 +3,8 @@
 <!--<link rel="import" href="./../../bower_components/gl-font/gl-rsu-font.html">-->
 <link rel="import" href="./../../bower_components/iron-image/iron-image.html">
 
+<link rel="import" href="./../../bower_components/polymer/polymer.html">
+
 
 <dom-module id="layout-main-toolbar">
 	<template>
@@ -46,7 +48,7 @@
 		<app-toolbar>
 				<paper-icon-button icon="menu" on-tap="toggleDrawer"></paper-icon-button>
 				<iron-image src="/images/icon/default/app-icon-32.png"></iron-image>
-				<div main-title>ระบบบริหารจัดการข้าว</div>
+				<div main-title>OAUTH</div>
 				[[user.name]]
 				<div style="cursor: pointer" on-tap="logout" hidden="{{hidden}}">
 					<paper-icon-button icon="exit-to-app"></paper-icon-button>Logout
@@ -60,7 +62,7 @@
 	<script>
         Polymer({
             is: 'layout-main-toolbar',
-			behaviors: [nylonLocalizeBehavior,ReduxBehavior],
+			behaviors: [ReduxBehavior],
 			properties:{
 				user:{
 					 statePath:'auth.user',
@@ -76,23 +78,13 @@
 					this.hidden = true;
 				}
 			},
-			attached:function(){
-				 this.nylonLocalizeImport('/i18n-page1.json');
-			},
             toggleDrawer:function(){
                 this.fire('toggle-drawer');
-            },
-			changeLanguage:function(){
-              if(this.language=='th'){
-                this.nylonLocalizeChange('en');
-              }else{
-                this.nylonLocalizeChange('th');
-              } 
             },
 			logout:function(){
 				//this.hidden = true;
 				
-				oauth.Logout();
+				//oauth.Logout();
 
 				// localStorage.removeItem('token');
 				// if(this.user.role=="none"){
