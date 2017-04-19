@@ -3,6 +3,8 @@
 <!--<link rel="import" href="./../../bower_components/gl-font/gl-rsu-font.html">-->
 <link rel="import" href="./../../bower_components/iron-image/iron-image.html">
 
+<link rel="import" href="./../../bower_components/polymer/polymer.html">
+
 
 <dom-module id="layout-main-toolbar">
 	<template>
@@ -46,7 +48,7 @@
 		<app-toolbar>
 				<paper-icon-button icon="menu" on-tap="toggleDrawer"></paper-icon-button>
 				<iron-image src="/images/icon/default/app-icon-32.png"></iron-image>
-				<div main-title>ระบบบริหารจัดการข้าว</div>
+				<div main-title>OAUTH</div>
 				[[user.name]]
 				<div style="cursor: pointer" on-tap="logout" hidden="{{hidden}}">
 					<paper-icon-button icon="exit-to-app"></paper-icon-button>Logout
