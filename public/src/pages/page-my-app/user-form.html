@@ -1,0 +1,146 @@
+<link rel="import" href="./../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="./../../../bower_components/gl-form/gl-form-input.html">
+<link rel="import" href="./../../../bower_components/gl-form/gl-combo-box.html">
+<link rel="import" href="./../../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="./../components/page-style.html">
+
+<dom-module id="user-form">
+    <template>
+        <style include="page-style">
+            .question {
+                margin-top: 8px;
+                text-align: right;
+                font-size: 20px;
+            }
+            
+            paper-radio-button {
+                --paper-radio-button-size: 22px;
+            }
+            
+            gl-form-input {
+                --paper-input-container-label: {
+                    font-size: 12px;
+                    font-weight: normal;
+                }
+            }
+            
+            .flex-end-justified {
+                @apply(--layout-horizontal);
+                @apply(--layout-end-justified);
+            }
+            
+            .flex-horizontal-with-ratios {
+                @apply(--layout-horizontal);
+            }
+            
+            .flexchild {
+                @apply(--layout-flex);
+            }
+            
+            .flex2child {
+                @apply(--layout-flex-2);
+            }
+            
+            .flex3child {
+                @apply(--layout-flex-3);
+            }
+            
+            .flex4child {
+                @apply(--layout-flex-4);
+            }
+            
+            .hideBorder {
+                border-bottom: 2px solid white;
+            }
+        </style>
+        <div class="container">
+            <paper-material elevation="1">
+                <table class="gl-table-default">
+                    <thead>
+                        <tr class="hideBorder">
+                            <th style="width:30%;text-align: right; font-size: 18px;">เลขประจำตัวประชาชน</th>
+                            <th>
+                                <gl-form-input no-label-float value="{{select.pid}}"></gl-form-input>
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr class="hideBorder">
+                            <th style="width:30%;text-align: right; font-size: 18px;">ชื่อ-นามสกุล</th>
+                            <th>
+                                <gl-form-input no-label-float value="{{select.name}}"></gl-form-input>
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr class="hideBorder">
+                            <th style="width:30%;text-align: right; font-size: 18px;">อีเมล์</th>
+                            <th>
+                                <gl-form-input no-label-float value="{{select.email}}"></gl-form-input>
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th style="width:30%;text-align: right; font-size: 18px;">ประเภทผู้ใช้งาน</th>
+                            <th>
+                                <gl-combo-box always-float-label items="{{roleList}}" value="{{select.role}}"></gl-combo-box>
+                            </th>
+                            <th style="width:20%;">
+                                <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="width:30%;text-align: right; font-size: 18px;">เปิดใช้งาน</th>
+                            <th>
+                                <paper-checkbox checked="{{select.status}}" class="green"></paper-checkbox>
+                            </th>
+                            <th style="width:20%;">
+                                <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                            </th>
+                        </tr>
+                        <tr class="hideBorder">
+                            <th style="width:30%;text-align: right; font-size: 18px;">Local user</th>
+                            <th>
+                                <paper-checkbox checked="{{select.local}}" class="green"></paper-checkbox>
+                            </th>
+                            <th style="width:20%;">
+                                <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                            </th>
+                        </tr>
+                        <tr class="hideBorder" hidden$="[[!select.local]]">
+                            <th style="width:30%;text-align: right; font-size: 18px;">เลขประจำตัวประชาชน</th>
+                            <th>
+                                <gl-form-input no-label-float value="{{select.pid}}"></gl-form-input>
+                            </th>
+                            <th></th>
+                        </tr>
+                        <tr class="hideBorder" hidden$="[[!select.local]]">
+                            <th style="width:30%;text-align: right; font-size: 18px;">ชื่อ-นามสกุล</th>
+                            <th>
+                                <gl-form-input no-label-float value="{{select.name}}"></gl-form-input>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+                </paper-material>
+
+                <div class="flex-end-justified">
+                    <paper-button class="gl-btn-danger" on-tap="confirmDel" raised>ลบข้อมูล</paper-button>
+                    <paper-button class="gl-btn-success" on-tap="sendData" raised>บันทึก</paper-button>
+                </div>
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'user-form',
+            properties: {
+                roleList: {
+                    value: ['ADMIN', 'USER']
+                },
+                select: {
+                    notify: true
+                }
+            }
+        });
+    </script>
+</dom-module>
