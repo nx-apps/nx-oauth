@@ -1,7 +1,11 @@
-
+<link rel="import" href="./../../../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="./../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="./../../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="./../../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="./../../../bower_components/iron-image/iron-image.html">
 <link rel="import" href="./../components/page-style.html">
+
+
 <dom-module id="my-app-list">
     <template>
         <style include="page-style">
@@ -18,65 +22,55 @@
                 width: 200px;
                 cursor: pointer;
                 margin-bottom: 30px;
-
                 /*background-color: #3399ff;*/
             }
             
-            .app>.item {
+            .item {
                 text-align: center;
                 font-weight: bold;
             }
             
-            .item>a {
-                color: #2d6301;
-            }
-            
-
             .app[wait] {
                 filter: grayscale(100%);
                 cursor: default;
             }
             
-            .paperLink {
-                --paper-icon-button: {
-                    color: #2d6301;
-                }
-                --paper-icon-button-hover: {
-                    color: #ff753f;
-                }
+            .option {
+                float: right;
             }
-
-            .option{
-                position: absolute;
-                right: 0;
-                top:-10px;
+            
+            paper-item {
+                cursor: pointer;
+                --paper-item-focused: {
+                    background: #FFFFFC;
+                    font-weight: normal;
+                }
+                ;
+                --paper-item-focused-before: {
+                    opacity: 0;
+                }
+                ;
             }
-
         </style>
         <div class="container">
             <template is="dom-repeat" items="[[list]]">
                 <div class="app" enable$="[[item.status]]" wait$="[[!item.status]]">
-                    <div class="option">
-                        <paper-icon-button class="paperLink" item="[[item]]" on-tap="mangeApp" icon="settings"></paper-icon-button>
-                    </div>
+                    <paper-menu-button class="option">
+                        <paper-icon-button icon="settings" class="dropdown-trigger"></paper-icon-button>
+                        <paper-menu class="dropdown-content">
+                            <paper-item item="[[item]]" on-tap="mangeApp" icon="settings">จักการ App</paper-item>
+                            <paper-item path="app-role" item="[[item]]" on-tap="gotoPath">จัดการ Role</paper-item>
+                            <paper-item path="app-user" item="[[item]]" on-tap="gotoPath">จัดการ User</paper-item>
+                        </paper-menu>
+                    </paper-menu-button>
                     <div class="item" on-tap="redirect" item="[[item]]">
                         <iron-image style="width:150px; height:150px; border-radius: 10px;" sizing="cover" src="[[item.icon_url]]"></iron-image>
                     </div>
                     <div class="item" on-tap="redirect" item="[[item]]">
                         [[item.app_name]]
                     </div>
-                    <!--<div class="item" hidden$="[[!item.allowMange]]">
-
-                        <paper-icon-button class="paperLink" item="[[item]]" on-tap="mangeApp" icon="settings"></paper-icon-button>
-                        <paper-icon-button class="paperLink" path="app-role" item="[[item]]" on-tap="gotoPath" icon="lock"></paper-icon-button>
-                        <paper-icon-button class="paperLink" path="app-user" item="[[item]]" on-tap="gotoPath" icon="supervisor-account"></paper-icon-button>
-
-                    </div>-->
-                </div>
             </template>
-        </div>
-
-
+            </div>
 
     </template>
     <script>
