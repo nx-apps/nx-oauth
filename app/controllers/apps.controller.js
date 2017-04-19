@@ -285,7 +285,23 @@ exports.insertRequest = function (req, res) {
 
 exports.getAppList = function (req, res) {
     var r = req.r;
-    //res.json(req.user);
+    r.table('apps')
+    .merge(function (){
+        return {
+            status: true,
+            allowMange: true
+        }
+    })
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    })
+    
+
+    // var r = req.r;
+    // res.json(req.user);
 
     // if (req.user.role == "ADMIN") {
 
@@ -306,28 +322,27 @@ exports.getAppList = function (req, res) {
 
     // } else {
 
-        r.table('user_apps')
-        // .filter({
-        //     uid: req.user.id
-        // })
-        .innerJoin(r.table('apps'), function (left, right) {
-            return left('app_id').eq(right('id'))
-        })
-            .map(function (row) {
-                return row('right').merge(function (row2) {
-                    return {
-                        status: row('left')('status')
-                        ,allowMange: true
-                        //,allowMange: row('left')('role').eq('admin')
-                    }
-                })
-            })
-            .then(function (result) {
-                res.json(result);
-            })
-            .catch(function (err) {
-                res.status(500).json(err);
-            })
+    //     r.table('user_apps')
+    //     .filter({
+    //         uid: req.user.id
+    //     })
+    //     .innerJoin(r.table('apps'), function (left, right) {
+    //         return left('app_id').eq(right('id'))
+    //     })
+    //         .map(function (row) {
+    //             return row('right').merge(function (row2) {
+    //                 return {
+    //                     status: row('left')('status')
+    //                     ,allowMange: row('left')('role').eq('admin')
+    //                 }
+    //             })
+    //         })
+    //         .then(function (result) {
+    //             res.json(result);
+    //         })
+    //         .catch(function (err) {
+    //             res.status(500).json(err);
+    //         })
 
     // }
 
