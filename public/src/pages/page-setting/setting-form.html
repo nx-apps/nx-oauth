@@ -1,0 +1,104 @@
+<link rel="import" href="./../../../bower_components/gl-form/gl-form-input.html">
+
+<link rel="import" href="./../components/page-style.html">
+<link rel="import" href="./../components/flex-style.html">
+
+<dom-module id="setting-form">
+    <template>
+        <style include="page-style flex-style">
+            .textContent {
+                padding: 10px;
+                font-weight: bold;
+            }
+            
+            .textHeader {
+                font-size: 22px;
+                font-weight: bold;
+            }
+        </style>
+        <paper-material class="bgWhite" elevation="1">
+            <div class="container">
+                <div class="flex-horizontal-with-ratios">
+                    <div class="flexchild left textHeader fontCSC">
+                        SMTP
+                    </div>
+                </div>
+                <div class="container flex-horizontal-with-ratios">
+                    <div class="flexchild"></div>
+                    <div class="flexchild right textContent fontCSC">
+                        HOST 
+                    </div>
+                    <div class="flex3child">
+                        <gl-form-input no-label-float value=""></gl-form-input>
+                    </div>
+                    <div class="flexchild"></div>
+                </div>
+
+                <div class="container flex-horizontal-with-ratios">
+                    <div class="flexchild"></div>
+                    <div class="flexchild right textContent fontCSC">
+                        PORT 
+                    </div>
+                    <div class="flex3child">
+                        <gl-form-input no-label-float value=""></gl-form-input>
+                    </div>
+                    <div class="flexchild"></div>
+                </div>
+
+                <div class="container flex-horizontal-with-ratios">
+                    <div class="flexchild"></div>
+                    <div class="flexchild right textContent fontCSC">
+                        USER 
+                    </div>
+                    <div class="flex3child">
+                        <gl-form-input no-label-float value=""></gl-form-input>
+                    </div>
+                    <div class="flexchild"></div>
+                </div>
+
+                <div class="container flex-horizontal-with-ratios">
+                    <div class="flexchild"></div>
+                    <div class="flexchild right textContent fontCSC">
+                        PASSWORD 
+                    </div>
+                    <div class="flex3child">
+                        <gl-form-input no-label-float value=""></gl-form-input>
+                    </div>
+                    <div class="flexchild"></div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="flex-horizontal-with-ratios">
+                    <div class="flexchild left textHeader fontCSC">
+                        SESSION
+                    </div>
+                </div>
+                <div class="container flex-horizontal-with-ratios">
+                    <div class="flexchild"></div>
+                    <div class="flexchild right textContent fontCSC">
+                        SESSION TIME OUT 
+                    </div>
+                    <div class="flex3child">
+                        <gl-form-input no-label-float value=""></gl-form-input>
+                    </div>
+                    <div class="flexchild"></div>
+                </div>
+            </div>
+        </paper-material>
+
+        <div class="flex-end-justified" style="margin-top:10px">
+            <div>
+                <paper-button class="gl-btn-danger" raised>ยกเลิก</paper-button>
+            </div>
+            <div>
+                <paper-button class="gl-btn-success" raised>บันทึก</paper-button>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'setting-form'
+        });
+    </script>
+</dom-module>

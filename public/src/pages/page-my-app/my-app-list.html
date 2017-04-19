@@ -9,20 +9,17 @@
                 cursor: pointer;
             }
             
-            tbody>tr:hover {
-                font-weight: bold;
-                border-bottom: 2px solid dodgerblue;
-            }
-            
             .app {
-                display: -webkit-flex;
-                display: flex;
+                margin: 15px 10px 15px 10px;
+                position: relative;
                 -webkit-justify-content: center;
                 justify-content: center;
                 display: inline-block;
                 width: 200px;
                 cursor: pointer;
                 margin-bottom: 30px;
+
+                /*background-color: #3399ff;*/
             }
             
             .app>.item {
@@ -34,29 +31,13 @@
                 color: #2d6301;
             }
             
-            .app>.item>iron-image {
-                border: 3px solid #efefef;
-            }
-            
-            .app:hover[enable] {
-                transform: scale(1.1);
-            }
-            
-            .app[enable]>.item>iron-image:hover {
-                /*text-align: center;
-                font-weight: bold;*/
-                border: 3px solid #ff753f;
-            }
-            
+
             .app[wait] {
                 filter: grayscale(100%);
                 cursor: default;
             }
             
             .paperLink {
-                /*--paper-icon-button-ink-color:{
-                    background-color:#FFF;
-                }*/
                 --paper-icon-button: {
                     color: #2d6301;
                 }
@@ -64,29 +45,33 @@
                     color: #ff753f;
                 }
             }
+
+            .option{
+                position: absolute;
+                right: 0;
+                top:-10px;
+            }
+
         </style>
         <div class="container">
-
             <template is="dom-repeat" items="[[list]]">
                 <div class="app" enable$="[[item.status]]" wait$="[[!item.status]]">
+                    <div class="option">
+                        <paper-icon-button class="paperLink" item="[[item]]" on-tap="mangeApp" icon="settings"></paper-icon-button>
+                    </div>
                     <div class="item" on-tap="redirect" item="[[item]]">
                         <iron-image style="width:150px; height:150px; border-radius: 10px;" sizing="cover" src="[[item.icon_url]]"></iron-image>
                     </div>
                     <div class="item" on-tap="redirect" item="[[item]]">
                         [[item.app_name]]
                     </div>
-                    <!--<div class="item">
-                        <a href="#" on-tap="mangeApp" item="[[item]]">จัดการแอป</a>
-                    </div>-->
-                    <div class="item" hidden$="[[!item.allowMange]]">
+                    <!--<div class="item" hidden$="[[!item.allowMange]]">
 
                         <paper-icon-button class="paperLink" item="[[item]]" on-tap="mangeApp" icon="settings"></paper-icon-button>
                         <paper-icon-button class="paperLink" path="app-role" item="[[item]]" on-tap="gotoPath" icon="lock"></paper-icon-button>
                         <paper-icon-button class="paperLink" path="app-user" item="[[item]]" on-tap="gotoPath" icon="supervisor-account"></paper-icon-button>
 
-                        <!--<a href="[[mergeUrl('app-role',item.app_id)]]">สิทธิ์การใช้งาน</a> / 
-                        <a href="[[mergeUrl('app-user',item.app_id)]]">ผู้ใช้งาน</a>-->
-                    </div>
+                    </div>-->
                 </div>
             </template>
         </div>

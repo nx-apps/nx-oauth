@@ -52,6 +52,7 @@
         <!--</template>-->
         
         <paper-fab icon="icons:archive" action="register" on-tap="openPanelRight"></paper-fab>
+        
     </template>
     <script>
         Polymer({
@@ -66,6 +67,7 @@
                 return (user.role=='ADMIN')
             },
             nylonPageActive:function(){
+                this.nylonVisible(false);
                 this.dispatchAction('MY_APP_LIST');
                 this.dispatchAction('MY_APP_BALANCE_LIST');
             },

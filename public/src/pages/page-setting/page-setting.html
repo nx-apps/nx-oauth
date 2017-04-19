@@ -1,0 +1,33 @@
+<link rel="import" href="./../components/page-style.html">
+<link rel="import" href="./setting-form.html">
+<link rel="import" href="./../../../bower_components/paper-material/paper-material.html">
+
+<dom-module id="page-setting">
+    <template>
+        <style include="page-style"></style>
+        <div class="xcontainer">
+            <div class="header gl-large">
+                ตั้งค่า (SETTING)
+            </div>
+
+            <div class="container">
+                 <setting-form></setting-form>
+            </div>
+           
+
+            <!--<my-app-list></my-app-list>-->
+            <!--<panel-right title="">
+                <iron-pages selected="[[selected]]">
+                    <my-app-panel></my-app-panel>
+                    <app-panel></app-panel>
+                </iron-pages>
+            </panel-right>-->
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: 'page-setting',
+            behaviors: [nylonBehavior, ReduxBehavior],
+        });
+    </script>
+</dom-module>
