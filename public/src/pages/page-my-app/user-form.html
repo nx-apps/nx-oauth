@@ -105,28 +105,60 @@
                                 <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
                             </th>
                         </tr>
-                        <tr class="hideBorder" hidden$="[[!select.local]]">
-                            <th style="width:30%;text-align: right; font-size: 18px;">เลขประจำตัวประชาชน</th>
+
+                        <tr class="hideBorder">
+                            <th style="width:30%;text-align: right; font-size: 18px;">Username</th>
                             <th>
-                                <gl-form-input no-label-float value="{{select.pid}}"></gl-form-input>
+                                <gl-form-input no-label-float value=""></gl-form-input>
                             </th>
-                            <th></th>
+                            <th style="width:20%;">
+                                <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                            </th>
                         </tr>
-                        <tr class="hideBorder" hidden$="[[!select.local]]">
-                            <th style="width:30%;text-align: right; font-size: 18px;">ชื่อ-นามสกุล</th>
+                        <tr class="hideBorder">
+                            <th style="width:30%;text-align: right; font-size: 18px;">Password</th>
                             <th>
-                                <gl-form-input no-label-float value="{{select.name}}"></gl-form-input>
+                                <gl-form-input no-label-float value=""></gl-form-input>
                             </th>
-                            <th></th>
+                            <th style="width:20%;">
+                                <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                            </th>
                         </tr>
                     </thead>
                 </table>
-                </paper-material>
+            </paper-material>
+            <!--<div style="margin-top: 20px"></div>
+            <paper-material elevation="1">
+                <table class="gl-table-default">
+                    <thead>
+                        <tr>
+                            <th>ClientName</th>
+                            <th>ClientID</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template is="dom-repeat" items="[[dataList]]">
+                            <tr>
+                                <td>
+                                    <gl-form-input no-label-float value="{{item.}}"></gl-form-input>      
+                                </td>
+                                <td>
+                                    <gl-form-input no-label-float value="{{item.}}"></gl-form-input>        
+                                </td>
+                                <td>
+                                    <paper-icon-button icon="delete"></paper-icon-button>      
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </paper-material>-->
 
-                <div class="flex-end-justified">
-                    <paper-button class="gl-btn-danger" on-tap="confirmDel" raised>ลบข้อมูล</paper-button>
-                    <paper-button class="gl-btn-success" on-tap="sendData" raised>บันทึก</paper-button>
-                </div>
+            <div class="flex-end-justified">
+                <paper-button class="gl-btn-danger" on-tap="confirmDel" raised>ลบข้อมูล</paper-button>
+                <paper-button class="gl-btn-success" on-tap="sendData" raised>บันทึก</paper-button>
+            </div>
         </div>
 
     </template>
@@ -136,6 +168,10 @@
             properties: {
                 roleList: {
                     value: ['ADMIN', 'USER']
+                },
+                dataList: {
+                    type: Array,
+                    value: ['test']
                 },
                 select: {
                     notify: true
