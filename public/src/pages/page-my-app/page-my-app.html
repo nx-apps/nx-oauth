@@ -1,6 +1,6 @@
 <link rel="import" href="./my-app-list.html">
 <link rel="import" href="./my-app-panel.html">
-<link rel="import" href="./user-form.html">
+<!--<link rel="import" href="./user-form.html">-->
 <link rel="import" href="./app-panel.html">
 <link rel="import" href="/src/nylon-param.html">
 <link rel="import" href="./../../../bower_components/paper-fab/paper-fab.html">
@@ -8,6 +8,8 @@
 <link rel="import" href="./../../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="./../components/page-style.html">
 <link rel="import" href="./../../../bower_components/iron-icons/social-icons.html">
+
+<link rel="import" href="./../page-user/user-panel.html">
 
 
 <dom-module id="page-my-app">
@@ -52,7 +54,8 @@
                 <iron-pages selected="[[selected]]">
                     <my-app-panel></my-app-panel>
                     <app-panel></app-panel>
-                    <user-form></user-form>
+                    <user-panel> </user-panel>
+                    <!--<user-form></user-form>-->
                 </iron-pages>
             </panel-right>
         </div>
