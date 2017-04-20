@@ -47,7 +47,6 @@
                 <examination-list type-list="question" data-list="[[data.question]]" obj="[[data.obj]]"></examination-list>
             </section>
         </iron-pages>-->
-
         <div class="flex-end-justified">
             <template is="dom-if" if="[[select.id]]">
                 <paper-button class="gl-btn-danger" on-tap="confirmDel" raised>ลบข้อมูล</paper-button>
@@ -73,13 +72,14 @@
                         pid : this.data.pid,
                         name : this.data.name,
                         email : this.data.email,
-                        role : this.data.role
+                        role : this.data.role,
+                        pin : this.data.pin
                     }
                     if(element.active == true){
                         newData.local = this.data.local;
                     }
                     if(typeof this.data.id == "undefined"){
-                        console.log(newData);
+                        // console.log(newData);
                         this.dispatchAction('USER_INSERT',newData)
                     }
                     else{
@@ -87,7 +87,7 @@
                         if(typeof this.data.photo != 'undefined'){
                             newData.photo = this.data.photo;
                         }
-                        console.log(newData);
+                        // console.log(newData);
                         this.dispatchAction('USER_UPDATE',newData)
                     }
                 }
