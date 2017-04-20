@@ -30,7 +30,7 @@ exports.putRoles = function (req, res) {
         ,
         r.branch(
             r.expr(params.insert).ne(0),
-            r.table('roles').insert(params.update),
+            r.table('roles').insert(params.insert),
             'no insert'
         ),
         function(){

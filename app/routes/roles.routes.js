@@ -4,5 +4,5 @@ module.exports = function (app) {
     //     res.json({a:'ssssssss'})
     // });
     app.get('/roles/:app_id', controller.getRoles);
-    app.put('/roles/:app_id', controller.putRoles);
+    app.put('/roles', controller.putRoles);
 }
