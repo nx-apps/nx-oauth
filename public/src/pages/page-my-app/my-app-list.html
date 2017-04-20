@@ -61,6 +61,7 @@
                             <paper-item item="[[item]]" on-tap="mangeApp" icon="settings">จัดการ App</paper-item>
                             <paper-item path="app-role" item="[[item]]" on-tap="gotoPath">จัดการ Role</paper-item>
                             <paper-item path="app-user" item="[[item]]" on-tap="gotoPath">จัดการ User</paper-item>
+                            <paper-item path="app-client" item="[[item]]" on-tap="manageClient">จัดการ Client</paper-item>
                         </paper-menu>
                     </paper-menu-button>
                     <div class="item" on-tap="redirect" item="[[item]]">
@@ -98,6 +99,11 @@
             },
             mangeApp: function (e) {
                 this.dispatchAction('MY_APP_SELECT', e.currentTarget.item.id)
+            },
+            manageClient:function(e){
+                // console.log(e.target.item.id);
+                var id = e.target.item.id;
+                this.dispatchAction('MY_APP_SELECT_CLIENT',id);
             },
             toIndex: function (index) {
                 return index + 1
