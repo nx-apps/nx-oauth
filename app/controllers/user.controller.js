@@ -118,13 +118,7 @@ exports.getById = function (req, res) {
 exports.infoById = function (req, res) {
     var r = req.r;
     r.table('users')
-        .get(req.params.id).merge(function (row) {
-            return row('providers').filter(function (row) {
-                return row('provider').eq('local')
-            }).do(function (result) {
-                return r.branch(result.count().eq(0), {}, { local: { id: result(0)('id') } })
-            })
-        }).without('providers')
+        .get(req.params.id).without('providers','password')
         .run()
         .then(function (result) {
             res.json(result);
