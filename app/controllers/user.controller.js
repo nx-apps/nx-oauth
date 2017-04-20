@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const sha1 = require('js-sha1'); 
+const sha1 = require('js-sha1');
 
 exports.list = function (req, res) {
     var r = req.r;
@@ -69,11 +69,11 @@ exports.getById = function (req, res) {
                 apps: r.table('user_apps')
                     .getAll(users_merge('id'), { index: 'uid' })
                     .coerceTo('array')
-                    .innerJoin(r.table('apps'),function(left,right){
+                    .innerJoin(r.table('apps'), function (left, right) {
                         return left('app_id').eq(right('id'))
                     })
-                    .map(function(row){
-                        return row('left').merge(row('right').pluck('app_name','icon_url','allow_callback_url'))
+                    .map(function (row) {
+                        return row('left').merge(row('right').pluck('app_name', 'icon_url', 'allow_callback_url'))
                     })
             }
         })
@@ -90,7 +90,13 @@ exports.getById = function (req, res) {
 exports.infoById = function (req, res) {
     var r = req.r;
     r.table('users')
-        .get(req.params.id)
+        .get(req.params.id).merge(function (row) {
+            return row('providers').filter(function (row) {
+                return row('provider').eq('local')
+            }).do(function (result) {
+                return r.branch(result.count().eq(0),{},{ local:{id: result(0)('id')}})
+            })
+        }).without('providers')
         .run()
         .then(function (result) {
             res.json(result);
@@ -103,27 +109,28 @@ exports.infoById = function (req, res) {
 exports.insert = function (req, res) {
     var r = req.r;
     var data = req.body
-    
+
     data.register = true;
-    if(typeof data.local == "undefined"){
-        data.provider = [{
-            id:data.local.id,
-            password:sha1(data.local.password),
-            provider:'local'
+    data.providers = [];
+    if (data.local) {
+        data.providers = [{
+            id: data.local.id,
+            password: sha1(data.local.password),
+            provider: 'local'
         }]
-    }else{
-        data.provider = [];
     }
+    
+    console.log(data.provider);
     data = _.omit(data, ['local']);
 
     r.table('users').insert(data)
-    .run()
-    .then(function (result) {
-        res.json(result);
-    })
-    .catch(function (err) {
-        res.status(500).json(err);
-    })
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
 
 }
 exports.update = function (req, res) {
