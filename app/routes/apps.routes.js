@@ -16,5 +16,6 @@ module.exports = function (app) {
     app.get('/appList', controller.getAppList);
 
     app.get('/client', controller.getClient);
+    app.put('/client', controller.updateClient);
 
 }

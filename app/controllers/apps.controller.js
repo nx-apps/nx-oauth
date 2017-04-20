@@ -387,3 +387,17 @@ exports.getClient = function (req, res) {
             res.status(500).json(err);
         })
 }
+
+exports.updateClient = function (req, res) {
+    var r = req.r;
+    var params = req.body;
+
+    r.table('apps').get(params.id).update(params)
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+}
