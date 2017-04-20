@@ -29,7 +29,7 @@
                         HOST 
                     </div>
                     <div class="flex3child">
-                        <gl-form-input no-label-float value=""></gl-form-input>
+                        <gl-form-input no-label-float value="{{list.0.host}}"></gl-form-input>
                     </div>
                     <div class="flexchild"></div>
                 </div>
@@ -40,7 +40,7 @@
                         PORT 
                     </div>
                     <div class="flex3child">
-                        <gl-form-input no-label-float value=""></gl-form-input>
+                        <gl-form-input no-label-float value="{{list.0.port}}"></gl-form-input>
                     </div>
                     <div class="flexchild"></div>
                 </div>
@@ -51,7 +51,7 @@
                         USER 
                     </div>
                     <div class="flex3child">
-                        <gl-form-input no-label-float value=""></gl-form-input>
+                        <gl-form-input no-label-float value="{{list.0.username}}"></gl-form-input>
                     </div>
                     <div class="flexchild"></div>
                 </div>
@@ -62,7 +62,7 @@
                         PASSWORD 
                     </div>
                     <div class="flex3child">
-                        <gl-form-input no-label-float value=""></gl-form-input>
+                        <gl-form-input no-label-float value="{{list.0.password}}"></gl-form-input>
                     </div>
                     <div class="flexchild"></div>
                 </div>
@@ -80,7 +80,7 @@
                         SESSION TIME OUT 
                     </div>
                     <div class="flex3child">
-                        <gl-form-input no-label-float value=""></gl-form-input>
+                        <gl-form-input no-label-float value="{{list.1.session_time_out}}"></gl-form-input>
                     </div>
                     <div class="flexchild"></div>
                 </div>
@@ -92,13 +92,27 @@
                 <paper-button class="gl-btn-danger" raised>ยกเลิก</paper-button>
             </div>
             <div>
-                <paper-button class="gl-btn-success" raised>บันทึก</paper-button>
+                <paper-button class="gl-btn-success" raised on-tap="saveData">บันทึก</paper-button>
             </div>
         </div>
     </template>
     <script>
         Polymer({
-            is: 'setting-form'
+            is: 'setting-form',
+            behaviors: [ReduxBehavior],
+            properties:{
+                list:{
+                    statePath:'setting.list',
+                    observer:"data"
+                }
+            },
+            saveData:function(){
+                this.dispatchAction('SETTING_UPDATE',this.list);
+                console.log("save");
+            },
+            data:function(e){
+                console.log(e);
+            } // เอาไว้เช็คข้อมูลใน list ว่ามีข้อมูลไหม
         });
     </script>
 </dom-module>

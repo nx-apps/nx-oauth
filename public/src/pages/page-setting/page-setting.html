@@ -27,7 +27,13 @@
     <script>
         Polymer({
             is: 'page-setting',
-            behaviors: [nylonBehavior, ReduxBehavior],
+            behaviors: [nylonBehavior, ReduxBehavior,settingAction],
+            properties:{
+
+            },
+            nylonPageActive:function(){
+                this.dispatchAction('SETTING_SELECT');
+            }
         });
     </script>
 </dom-module>

@@ -15,6 +15,7 @@ import {  myAppReducer, myAppAction } from './reducer/myApp'
 import { appUserReducer, appUserAction } from './reducer/appUser'
 import { userReducer, userAction } from './reducer/user'
 
+import { settingReducer, settingAction } from './reducer/setting'
 
 const rootReducer = combineReducers({
     commonSystem: commonSystemReducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     appUser: appUserReducer,
     myApp:myAppReducer,
     user: userReducer,
+    setting:settingReducer
 
 });
 const storeApp = createStore(
@@ -45,3 +47,4 @@ window.appConnectAction = appConnectAction(storeApp);
 window.appUserAction = appUserAction(storeApp);
 window.myAppAction = myAppAction(storeApp);
 window.userAction = userAction(storeApp);
+window.settingAction = settingAction(storeApp);
