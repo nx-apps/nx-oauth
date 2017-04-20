@@ -373,3 +373,17 @@ exports.getAppList = function (req, res) {
     //         res.status(500).json(err);
     //     })
 }
+
+exports.getClient = function (req, res) {
+    var r = req.r;
+    var params = req.query;
+
+    r.table('user_apps').get(params.id)
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+}
