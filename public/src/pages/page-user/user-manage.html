@@ -60,34 +60,34 @@
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">เลขประจำตัวประชาชน</th>
                             <th>
-                                <gl-form-input no-label-float value="{{data.pid}}"></gl-form-input>
+                                <gl-form-input id="form" no-label-float value="{{data.pid}}" required></gl-form-input>
                             </th>
                             <th></th>
                         </tr>
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">ชื่อ-นามสกุล</th>
                             <th>
-                                <gl-form-input no-label-float value="{{data.name}}"></gl-form-input>
+                                <gl-form-input id="form" no-label-float value="{{data.name}}" required></gl-form-input>
                             </th>
                             <th></th>
                         </tr>
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">อีเมล์</th>
                             <th>
-                                <gl-form-input no-label-float value="{{data.email}}"></gl-form-input>
+                                <gl-form-input id="form" no-label-float value="{{data.email}}" required></gl-form-input>
                             </th>
                             <th></th>
                         </tr>
-                        <tr>
+                        <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">ประเภทผู้ใช้งาน</th>
                             <th>
-                                <gl-combo-box always-float-label items="{{roleList}}" value="{{data.role}}"></gl-combo-box>
+                                <gl-combo-box id="form" no-label-float items="{{roleList}}" required value="{{data.role}}"></gl-combo-box>
                             </th>
                             <th style="width:20%;">
                                 <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
                             </th>
                         </tr>
-                        <tr>
+                        <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">เปิดใช้งาน</th>
                             <th>
                                 <paper-checkbox checked="{{data.status}}" class="green"></paper-checkbox>
@@ -110,30 +110,44 @@
                             <tr class="hideBorder">
                                 <th style="width:30%;text-align: right; font-size: 18px;">Username</th>
                                 <th>
-                                    <gl-form-input no-label-float value="{{data.local.id}}"></gl-form-input>
+                                    <gl-form-input id="form2" no-label-float value="{{data.local.id}}" required></gl-form-input>
                                 </th>
                                 <th style="width:20%;">
                                     <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
                                 </th>
                             </tr>
-                            <tr class="hideBorder">
-                                <th style="width:30%;text-align: right; font-size: 18px;">Password</th>
+                            <tr class="hideBorder" hidden="{{resetPassword}}">
+                                <th style="width:30%;text-align: right; font-size: 18px;"></th>
                                 <th>
-                                    <gl-form-input no-label-float value="{{data.local.password}}"></gl-form-input>
+                                    <paper-button class="gl-btn-primary" on-tap="clearPassword" raised>
+                                        <!--<iron-icon icon="reset"></iron-icon>-->
+                                        Reset Password
+                                    </paper-button>
                                 </th>
                                 <th style="width:20%;">
                                     <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
                                 </th>
                             </tr>
-                            <tr class="hideBorder">
-                                <th style="width:30%;text-align: right; font-size: 18px;">Confirm-Password</th>
-                                <th>
-                                    <gl-form-input no-label-float value="{{confirmPassword}}"></gl-form-input>
-                                </th>
-                                <th style="width:20%;">
-                                    <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
-                                </th>
-                            </tr>
+                            <template is="dom-if" if="{{resetPassword}}">
+                                <tr class="hideBorder">
+                                    <th style="width:30%;text-align: right; font-size: 18px;">Password</th>
+                                    <th>
+                                        <gl-form-input id="form2" no-label-float value="{{data.local.password}}" required></gl-form-input>
+                                    </th>
+                                    <th style="width:20%;">
+                                        <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                                    </th>
+                                </tr>
+                                <tr class="hideBorder">
+                                    <th style="width:30%;text-align: right; font-size: 18px;">Confirm-Password</th>
+                                    <th>
+                                        <gl-form-input id="form2" no-label-float value="{{confirmPassword}}" required></gl-form-input>
+                                    </th>
+                                    <th style="width:20%;">
+                                        <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                                    </th>
+                                </tr>
+                            </template>
                         </template>
                         <!--<tr class="hideBorder" hidden$="[[!select.local]]">
                             <th style="width:30%;text-align: right; font-size: 18px;">เลขประจำตัวประชาชน</th>
@@ -162,8 +176,72 @@
                 roleList: {
                     value: ['ADMIN', 'USER']
                 },
-                data:{
-                    statePath:'user.data'
+                data: {
+                    notify: true,
+                    observer: 'checkData'
+                }
+            },
+            checkData: function (val) {
+                if (typeof val.id == 'undefined') {
+                    this.resetPassword = true;
+                }
+                else {
+                    this.resetPassword = false;
+                }
+
+                if (typeof val.local == 'undefined') {
+                    this.active = false;
+                }
+                else {
+                    this.active = true;
+                }
+                // console.log(val.local);
+            },
+            clearPassword: function () {
+                this.resetPassword = true;
+            },
+            validateForm: function () {
+                var element = Polymer.dom(this.root).querySelectorAll('#form');
+                var arr = element.map((items) => {
+                    return items.validate();
+                })
+                const checkArr = function (val) {
+                    return val == false
+                }
+                if (typeof arr.find(checkArr) == 'undefined') {
+                    if (this.active == true) {
+                        let element2 = Polymer.dom(this.root).querySelectorAll('#form2');
+                        var arr2 = element2.map((items) => {
+                            return items.validate();
+                        })
+                        if (this.resetPassword == false) {
+                            if (arr2[0] == true) {
+                                return true;
+                            }
+                            else {
+                                return false
+                            }
+                        }
+                        else {
+                            if (typeof arr2.find(checkArr) == 'undefined') {
+                                if (this.data.local.password == this.confirmPassword) {
+                                    return true
+                                }
+                                else {
+                                    return false
+                                }
+                            }
+                            else {
+                                return false
+                            }
+                        }
+                    }
+                    else {
+                        return true
+                    }
+                }
+                else {
+                    return false
                 }
             }
         });
