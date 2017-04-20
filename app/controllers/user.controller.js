@@ -148,7 +148,7 @@ exports.update = function (req, res) {
     //     local: { id: 'ssssssss' }
     // };
     var userQuery = r.table('users').get(data.id);
-    userQuery.update(r.expr(data).without('id')).do(function (updateResult) {
+    userQuery.update(r.expr(data).without('id','local')).do(function (updateResult) {
         if (typeof data.local != 'undefined') {
             var LocalProviderQuery = userQuery('providers').filter({ provider: 'local' });
             return r.branch(
@@ -172,6 +172,12 @@ exports.update = function (req, res) {
                 }
             })
         }
+    }).run()
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
     })
 
 }
