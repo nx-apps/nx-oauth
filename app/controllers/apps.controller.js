@@ -79,13 +79,13 @@ exports.insert = function (req, res) {
                 .then(function (re) {
                    console.log(appId.replace(/-/g,""));
                     var dbId=appId.replace(/-/g,"");
-                    r.dbCreate(dbId).run().then(function (e) {
-                        r.db(dbId).grant(appId, { read: true, write: true, config: true })
-                            .run()
-                            .then(function (x) {
-                                res.json(result);
-                            });
-                    });
+                    // r.dbCreate(dbId).run().then(function (e) {
+                    //     r.db(dbId).grant(appId, { read: true, write: true, config: true })
+                    //         .run()
+                    //         .then(function (x) {
+                    //             res.json(result);
+                    //         });
+                    // });
                 }).catch(function (e) {
                     res.status(500).json(err);
                 });

@@ -3,7 +3,10 @@ import {commonAction} from '../config'
 
 const initialState = {
     list:[],
-    select:{}
+    select:{},
+    data:{
+        local:{}
+    }
 }
 
 export function userReducer(state = initialState,action){
@@ -12,9 +15,9 @@ export function userReducer(state = initialState,action){
         case 'USER_LIST':
             return Object.assign({},state,{list:action.payload});
         case 'USER_SELECT':
-            return Object.assign({},state,{select:action.payload});
+            return Object.assign({},state,{data:action.payload});
         case 'USER_CLEAR_SELECT':
-            return Object.assign({},state,{select:{}});
+            return Object.assign({},state,{data:{local:{}}});
         default:
             return state
     }
@@ -32,9 +35,7 @@ export function userAction(store){
                 axios.get('/users/info')
                 .then(res=>{
                     store.dispatch({type:'USER_LIST',payload:res.data})
-
                       this.nylonVisible(true);
-
                 })
                 .catch(err=>{
 
@@ -43,6 +44,7 @@ export function userAction(store){
             USER_SELECT:function(id){
                 axios.get(`/users/info/${id}`)
                 .then(res=>{
+                    console.log(res.data);
                     store.dispatch({type:'USER_SELECT',payload:res.data})
                     this.$$('panel-right').open();
                 })
@@ -70,12 +72,9 @@ export function userAction(store){
                 .catch(err=>{
                     console.log(err);
                 })
-
             },
             USER_DELETE:function(id){
-                
                 this.fire('toast',{status:'load'});
-
                 axios.delete(`/users/user/${id}`)
                 .then(res=>{
                     this.USER_LIST();
