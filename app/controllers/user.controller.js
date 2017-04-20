@@ -23,13 +23,26 @@ exports.list = function (req, res) {
         })
 }
 
-exports.userList = function(req,res){
+exports.userList = function (req, res) {
     var r = req.r;
-    var params =  req.params;
-    r.table('user_apps').getAll(params.appId,{index:'app_id'}).pluck('uid').merge(function(row){
-        return r.table('users').get(row('uid')).pluck('pid','name','email')
+    var params = req.query;
+
+    var query = r.table('user_apps').pluck('uid').distinct().map(function(row){
+        return row('uid')
+    }).do(function(uidArr){
+        return r.table('users').getAll(r.args(uidArr)).merge(function(row){
+            return {uid:row('id')}
+        })
+        .pluck('pid', 'name', 'email','uid')
     })
-    .run()
+
+    if(params.app_id) {
+        query = r.table('user_apps').getAll(params.app_id, { index: 'app_id' }).pluck('uid').merge(function (row) {
+            return r.table('users').get(row('uid')).pluck('pid', 'name', 'email')
+        })
+    }
+
+    query.run()
     .then(function (result) {
         res.json(result);
     })
@@ -127,16 +140,9 @@ exports.insert = function (req, res) {
 
     data.register = true;
     data.providers = [];
-    if (data.local) {
-        data.providers = [{
-            id: data.local.id,
-            password: sha1(data.local.password),
-            provider: 'local'
-        }]
+    if (data.password) {
+        data.password = sha1(data.password);
     }
-
-    console.log(data.provider);
-    data = _.omit(data, ['local']);
 
     r.table('users').insert(data)
         .run()
@@ -152,50 +158,20 @@ exports.update = function (req, res) {
     var r = req.r;
     var data = req.body;
 
-    if(data.local){
-        if(data.local.password){
-            data.local.password = sha1(data.local.password);
-        }
+    if (data.password) {
+        data.password = sha1(data.password);
     }
-    // var data = {
-    //     id: '9408f5a4-6d8f-4d3d-9c22-d9a2a09f90aa',
-    //     name: 'xxxxxxxxxxxxx',
-    //     local: { id: 'ssssssss' }
-    // };
-    var userQuery = r.table('users').get(data.id);
-    userQuery.update(r.expr(data).without('id','local')).do(function (updateResult) {
-        if (typeof data.local != 'undefined') {
-            var LocalProviderQuery = userQuery('providers').filter({ provider: 'local' });
-            return r.branch(
-                LocalProviderQuery.ne(0),
-                userQuery('providers').filter(function (row) {
-                    return row('provider').ne('local')
-                }).append(LocalProviderQuery(0).merge(data.local)).do(function (result) {
-                    return userQuery.update({ providers: result })
-                })
-                ,
-                userQuery.update({
-                    providers: userQuery('providers').append(r.expr(data.local).merge({ provider: 'local' }))
-                })
-            )
-        } else {
-            return userQuery.merge(function (row) {
-                return {
-                    providers: row('providers').filter(function (row) {
-                        return row('provider').ne('local')
-                    })
-                }
-            })
-        }
-    }).run()
-    .then(function (result) {
-        res.json(result);
-    })
-    .catch(function (err) {
-        res.status(500).json(err);
-    })
 
+    r.table('users').get(data.id).update(r.expr(data).without('id'))
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
 }
+
 exports.delete = function (req, res) {
     var r = req.r;
     r.table('users')
