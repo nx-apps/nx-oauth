@@ -23,6 +23,21 @@ exports.list = function (req, res) {
         })
 }
 
+exports.userList = function(req,res){
+    var r = req.r;
+    var params =  req.params;
+    r.table('user_apps').getAll(params.appId,{index:'app_id'}).pluck('uid').merge(function(row){
+        return r.table('users').get(row('uid')).pluck('pid','name','email')
+    })
+    .run()
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    })
+}
+
 exports.info = function (req, res) {
     var r = req.r;
     r.table('users')

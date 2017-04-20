@@ -2,6 +2,7 @@ module.exports = function (app) {
     var user = require('../controllers/user.controller');
     app.get(['/', '/list'], user.list);
     app.get(['/info'], user.info);
+    app.get(['/userList/:appId'], user.userList);
     app.get(['/info/:id'], user.infoById);
     app.get('/user', user.get);
     app.get('/user/:id', user.getById);
