@@ -76,8 +76,15 @@
                         pin : this.data.pin
                     }
                     if(element.active == true){
-                        newData.local = this.data.local;
+                        newData.local = true;
+                        if(element.resetPassword == true){
+                             newData.password = this.data.password
+                        }
                     }
+                    else{
+                        newData.local = false;
+                    }
+                    // console.log(newData);
                     if(typeof this.data.id == "undefined"){
                         // console.log(newData);
                         this.dispatchAction('USER_INSERT',newData)

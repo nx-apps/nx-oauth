@@ -84,7 +84,7 @@
                                 <gl-combo-box id="form" no-label-float items="{{roleList}}" required value="{{data.role}}"></gl-combo-box>
                             </th>
                             <th style="width:20%;">
-                                <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                              
                             </th>
                         </tr>
                         <tr class="hideBorder">
@@ -100,7 +100,7 @@
                                 <paper-checkbox checked="{{data.status}}" class="green"></paper-checkbox>
                             </th>
                             <th style="width:20%;">
-                                <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                              
                             </th>
                         </tr>
                         <tr class="hideBorder">
@@ -109,20 +109,20 @@
                                 <paper-checkbox checked="{{active}}" class="green"></paper-checkbox>
                             </th>
                             <th style="width:20%;">
-                                <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                              
                             </th>
                         </tr>
 
                         <template is="dom-if" if="{{active}}">
-                            <tr class="hideBorder">
+                            <!--<tr class="hideBorder">
                                 <th style="width:30%;text-align: right; font-size: 18px;">Username</th>
                                 <th>
                                     <gl-form-input id="form2" no-label-float value="{{data.local.id}}" required></gl-form-input>
                                 </th>
                                 <th style="width:20%;">
-                                    <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                                  
                                 </th>
-                            </tr>
+                            </tr>-->
                             <tr class="hideBorder" hidden="{{resetPassword}}">
                                 <th style="width:30%;text-align: right; font-size: 18px;"></th>
                                 <th>
@@ -132,17 +132,17 @@
                                     </paper-button>
                                 </th>
                                 <th style="width:20%;">
-                                    <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                                  
                                 </th>
                             </tr>
                             <template is="dom-if" if="{{resetPassword}}">
                                 <tr class="hideBorder">
                                     <th style="width:30%;text-align: right; font-size: 18px;">Password</th>
                                     <th>
-                                        <gl-form-input id="form2" no-label-float value="{{data.local.password}}" required></gl-form-input>
+                                        <gl-form-input id="form2" no-label-float value="{{data.password}}" required></gl-form-input>
                                     </th>
                                     <th style="width:20%;">
-                                        <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                                      
                                     </th>
                                 </tr>
                                 <tr class="hideBorder">
@@ -151,7 +151,7 @@
                                         <gl-form-input id="form2" no-label-float value="{{confirmPassword}}" required></gl-form-input>
                                     </th>
                                     <th style="width:20%;">
-                                        <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                                      
                                     </th>
                                 </tr>
                             </template>
@@ -202,6 +202,7 @@
                 else {
                     this.active = true;
                 }
+                this.confirmPassword = "";
                 // console.log(val.local);
             },
             clearPassword: function () {
@@ -221,17 +222,10 @@
                         var arr2 = element2.map((items) => {
                             return items.validate();
                         })
-                        if (this.resetPassword == false) {
-                            if (arr2[0] == true) {
-                                return true;
-                            }
-                            else {
-                                return false
-                            }
-                        }
-                        else {
+                        if (this.resetPassword == true) {
+                            console.log();
                             if (typeof arr2.find(checkArr) == 'undefined') {
-                                if (this.data.local.password == this.confirmPassword) {
+                                if (this.data.password == this.confirmPassword) {
                                     return true
                                 }
                                 else {
@@ -241,6 +235,9 @@
                             else {
                                 return false
                             }
+                        }
+                        else{
+                            return true
                         }
                     }
                     else {

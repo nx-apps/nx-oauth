@@ -103,10 +103,14 @@ export function myAppAction(store) {
                 });
         },
         MY_APP_CLIENT_INSERT: function (data) {
+            this.fire('toast',{status:'load'});
             axios.put('./apps/client', data)
                 .then((response) => {
-                    console.log('success!!');
-                    console.log(response.data);
+                    this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
+                      callback:()=>{
+                          this.$$('panel-right').close();
+                      }
+                     });
                 })
                 .catch((error) => {
                     console.log('error');
