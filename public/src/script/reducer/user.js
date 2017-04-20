@@ -17,7 +17,7 @@ export function userReducer(state = initialState,action){
         case 'USER_SELECT':
             return Object.assign({},state,{data:action.payload});
         case 'USER_CLEAR_SELECT':
-            return Object.assign({},state,{data:{local:{}}});
+            return Object.assign({},state,{data:{status:false,local:{}}});
         default:
             return state
     }
@@ -44,7 +44,6 @@ export function userAction(store){
             USER_SELECT:function(id){
                 axios.get(`/users/info/${id}`)
                 .then(res=>{
-                    console.log(res.data);
                     store.dispatch({type:'USER_SELECT',payload:res.data})
                     this.$$('panel-right').open();
                 })

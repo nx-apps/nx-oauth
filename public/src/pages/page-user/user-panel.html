@@ -1,29 +1,30 @@
-
 <link rel="import" href="./user-manage.html">
 <link rel="import" href="./../../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="./../components/page-style.html">
 
 
 <dom-module id="user-panel">
-    <template>   
+    <template>
         <style include="page-style">
-            paper-tabs{
-                --paper-tabs-selection-bar-color:#FF753F;
-                --paper-tabs-selection-bar:{
+            paper-tabs {
+                --paper-tabs-selection-bar-color: #FF753F;
+                --paper-tabs-selection-bar: {
                     border: 2px solid #95bf31;
                 }
-                --paper-tabs:{
+                --paper-tabs: {
                     background-color: white;
                 }
             }
-            paper-tab{
-                color:#FF753F;
+            
+            paper-tab {
+                color: #FF753F;
                 font-family: 'CSChatThaiUI', sans-serif;
                 font-size: 18px;
-                --paper-tab-content-unselected:{
+                --paper-tab-content-unselected: {
                     color: black;
                 }
             }
+            
             .flex-end-justified {
                 @apply(--layout-horizontal);
                 @apply(--layout-end-justified);
@@ -57,32 +58,50 @@
     <script>
         Polymer({
             is: 'user-panel',
-            behaviors:[ReduxBehavior],
-            properties:{
-                select:{
-                    statePath:'user.select'
-                },
-              
+            behaviors: [ReduxBehavior],
+            properties: {
+                data: {
+                    statePath: 'user.data'
+                }
             },
-            sendData:function(){
-                console.log(this.data);
-                this.dispatchAction('USER_INSERT',this.data)
-                // if(typeof this.select.id == "undefined"){
-                //     this.dispatchAction('USER_INSERT',this.select)
-                // }else{
-                //     this.dispatchAction('USER_UPDATE',this.select)
-                // }
+            sendData: function () {
+                let element = this.$$('user-manage')
+                let check = element.validateForm();
+                if (check == true) {
+                    var newData = {
+                        status: this.data.status,
+                        pid : this.data.pid,
+                        name : this.data.name,
+                        email : this.data.email,
+                        role : this.data.role
+                    }
+                    if(element.active == true){
+                        newData.local = this.data.local;
+                    }
+                    if(typeof this.data.id == "undefined"){
+                        console.log(newData);
+                        this.dispatchAction('USER_INSERT',newData)
+                    }
+                    else{
+                        newData.id = this.data.id;
+                        if(typeof this.data.photo != 'undefined'){
+                            newData.photo = this.data.photo;
+                        }
+                        console.log(newData);
+                        this.dispatchAction('USER_UPDATE',newData)
+                    }
+                }
             },
-            confirmDel:function(){
-                this.fire('toast',{ 
-                    status:'openDialog',
-                    text:'ต้องการลบข้อมูลใช่หรือไม่ ?',
-                    confirmed:(result)=>{
-                        if(result == true){
-                            this.dispatchAction('USER_DELETE',this.select.id)
+            confirmDel: function () {
+                this.fire('toast', {
+                    status: 'openDialog',
+                    text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
+                    confirmed: (result) => {
+                        if (result == true) {
+                            this.dispatchAction('USER_DELETE', this.select.id)
                         }
                     }
-                 })
+                })
             }
         });
     </script>
