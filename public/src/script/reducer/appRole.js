@@ -24,8 +24,12 @@ export function appRoleAction(store){
             APP_ROLE_LIST:function(id){
                 axios.get(`/roles/roles/${id}`)
                 .then(res=>{
-                    
-                    res.data.role.push("");
+                    res.data.push({
+                        des:'',
+                        role:''
+                    })
+                    console.log(res.data);
+                    // res.data.role.push("");
                     store.dispatch({type:'APP_ROLE_LIST',payload:res.data})
                     this.nylonVisible(true);
                 })
@@ -33,27 +37,38 @@ export function appRoleAction(store){
 
                 })
             },
+            APP_ROLE_INSERT:function(data){
+                axios.put('./roles/roles',data)
+                .then((response)=>{
+                    console.log('success!!');
+                    console.log(response.data);
+                })
+                .catch((error)=>{
+                    console.log('error');
+                    console.log(error);
+                });
+            },
             APP_ROLE_UPDATE:function(data){
-                this.fire('toast',{status:'load'});
-               // data.scope = data.scope.split(",");
-               // /apps/app
-                var len=data.role.length;
-                if(data.role[len-1]==""){
-                  //  data.role.pop(len);
-                   data.role.splice(len-1,1);
-                }
-                axios.put(`/apps/app`,data)
-                .then(res=>{
-                    this.APP_ROLE_LIST(data.id);
-                    this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
-                        callback:()=>{
-                          //  this.$$('panel-right').close();
-                        }
-                    });
-                })
-                .catch(err=>{
-                    console.log(err);
-                })
+            //     this.fire('toast',{status:'load'});
+            //    // data.scope = data.scope.split(",");
+            //    // /apps/app
+            //     var len=data.role.length;
+            //     if(data.role[len-1]==""){
+            //       //  data.role.pop(len);
+            //        data.role.splice(len-1,1);
+            //     }
+            //     axios.put(`/apps/app`,data)
+            //     .then(res=>{
+            //         this.APP_ROLE_LIST(data.id);
+            //         this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
+            //             callback:()=>{
+            //               //  this.$$('panel-right').close();
+            //             }
+            //         });
+            //     })
+            //     .catch(err=>{
+            //         console.log(err);
+            //     })
             }
         }
     ]
