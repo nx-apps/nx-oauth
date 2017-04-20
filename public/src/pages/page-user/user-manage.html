@@ -60,28 +60,28 @@
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">เลขประจำตัวประชาชน</th>
                             <th>
-                                <gl-form-input no-label-float value="{{select.pid}}"></gl-form-input>
+                                <gl-form-input no-label-float value="{{data.pid}}"></gl-form-input>
                             </th>
                             <th></th>
                         </tr>
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">ชื่อ-นามสกุล</th>
                             <th>
-                                <gl-form-input no-label-float value="{{select.name}}"></gl-form-input>
+                                <gl-form-input no-label-float value="{{data.name}}"></gl-form-input>
                             </th>
                             <th></th>
                         </tr>
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">อีเมล์</th>
                             <th>
-                                <gl-form-input no-label-float value="{{select.email}}"></gl-form-input>
+                                <gl-form-input no-label-float value="{{data.email}}"></gl-form-input>
                             </th>
                             <th></th>
                         </tr>
                         <tr>
                             <th style="width:30%;text-align: right; font-size: 18px;">ประเภทผู้ใช้งาน</th>
                             <th>
-                                <gl-combo-box always-float-label items="{{roleList}}" value="{{select.role}}"></gl-combo-box>
+                                <gl-combo-box always-float-label items="{{roleList}}" value="{{data.role}}"></gl-combo-box>
                             </th>
                             <th style="width:20%;">
                                 <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
@@ -90,7 +90,7 @@
                         <tr>
                             <th style="width:30%;text-align: right; font-size: 18px;">เปิดใช้งาน</th>
                             <th>
-                                <paper-checkbox checked="{{select.status}}" class="green"></paper-checkbox>
+                                <paper-checkbox checked="{{data.status}}" class="green"></paper-checkbox>
                             </th>
                             <th style="width:20%;">
                                 <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
@@ -99,30 +99,42 @@
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">Local user</th>
                             <th>
-                                <paper-checkbox checked="{{select.local}}" class="green"></paper-checkbox>
+                                <paper-checkbox checked="{{active}}" class="green"></paper-checkbox>
                             </th>
                             <th style="width:20%;">
                                 <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
                             </th>
                         </tr>
-                        <tr class="hideBorder">
-                            <th style="width:30%;text-align: right; font-size: 18px;">Username</th>
-                            <th>
-                                 <gl-form-input no-label-float value=""></gl-form-input>
-                            </th>
-                            <th style="width:20%;">
-                                <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
-                            </th>
-                        </tr>
-                        <tr class="hideBorder">
-                            <th style="width:30%;text-align: right; font-size: 18px;">Password</th>
-                            <th>
-                                 <gl-form-input no-label-float value=""></gl-form-input>
-                            </th>
-                            <th style="width:20%;">
-                                <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
-                            </th>
-                        </tr>
+
+                        <template is="dom-if" if="{{active}}">
+                            <tr class="hideBorder">
+                                <th style="width:30%;text-align: right; font-size: 18px;">Username</th>
+                                <th>
+                                    <gl-form-input no-label-float value="{{data.local.id}}"></gl-form-input>
+                                </th>
+                                <th style="width:20%;">
+                                    <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                                </th>
+                            </tr>
+                            <tr class="hideBorder">
+                                <th style="width:30%;text-align: right; font-size: 18px;">Password</th>
+                                <th>
+                                    <gl-form-input no-label-float value="{{data.local.password}}"></gl-form-input>
+                                </th>
+                                <th style="width:20%;">
+                                    <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                                </th>
+                            </tr>
+                            <tr class="hideBorder">
+                                <th style="width:30%;text-align: right; font-size: 18px;">Confirm-Password</th>
+                                <th>
+                                    <gl-form-input no-label-float value="{{confirmPassword}}"></gl-form-input>
+                                </th>
+                                <th style="width:20%;">
+                                    <!--<paper-button on-tap="startQuize" raised>เริ่มทำข้อสอบ</paper-button>-->
+                                </th>
+                            </tr>
+                        </template>
                         <!--<tr class="hideBorder" hidden$="[[!select.local]]">
                             <th style="width:30%;text-align: right; font-size: 18px;">เลขประจำตัวประชาชน</th>
                             <th>
@@ -150,8 +162,8 @@
                 roleList: {
                     value: ['ADMIN', 'USER']
                 },
-                select: {
-                    notify: true
+                data:{
+                    statePath:'user.data'
                 }
             }
         });

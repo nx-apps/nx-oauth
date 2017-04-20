@@ -30,7 +30,7 @@
             }
         </style>
 
-        <user-manage select="{{select}}"></user-manage>
+        <user-manage data="{{data}}"></user-manage>
 
         <!--<paper-material elevation="1">
             <paper-tabs selected="{{selected}}">
@@ -61,17 +61,19 @@
             properties:{
                 select:{
                     statePath:'user.select'
-                }
+                },
+              
             },
             sendData:function(){
-                if(typeof this.select.id == "undefined"){
-                    this.dispatchAction('USER_INSERT',this.select)
-                }else{
-                    this.dispatchAction('USER_UPDATE',this.select)
-                }
+                console.log(this.data);
+                // this.dispatchAction('USER_INSERT',this.data)
+                // if(typeof this.select.id == "undefined"){
+                //     this.dispatchAction('USER_INSERT',this.select)
+                // }else{
+                //     this.dispatchAction('USER_UPDATE',this.select)
+                // }
             },
             confirmDel:function(){
-
                 this.fire('toast',{ 
                     status:'openDialog',
                     text:'ต้องการลบข้อมูลใช่หรือไม่ ?',
