@@ -378,7 +378,7 @@ exports.getClient = function (req, res) {
     var r = req.r;
     var params = req.query;
 
-    r.table('user_apps').get(params.id)
+    r.table('apps').get(params.id)
         .run()
         .then(function (result) {
             res.json(result);
