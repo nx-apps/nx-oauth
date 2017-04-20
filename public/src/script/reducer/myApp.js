@@ -71,6 +71,9 @@ export function myAppAction(store){
 
                 axios.get(`/apps/app/${id}`)
                 .then(res=>{
+                    
+                    //var data = res.data;
+                    //data.clientList = [];
                     store.dispatch({type:'MY_APP_SELECT',payload:res.data})
                     this.$$('panel-right').open();
                 })
@@ -83,10 +86,10 @@ export function myAppAction(store){
 
                 if(typeof data.status_enable == "undefined") data.status_enable = false;
                 if(typeof data.register_auto == "undefined") data.register_auto = false;
-                
+
                 this.fire('toast',{status:'load'});
 
-                axios.post(`/apps/app`,data)
+                axios.post('/apps/app',data)
                 .then(res=>{
                     this.MY_APP_LIST(this.getParam.id);
                     this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
