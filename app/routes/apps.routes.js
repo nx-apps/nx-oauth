@@ -13,6 +13,8 @@ module.exports = function (app) {
     app.get('/balanceList', controller.getBalanceList);
     app.post('/request', controller.insertRequest);
 
-
     app.get('/appList', controller.getAppList);
+
+    app.get('/client', controller.getClient);
+
 }
