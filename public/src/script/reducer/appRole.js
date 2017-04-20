@@ -22,7 +22,7 @@ export function appRoleAction(store){
     return [commonAction(),
         {
             APP_ROLE_LIST:function(id){
-                axios.get(`/apps/roles/${id}`)
+                axios.get(`/roles/roles/${id}`)
                 .then(res=>{
                     
                     res.data.role.push("");
