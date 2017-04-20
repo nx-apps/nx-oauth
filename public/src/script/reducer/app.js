@@ -87,11 +87,12 @@ export function appAction(store){
 
             },
             APP_DELETE:function(id){
-                
+                //  store.getState().myApp.MY_APP_LIST();
                 this.fire('toast',{status:'load'});
                 axios.delete(`/apps/app/${id}`)
                 .then(res=>{
-                    this.APP_LIST();
+                   
+                    // this.APP_LIST();
                     this.fire('toast',{status:'success',text:'ลบข้อมูลสำเร็จ',
                         callback:()=>{
                             this.$$('panel-right').close();

@@ -77,6 +77,9 @@
                     confirmed:(result)=>{
                         if(result == true){
                             this.dispatchAction('APP_DELETE',this.select.id)
+                            .then(()=>{
+                                this.dispatchAction('MY_APP_LIST')
+                            })
                         }
                     }
                  })

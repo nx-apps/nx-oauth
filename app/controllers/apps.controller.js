@@ -71,6 +71,7 @@ exports.insert = function (req, res) {
         .insert(req.body)
         .run()
         .then(function (result) {
+            console.log(result);
             appId = result.generated_keys[0];
             r.db('rethinkdb')
                 .table('users')
@@ -83,7 +84,7 @@ exports.insert = function (req, res) {
                     //     r.db(dbId).grant(appId, { read: true, write: true, config: true })
                     //         .run()
                     //         .then(function (x) {
-                    //             res.json(result);
+                                 res.json(result);
                     //         });
                     // });
                 }).catch(function (e) {
