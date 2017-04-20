@@ -30,16 +30,15 @@ exports.userList = function (req, res) {
     var query = r.table('user_apps').pluck('uid').distinct().map(function(row){
         return row('uid')
     }).do(function(uidArr){
-        return r.table('users').getAll(r.args(uidArr)).merge(function(row){
-            return {uid:row('id')}
-        })
-        .pluck('pid', 'name', 'email','uid')
+        return r.table('users').getAll(r.args(uidArr))
+        .pluck('pid', 'name', 'email','id')
     })
 
     if(params.app_id) {
-        query = r.table('user_apps').getAll(params.app_id, { index: 'app_id' }).pluck('uid').merge(function (row) {
-            return r.table('users').get(row('uid')).pluck('pid', 'name', 'email')
-        })
+        query = r.table('user_apps').getAll(params.app_id, { index: 'app_id' }).pluck('uid')
+        .merge(function (row) {
+            return r.table('users').get(row('uid'))
+        }).pluck('pid', 'name', 'email','id')
     }
 
     query.run()
