@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const sha1 = require('js-sha1'); 
+
 exports.list = function (req, res) {
     var r = req.r;
     r.table('users')
@@ -99,15 +102,29 @@ exports.infoById = function (req, res) {
 
 exports.insert = function (req, res) {
     var r = req.r;
-    r.table('users')
-        .insert(req.body)
-        .run()
-        .then(function (result) {
-            res.json(result);
-        })
-        .catch(function (err) {
-            res.status(500).json(err);
-        })
+    var data = req.body
+    
+    data.register = true;
+    if(typeof data.local == "undefined"){
+        data.provider = [{
+            id:data.local.id,
+            password:sha1(data.local.password),
+            provider:'local'
+        }]
+    }else{
+        data.provider = [];
+    }
+    data = _.omit(data, ['local']);
+
+    r.table('users').insert(data)
+    .run()
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    })
+
 }
 exports.update = function (req, res) {
     var r = req.r;
