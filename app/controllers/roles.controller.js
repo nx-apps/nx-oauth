@@ -1,19 +1,19 @@
 exports.getRoles = function (req, res) {
     var r = req.r;
     var params = req.params;
-    r.table('roles').getAll(params.app_id,{index:'app_id'}).coerceTo('array').do(function(data){
+    r.table('roles').getAll(params.app_id, { index: 'app_id' }).coerceTo('array').do(function (data) {
         return {
-            roles:data,
-            app_name:r.table('apps').get(params.app_id)('app_name')
+            roles: data,
+            app_name: r.table('apps').get(params.app_id)('app_name')
         }
     })
-    .run()
-    .then(function (result) {
-        res.json(result);
-    })
-    .catch(function (err) {
-        res.status(500).json(err);
-    })
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
 }
 
 exports.putRoles = function (req, res) {
@@ -30,7 +30,7 @@ exports.putRoles = function (req, res) {
         ,
         r.branch(
             r.expr(params.update).ne(0),
-            r.expr(params.update).forEach(function(row) {
+            r.expr(params.update).forEach(function (row) {
                 return r.table('roles').get(row('id')).update(row.without('id'))
             }),
             'no update'
@@ -41,14 +41,31 @@ exports.putRoles = function (req, res) {
             r.table('roles').insert(params.insert),
             'no insert'
         ),
-        function(){
+        function () {
             return 'ok';
         }
     ).run()
-    .then(function (result) {
-        res.json(result);
-    })
-    .catch(function (err) {
-        res.status(500).json(err);
-    })
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+}
+
+exports.manageApps = function (req, res) {
+    var r = req.r;
+    //var params = req.query;
+        r.table('user_apps').getAll(req.params.id, { index: 'uid' })
+        .merge(function (x) {
+            return r.table('apps').get(x('app_id')).pluck('app_name')
+        })
+
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
 }
