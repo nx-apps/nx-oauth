@@ -158,8 +158,9 @@ exports.connects = function (req, res) {
 
 exports.users = function (req, res) {
     var r = req.r;
-
-  r.expr({users:[]}).merge(function(x){
+  r.table('apps').get(req.params.id)
+  .pluck('id', 'app_name')
+  .merge(function(x){
     return   { users:
        r.table('user_apps').getAll(req.params.id, { index: 'app_id' }).coerceTo('array')
         .merge(function (row) {
