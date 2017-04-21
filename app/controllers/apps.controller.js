@@ -180,6 +180,9 @@ exports.users = function (req, res) {
     return {
     role:r.table('roles').getAll(req.params.id,'default', { index: 'app_id' }).coerceTo('array')
     //.pluck('role')('role').coerceTo('array')
+    .filter(function(x){   
+        return x('id').ne('SuperAdmin')
+    })
     .pluck('role','id').coerceTo('array')
     }
 })
