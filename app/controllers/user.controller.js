@@ -136,6 +136,9 @@ exports.insert = function (req, res) {
     if (data.password) {
         data.password = sha1(data.password);
     }
+    if (data.pin) {
+        data.pin = sha1(data.pin);
+    }
 
     r.table('users').insert(data)
         .run()
@@ -153,6 +156,10 @@ exports.update = function (req, res) {
 
     if (data.password) {
         data.password = sha1(data.password);
+    }
+
+    if (data.pin) {
+        data.pin = sha1(data.pin);
     }
 
     r.table('users').get(data.id).update(r.expr(data).without('id'))

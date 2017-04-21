@@ -44,6 +44,7 @@ export function userAction(store) {
                 })
         },
         USER_LIST_APP: function (id) {
+            this.AppId = id;
             axios.get('./users/userList?app_id='+id)
                 .then((response) => {
                    store.dispatch({ type: 'USER_LIST_APP', payload: response.data })
@@ -73,7 +74,8 @@ export function userAction(store) {
 
             axios.post(`/users/user`, data)
                 .then(res => {
-                    this.USER_LIST();
+                    this.USER_LIST_APP(this.AppId);
+                    // this.USER_LIST();
                     this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
@@ -89,7 +91,7 @@ export function userAction(store) {
             this.fire('toast', { status: 'load' });
             axios.delete(`/users/user/${id}`)
                 .then(res => {
-                    this.USER_LIST();
+                    this.USER_LIST_APP(this.AppId);
                     this.fire('toast', {
                         status: 'success', text: 'ลบข้อมูลสำเร็จ',
                         callback: () => {
@@ -107,7 +109,7 @@ export function userAction(store) {
 
             axios.put(`/users/user`, data)
                 .then(res => {
-                    this.USER_LIST();
+                    this.USER_LIST_APP(this.AppId);
                     this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {

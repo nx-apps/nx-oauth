@@ -78,38 +78,54 @@
                             </th>
                             <th></th>
                         </tr>
+                        <!--<template is="dom-if" if="{{!testenable}}">-->
+                            <tr class="hideBorder">
+                                <th style="width:30%;text-align: right; font-size: 18px;">ประเภทผู้ใช้งาน</th>
+                                <th>
+                                    <gl-combo-box id="form" disabled="{{testenable}}" no-label-float items="{{roleList}}" item-label-path="role" item-value-path="id" required value="{{data.role}}"></gl-combo-box>
+                                </th>
+                                <th style="width:20%;">
+
+                                </th>
+                            </tr>
+                        <!--</template>-->
                         <tr class="hideBorder">
-                            <th style="width:30%;text-align: right; font-size: 18px;">ประเภทผู้ใช้งาน</th>
+                            <th style="width:30%;text-align: right; font-size: 18px;">Enable Pin</th>
                             <th>
-                                <gl-combo-box id="form" no-label-float items="{{roleList}}" required value="{{data.role}}"></gl-combo-box>
-                            </th>
-                            <th style="width:20%;">
-                              
-                            </th>
-                        </tr>
-                        <tr class="hideBorder">
-                            <th style="width:30%;text-align: right; font-size: 18px;">PIN</th>
-                            <th>
-                                <gl-form-input id="form" no-label-float value="{{data.pin}}" required></gl-form-input>
+                                <paper-checkbox checked="{{enablePin}}"></paper-checkbox>
+                                <!--<gl-form-input id="form" no-label-float value="{{data.pin}}" required></gl-form-input>-->
                             </th>
                             <th></th>
                         </tr>
-                        <tr class="hideBorder">
-                            <th style="width:30%;text-align: right; font-size: 18px;">เปิดใช้งาน</th>
-                            <th>
-                                <paper-checkbox checked="{{data.status}}" class="green"></paper-checkbox>
-                            </th>
-                            <th style="width:20%;">
-                              
-                            </th>
-                        </tr>
+
+                        <template is="dom-if" if="{{enablePin}}">
+                            <tr class="hideBorder">
+                                <th style="width:30%;text-align: right; font-size: 18px;">PIN</th>
+                                <th>
+                                    <gl-form-input id="form" no-label-float value="{{data.pin}}" required></gl-form-input>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </template>
+                        
+                        <!--<template is="dom-if" if="{{!testenable}}">-->
+                            <tr class="hideBorder">
+                                <th style="width:30%;text-align: right; font-size: 18px;">เปิดใช้งาน</th>
+                                <th>
+                                    <paper-checkbox disabled="{{testenable}}" checked="{{data.status}}" class="green"></paper-checkbox>
+                                </th>
+                                <th style="width:20%;">
+
+                                </th>
+                            </tr>
+                        <!--</template>-->
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">Local user</th>
                             <th>
                                 <paper-checkbox checked="{{active}}" class="green"></paper-checkbox>
                             </th>
                             <th style="width:20%;">
-                              
+
                             </th>
                         </tr>
 
@@ -132,7 +148,7 @@
                                     </paper-button>
                                 </th>
                                 <th style="width:20%;">
-                                  
+
                                 </th>
                             </tr>
                             <template is="dom-if" if="{{resetPassword}}">
@@ -142,7 +158,7 @@
                                         <gl-form-input id="form2" no-label-float value="{{data.password}}" required></gl-form-input>
                                     </th>
                                     <th style="width:20%;">
-                                      
+
                                     </th>
                                 </tr>
                                 <tr class="hideBorder">
@@ -151,7 +167,7 @@
                                         <gl-form-input id="form2" no-label-float value="{{confirmPassword}}" required></gl-form-input>
                                     </th>
                                     <th style="width:20%;">
-                                      
+
                                     </th>
                                 </tr>
                             </template>
@@ -179,13 +195,18 @@
     <script>
         Polymer({
             is: 'user-manage',
+            behaviors: [ReduxBehavior],
             properties: {
                 roleList: {
-                    value: ['ADMIN', 'USER']
+                    statePath: 'commonSystem.role'
                 },
                 data: {
                     notify: true,
                     observer: 'checkData'
+                },
+                enable:{
+                    type: Boolean,
+                    value: false
                 }
             },
             checkData: function (val) {
@@ -223,7 +244,6 @@
                             return items.validate();
                         })
                         if (this.resetPassword == true) {
-                            console.log();
                             if (typeof arr2.find(checkArr) == 'undefined') {
                                 if (this.data.password == this.confirmPassword) {
                                     return true
@@ -236,7 +256,7 @@
                                 return false
                             }
                         }
-                        else{
+                        else {
                             return true
                         }
                     }

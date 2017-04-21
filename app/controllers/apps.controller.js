@@ -261,21 +261,7 @@ exports.update_users = function (req, res) {
 
 exports.getBalanceList = function (req, res) {
     var r = req.r;
-    r.table('apps').pluck('id', 'app_name').merge(function (row) {
-        return {
-            users:
-            r.table('user_apps').getAll(row('id'), { index: 'app_id' })
-                .map(function (row2) {
-                    return row2('uid')
-                })
-                .coerceTo('array')
-
-        }
-    })
-        // .filter(function (row) {
-        //     return row('users').contains(req.user.id).not()
-        // })
-        .without('users')
+    r.table('apps').filter({status_enable:true})
         .run()
         .then(function (result) {
             res.json(result);

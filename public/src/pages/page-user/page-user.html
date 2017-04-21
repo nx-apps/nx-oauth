@@ -41,7 +41,7 @@
             </div>-->
             <user-list></user-list>
             <panel-right title="จัดการข้อมูลผู้ใช้งาน">
-                <user-panel></user-panel>
+                <user-panel enable-status="true"></user-panel>
             </panel-right>
         </div>
 
@@ -66,6 +66,7 @@
             nylonPageActive: function () {
                 // this.dispatchAction('USER_LIST');
                 this.dispatchAction('COMMON_APP_LIST');
+                this.dispatchAction('COMMON_ROLE');
             },
             openPanelRight: function () {
                 this.dispatchAction('USER_CLEAR_SELECT');
