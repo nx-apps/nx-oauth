@@ -27,13 +27,8 @@ exports.userList = function (req, res) {
     var r = req.r;
     var params = req.query;
 
-    var query = r.table('user_apps').pluck('uid').distinct().map(function(row){
-        return row('uid')
-    }).do(function(uidArr){
-        return r.table('users').getAll(r.args(uidArr))
-        .pluck('pid', 'name', 'email','id')
-    })
-
+    var query = r.table('users').pluck('pid', 'name', 'email','id');
+    
     if(params.app_id) {
         query = r.table('user_apps').getAll(params.app_id, { index: 'app_id' }).pluck('uid')
         .merge(function (row) {
