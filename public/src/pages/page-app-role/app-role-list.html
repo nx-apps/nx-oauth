@@ -108,12 +108,14 @@
             },
             checkValue:function(e){
                 var item = e.currentTarget.item;
-                // console.log(item);
-                this.data.update = this.data.update.filter((row)=>{
-                    return row.id != item.id;
-                })
-                // console.log(this.data.update);
-                this.data.update.push(item);
+                if(item.id){
+                    // console.log(item);
+                    this.data.update = this.data.update.filter((row)=>{
+                        return row.id != item.id;
+                    })
+                    // console.log(this.data.update);
+                    this.data.update.push(item);
+                }
                 
             },
             saveData:function(){
