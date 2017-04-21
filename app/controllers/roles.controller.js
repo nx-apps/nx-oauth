@@ -98,6 +98,7 @@ exports.manageApps = function (req, res) {
 exports.putManageApps = function (req, res) {
     var r = req.r;
     var params = req.body;
+
     r.do(
         r.expr(params.data).filter(function(row){
             return row('user_apps_id').ne('')
@@ -112,17 +113,11 @@ exports.putManageApps = function (req, res) {
         })
         ,
         r.expr(params.data).filter(function(row){
-            return row('user_apps_id').eq('')
-        }).forEach(function(row){
-            return r.branch(
-                row('check').eq(true)
-                ,
-                r.table('user_apps').insert(
-                    row.pluck('app_id','role','uid')
-                    .merge({status:'true'})
-                )
-                ,
-                'not add'
+            return row('user_apps_id').eq('').and(row('check').eq(true))
+        })
+        .forEach(function(row){
+            return r.table('user_apps').insert(
+                    row.pluck('app_id','role','uid').merge({status:true})
             )
         })
         ,
