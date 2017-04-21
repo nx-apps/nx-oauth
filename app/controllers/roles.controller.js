@@ -14,6 +14,7 @@ exports.getRoles = function (req, res) {
 exports.putRoles = function (req, res) {
     var r = req.r;
     var params = req.body;
+    //console.log(params.update);
 
     r.do(
         r.branch(
@@ -24,7 +25,9 @@ exports.putRoles = function (req, res) {
         ,
         r.branch(
             r.expr(params.update).ne(0),
-            r.table('roles').update(params.update),
+            r.expr(params.update).forEach(function(row) {
+                return r.table('roles').get(row('id')).update(row.without('id'))
+            }),
             'no update'
         )
         ,
