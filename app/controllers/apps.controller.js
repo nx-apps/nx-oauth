@@ -171,6 +171,9 @@ exports.users = function (req, res) {
         .merge(function (row){
           return r.table('roles').get(row('role')).pluck('role','id')
         })
+        .merge(function(result){
+          return {role:result('id')}
+        })
     }
   })
 .merge(function(result){
