@@ -22,6 +22,7 @@ export function appRoleAction(store){
     return [commonAction(),
         {
             APP_ROLE_LIST:function(id){
+                // this.role_id = id;
                 axios.get(`/roles/roles/${id}`)
                 .then(res=>{
                     res.data.push({
@@ -38,10 +39,14 @@ export function appRoleAction(store){
                 })
             },
             APP_ROLE_INSERT:function(data){
+                this.fire('toast',{status:'load'});
                 axios.put('./roles/roles',data)
                 .then((response)=>{
-                    console.log('success!!');
-                    console.log(response.data);
+                    this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
+                      callback:()=>{
+                          this.APP_ROLE_LIST(this.getParam.AppId)
+                      }
+                     });
                 })
                 .catch((error)=>{
                     console.log('error');

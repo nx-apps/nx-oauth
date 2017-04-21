@@ -38,12 +38,12 @@
                         <tbody>
 
                             <template is="dom-repeat" items="[[list]]">
-                                <tr item="[[item]]">
+                                <tr item="[[item]]" on-input="checkValue">
                                     <td>
                                         [[toIndex(index)]]
                                     </td>
                                     <td>
-                                        <gl-form-input label="" on-change="checkValue" value="{{item.role}}"></gl-form-input>
+                                        <gl-form-input label="" value="{{item.role}}"></gl-form-input>
                                     </td>
                                     <td>
                                         <gl-form-input label="" value="{{item.des}}"></gl-form-input>
@@ -75,6 +75,14 @@
                 getID: {
                     type: Array,
                     value: []
+                },
+                data: {
+                    type: Object,
+                    value: {
+                        delete: [],
+                        update: [],
+                        insert: []
+                    }
                 }
             },
             toIndex: function (index) {
@@ -85,7 +93,10 @@
                 if (typeof e.currentTarget.id != 'undefined') {
                     this.getID.push(e.currentTarget.id);
                 }
-                console.log(this.getID);
+                this.data.update = this.data.update.filter((item)=>{
+                    item.id == e.currentTarget.id;
+                })
+                // console.log(this.getID);
             },
             checkListID: function (val) {
                 if (typeof val == 'undefined') {
@@ -95,8 +106,37 @@
                     return true
                 }
             },
-            checkValue:function(){
-                console.log('change');
+            checkValue:function(e){
+                var item = e.currentTarget.item;
+                // console.log(item);
+                this.data.update = this.data.update.filter((row)=>{
+                    return row.id != item.id;
+                })
+                // console.log(this.data.update);
+                this.data.update.push(item);
+                
+            },
+            saveData:function(){
+                var index = this.list.length-1;
+                this.data.delete = this.getID;
+                if(this.list[index].role.trim() != ''){
+                        var newData = this.list[index];
+                        newData.app_id = this.appId;
+                        this.data.insert.push(newData)
+                }
+                else{
+                    this.data.insert = [];
+                }
+                    this.fire('toast', {
+                        status: 'openDialog',
+                        text: 'ต้องการบันทึกข้อมูลใช่หรือไม่ ?',
+                        confirmed: (result) => {
+                            if (result == true) {
+                                // console.log(this.data);
+                                this.dispatchAction('APP_ROLE_INSERT',this.data);
+                            }
+                        }
+                    })
             }
         });
     </script>
