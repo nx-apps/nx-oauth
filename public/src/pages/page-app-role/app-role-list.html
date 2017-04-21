@@ -1,7 +1,8 @@
-
 <link rel="import" href="./../../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="./../../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="./../components/page-style.html">
+<link rel="import" href="./../../../bower_components/gl-form/gl-form-input.html">
+
 <dom-module id="app-role-list">
     <template>
         <style include="page-style">
@@ -13,15 +14,14 @@
                 font-weight: bold;
                 border-bottom: 2px solid dodgerblue;
             }
-
+            
             paper-icon-button {
                 /*color: var(--paper-pink-500);
                 --paper-icon-button-ink-color: var(--paper-indigo-500);*/
-                --paper-icon-button-hover:{
+                --paper-icon-button-hover: {
                     color: var(--paper-pink-500);
                 }
             }
-
         </style>
         <div class="container">
             <paper-material elevation="1">
@@ -30,24 +30,30 @@
                         <thead>
                             <tr>
                                 <th style="width:10%">ลำดับ</th>
-                                <th >สิทธิ์การใช้งาน</th>
-                                 <th ></th>
+                                <th>สิทธิ์การใช้งาน</th>
+                                <th>คำอธิบาย</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            <template is="dom-repeat" items="[[list.role]]">
-                                <tr item="[[item]]">
+                            <template is="dom-repeat" items="[[list]]">
+                                <tr item="[[item]]" on-input="checkValue">
                                     <td>
                                         [[toIndex(index)]]
                                     </td>
                                     <td>
-                                       <gl-form-input label="" value="{{item}}"></gl-form-input>
+                                        <gl-form-input label="" value="{{item.role}}"></gl-form-input>
                                     </td>
-                                     <td style="text-align: right">
-                                       
-                                              <paper-icon-button  icon="delete"  on-tap="delRole"  index="[[index]]" alt="ลบข้อมูล"></paper-icon-button>
-                                       
+                                    <td>
+                                        <gl-form-input label="" value="{{item.des}}"></gl-form-input>
+                                    </td>
+
+
+                                    <td style="text-align: right">
+                                        <template is="dom-if" if=[[checkListID(item.id)]]>
+                                            <paper-icon-button id={{item.id}} icon="delete" on-tap="delRole" index="[[index]]" alt="ลบข้อมูล"></paper-icon-button>
+                                        </template>
                                     </td>
                                 </tr>
                             </template>
@@ -65,13 +71,74 @@
             properties: {
                 list: {
                     statePath: 'appRole.list'
+                },
+                getID: {
+                    type: Array,
+                    value: []
+                },
+                data: {
+                    type: Object,
+                    value: {
+                        delete: [],
+                        update: [],
+                        insert: []
+                    }
                 }
             },
             toIndex: function (index) {
                 return index + 1
             },
-            delRole:function(e){
-                this.splice('list.role',e.currentTarget.index,1);
+            delRole: function (e) {
+                this.splice('list', e.currentTarget.index, 1);
+                if (typeof e.currentTarget.id != 'undefined') {
+                    this.getID.push(e.currentTarget.id);
+                }
+                this.data.update = this.data.update.filter((item)=>{
+                    item.id == e.currentTarget.id;
+                })
+                // console.log(this.getID);
+            },
+            checkListID: function (val) {
+                if (typeof val == 'undefined') {
+                    return false
+                }
+                else {
+                    return true
+                }
+            },
+            checkValue:function(e){
+                var item = e.currentTarget.item;
+                if(item.id){
+                    // console.log(item);
+                    this.data.update = this.data.update.filter((row)=>{
+                        return row.id != item.id;
+                    })
+                    // console.log(this.data.update);
+                    this.data.update.push(item);
+                }
+                
+            },
+            saveData:function(){
+                var index = this.list.length-1;
+                this.data.delete = this.getID;
+                if(this.list[index].role.trim() != ''){
+                        var newData = this.list[index];
+                        newData.app_id = this.appId;
+                        this.data.insert.push(newData)
+                }
+                else{
+                    this.data.insert = [];
+                }
+                    this.fire('toast', {
+                        status: 'openDialog',
+                        text: 'ต้องการบันทึกข้อมูลใช่หรือไม่ ?',
+                        confirmed: (result) => {
+                            if (result == true) {
+                                // console.log(this.data);
+                                this.dispatchAction('APP_ROLE_INSERT',this.data);
+                            }
+                        }
+                    })
             }
         });
     </script>

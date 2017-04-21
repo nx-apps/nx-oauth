@@ -7,8 +7,7 @@ module.exports = function (app) {
     app.put('/app', controller.update);
     app.delete('/app/:id', controller.delete);
     app.get('/connects/:id', controller.connects);
-    app.get('/roles/:app_id', controller.getRoles);
-    app.put('/roles/:app_id', controller.putRoles);
+    
     app.get('/users/:id', controller.users);
     app.put('/users', controller.update_users);
     app.get('/balanceList', controller.getBalanceList);

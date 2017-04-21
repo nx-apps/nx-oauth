@@ -30,9 +30,9 @@
         <div class="xcontainer">
 
             <div class="header gl-large">
-                จัดการสิทธิ์การใช้งาน : [[list.app_name]]
+                จัดการสิทธิ์การใช้งาน : [[app_name]]
             </div>
-            <app-role-list></app-role-list>
+            <app-role-list app-id="{{getParam.AppId}}"></app-role-list>
 
         </div>
         <paper-fab icon="icons:save" title="บันทึก" on-tap="saveRole"></paper-fab>
@@ -43,28 +43,44 @@
             behaviors: [nylonBehavior, ReduxBehavior, appRoleAction],
             observers: ['obGetParam(getParam.AppId)'],
             obGetParam: function (AppId) {
-                if(this.getParam.page=='app-role'){
+                if (this.getParam.page == 'app-role') {
                     this.dispatchAction('APP_ROLE_LIST', AppId);
                 }
             },
             properties: {
                 list: {
                     statePath: 'appRole.list'
+                },
+                app_name:{
+                    statePath: 'appRole.app_name'
                 }
             },
             nylonPageActive: function () {
-               this.nylonVisible(false);
+                //    this.nylonVisible(false);
             },
             saveRole: function () {
-                 this.fire('toast',{ 
-                    status:'openDialog',
-                    text:'ต้องการบันทึกข้อมูลใช่หรือไม่ ?',
-                    confirmed:(result)=>{
-                        if(result == true){
-                            this.dispatchAction('APP_ROLE_UPDATE',this.list);
-                        }
-                    }
-                 })
+                var element = this.$$('app-role-list');
+                element.saveData();
+            //    var index = this.list.length-1;
+            //    this.data.delete = this.$$('app-role-list').getID;
+            //    if(this.list[index].role.trim() != ''){
+            //         var newData = this.list[index];
+            //         newData.app_id = this.getParam.AppId;
+            //         this.data.insert.push(newData)
+            //    }
+            //    else{
+            //        this.data.insert = [];
+            //    }
+            //     this.fire('toast', {
+            //         status: 'openDialog',
+            //         text: 'ต้องการบันทึกข้อมูลใช่หรือไม่ ?',
+            //         confirmed: (result) => {
+            //             if (result == true) {
+            //                 console.log(this.data);
+            //                 // this.dispatchAction('APP_ROLE_INSERT',this.data);
+            //             }
+            //         }
+            //     })
             }
         });
     </script>

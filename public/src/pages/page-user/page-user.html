@@ -2,22 +2,25 @@
 <link rel="import" href="./user-panel.html">
 <link rel="import" href="/src/nylon-param.html">
 <link rel="import" href="./../components/page-style.html">
+<link rel="import" href="./../components/flex-style.html">
 <link rel="import" href="./../../../bower_components/paper-fab/paper-fab.html">
 
 <dom-module id="page-user">
     <template>
 
-        <style include="page-style">
-            .page{
+        <style include="page-style flex-style">
+            .page {
                 background-color: white;
             }
-            .fabSave{
+            
+            .fabSave {
                 position: fixed;
                 bottom: 90px;
                 right: 20px;
                 --paper-fab-background: #337ab7;
             }
-            paper-dialog{
+            
+            paper-dialog {
                 width: 50%;
                 height: auto;
             }
@@ -27,10 +30,15 @@
 
 
         <div class="xcontainer">
-            
-            <div class="header gl-large">
-                จัดการข้อมูลผู้ใช้งาน
+            <div class="flex-equal-justified">
+                <div class="header gl-large">จัดการข้อมูลผู้ใช้งาน</div>
+                <div style="padding:10px">
+                    <gl-combo-box items="[[appList]]" item-label-path="app_name" item-value-path="id" value="{{appSelect}}"></gl-combo-box>
+                </div>
             </div>
+            <!--<div class="header gl-large">
+                จัดการข้อมูลผู้ใช้งาน
+            </div>-->
             <user-list></user-list>
             <panel-right title="จัดการข้อมูลผู้ใช้งาน">
                 <user-panel></user-panel>
@@ -43,19 +51,29 @@
     <script>
         Polymer({
             is: 'page-user',
-            behaviors: [nylonBehavior,ReduxBehavior,userAction],
-            observers:['obGetParam(getParam)'],
-            obGetParam:function(param){
-                if(param.page=="user"){
+            behaviors: [nylonBehavior, ReduxBehavior, userAction, commonSystemAction],
+            observers: ['obGetParam(getParam)','getAppId(appSelect)'],
+            properties:{
+                appList:{
+                    statePath:'commonSystem.appList'
+                }
+            },
+            obGetParam: function (param) {
+                if (param.page == "user") {
                     //this.dispatchAction('PROVIDER_TEST',param.id);
                 }
             },
-            nylonPageActive:function(){
-                this.dispatchAction('USER_LIST');
+            nylonPageActive: function () {
+                // this.dispatchAction('USER_LIST');
+                this.dispatchAction('COMMON_APP_LIST');
             },
-            openPanelRight:function(){
+            openPanelRight: function () {
                 this.dispatchAction('USER_CLEAR_SELECT');
                 this.$$('panel-right').open();
+            },
+            getAppId:function(id){
+                this.dispatchAction('USER_LIST_APP',id);
+                
             }
         });
     </script>

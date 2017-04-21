@@ -1,6 +1,6 @@
 <link rel="import" href="./my-app-list.html">
 <link rel="import" href="./my-app-panel.html">
-<link rel="import" href="./user-form.html">
+<!--<link rel="import" href="./user-form.html">-->
 <link rel="import" href="./app-panel.html">
 <link rel="import" href="/src/nylon-param.html">
 <link rel="import" href="./../../../bower_components/paper-fab/paper-fab.html">
@@ -8,6 +8,7 @@
 <link rel="import" href="./../../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="./../components/page-style.html">
 <link rel="import" href="./../../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="./../page-user/user-panel.html">
 
 <link rel="import" href="./client-list.html">
 
@@ -54,7 +55,8 @@
                 <iron-pages selected="[[selected]]">
                     <my-app-panel></my-app-panel>
                     <app-panel></app-panel>
-                    <user-form></user-form>
+                    <user-panel></user-panel>
+                    <!--<user-form></user-form>-->
                     <client-list></client-list>
                 </iron-pages>
             </panel-right>
@@ -70,7 +72,7 @@
     <script>
         Polymer({
             is: 'page-my-app',
-            behaviors: [nylonBehavior,ReduxBehavior,[myAppAction,appAction]],
+            behaviors: [nylonBehavior,ReduxBehavior,[myAppAction,appAction,userAction]],
             properties:{
                 user:{
                     statePath:'auth.user'
@@ -98,6 +100,7 @@
                 } 
                 else if (action == 'addUser'){
                     this.selected = 2;
+                    this.dispatchAction('USER_SELECT','7e8272e1-ae7c-497b-b024-6b78e66294cb');
                     panelRight.title = "แก้ไขผู้ใช้งาน"
                 }
                 //this.dispatchAction('APP_CLEAR_SELECT');
