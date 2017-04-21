@@ -111,7 +111,7 @@ exports.putManageApps = function (req, res) {
             )
         })
         ,
-        r.expr(params.data).hasFields('user_apps_id').filter(function(row){
+        r.expr(params.data).filter(function(row){
             return row('user_apps_id').eq('')
         }).coerceTo('array').forEach(function(row){
             return r.branch(
