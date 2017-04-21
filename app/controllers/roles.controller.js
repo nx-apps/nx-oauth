@@ -97,7 +97,7 @@ exports.manageApps = function (req, res) {
 
 exports.putManageApps = function (req, res) {
     var r = req.r;
-    var params = req.params;
+    var params = req.body;
     r.do(
         r.expr(params.data).filter(function(row){
             return row('user_apps_id').ne('')
