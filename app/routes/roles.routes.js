@@ -6,4 +6,5 @@ module.exports = function (app) {
     app.get('/roles/:app_id', controller.getRoles);
     app.put('/roles', controller.putRoles);
     app.get('/manageApps/:id', controller.manageApps);
+    app.put('/manageApps/:id', controller.putManageApps);
 }

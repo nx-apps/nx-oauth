@@ -55,28 +55,34 @@ exports.putRoles = function (req, res) {
 
 exports.manageApps = function (req, res) {
     var r = req.r;
-    //var params = req.query;
-    // r.table('user_apps').getAll(req.params.id, { index: 'uid' })
-    // .merge(function (x) {
-    //     return r.table('apps').get(x('app_id')).pluck('app_name')
-    // })
     r.table('apps').pluck('app_name','id')
         .outerJoin(r.table('user_apps').getAll(req.params.id, { index: 'uid' })
-            .without('id'),
+        .merge(function(row){return {user_apps_id:row('id')}}).without('id'),
         function (left, right) {
             return left('id').eq(right('app_id'))
-        }).zip()
+        })
+        .zip()
         .merge(function(row){
             return r.branch(row.hasFields('role'),
                 {check:true}
             ,  
-                {check:false,app_id:row('id'),uid:req.params.id,role:''}
+                {
+                    check:false,
+                    app_id:row('id'),
+                    uid:req.params.id,
+                    role:'',
+                    user_apps_id:''
+                }
             )
         })
         .merge(function(row){
             return {
                 list_role:r.table('roles').getAll(row('app_id'),{index:'app_id'})
-                .pluck('id','role').coerceTo('array')
+                .pluck('id','role').coerceTo('array').union(
+                    r.table('roles').filter(function(row){
+                        return row('app_id').eq('default').and(row('id').ne('SuperAdmin'))
+                    }).coerceTo('array').pluck('id','role','user_apps_id')
+                )
             }
         })
 
@@ -87,4 +93,44 @@ exports.manageApps = function (req, res) {
         .catch(function (err) {
             res.status(500).json(err);
         })
+}
+
+exports.putManageApps = function (req, res) {
+    var r = req.r;
+    var params = req.params;
+    r.do(
+        r.expr(params.data).filter(function(row){
+            return row('user_apps_id').ne('')
+        }).forEach(function(row){
+            return r.branch(
+                row('check').eq(true)
+                ,
+                r.table('user_apps').get(row('user_apps_id')).update(row.pluck('role'))
+                ,
+                r.table('user_apps').get(row('user_apps_id')).delete()
+            )
+        })
+        ,
+        r.expr(params.data).hasFields('user_apps_id').filter(function(row){
+            return row('user_apps_id').eq('')
+        }).forEach(function(row){
+            return r.branch(
+                row('check').eq(true)
+                ,
+                r.table('user_apps').insert(
+                    row.pluck('app_id','role','uid')
+                    .merge({status:'true'})
+                )
+                ,
+                'not add'
+            )
+        })
+
+    ).run()
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    })
 }
