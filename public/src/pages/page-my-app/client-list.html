@@ -1,11 +1,14 @@
 <link rel="import" href="./../components/page-style.html">
 <link rel="import" href="./../components/flex-style.html">
 
+<link rel="import" href="./../../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
+
 <dom-module id="client-list">
     <template>
         <style include="page-style flex-style">
             .header {
-                padding: 20px 20px 5px 20px;
+                width: 500px;
+                /*padding: 20px 20px 5px 20px;*/
             }
             
             .big {
@@ -14,64 +17,72 @@
                 padding: 5px;
                 cursor: pointer;
             }
-            
+            gl-form-input,vaadin-date-picker{
+                width: 200px;
+            }
         </style>
         <div class="container">
             <paper-material elevation="1">
-                <div style="overflow-x:auto">
-                <table class="gl-table-default">
-                    <tr>
-                        <th class="header">Client Name</th>
-                        <th class="header">Client Id</th>
-                        <th class="header">Secret</th>
-                        <th class="header">EXP Date</th>
-                        <th class="header">App Secret</th>
-                        <th class="header">Allow Callback URL</th>
-                        <th class="header">Allow Logout URL</th>
-                        <th class="header">Delete </th>
-                        <th class="header">
-                            <iron-icon icon="icons:add-circle" on-tap="addList" class="big"></iron-icon>
-                        </th>
-                    </tr>
-                    <template is="dom-repeat" items="[[list.clientList]]">
-                        <tr>
-                            <td>
-                                <gl-form-input value="{{item.ClientName}}"></gl-form-input>
-                            </td>
-                            <td>
-                                <gl-form-input value="{{item.ClientId}}"></gl-form-input>
-                            </td>
-                            <td>
-                                <gl-form-input value="{{item.Secret}}">
-                                    <div suffix>
-                                        <iron-icon icon="icons:refresh" style="cursor:pointer;">
-                                    </div>
-                                </gl-form-input>
-                            </td>
-                            <td>
-                                <gl-form-input type="date" value="{{item.ExpNet}}"></gl-form-input>
-                            </td>
-                            <td>
-                                <gl-form-input value="{{item.app_secret}}"></gl-form-input>
-                            </td>
-                            <td>
-                                <gl-form-input value="{{item.allow_callback_url}}"></gl-form-input>
-                            </td>
-                            <td>
-                                <gl-form-input value="{{item.allow_logout_url}}"></gl-form-input>
-                            </td>
-                            <td on-tap="delList" id="{{index}}">
-                                <iron-icon icon="icons:delete" style="cursor:pointer;margin-bottom:-25px;"></iron-icon>
-                            </td>
-                            <td></td>
-                        </tr>
-                    </template>
-                </table>
+                <div style="overflow-x:auto;">
+                    <table class="gl-table-default">
+                        <thead>
+                            <tr>
+                                <th class="header">Client Name</th>
+                                <th class="header">Client Id</th>
+                                <th class="header">Secret</th>
+                                <th class="header">EXP Date</th>
+                                <th class="header">App Secret</th>
+                                <th class="header">Domain</th>
+                                <th class="header">Allow Callback URL</th>
+                                <th class="header">Allow Logout URL</th>
+                                <th class="header">Delete </th>
+                                <th class="header">
+                                    <iron-icon icon="icons:add-circle" on-tap="addList" class="big"></iron-icon>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <gl-form-input value="{{item.ClientName}}"></gl-form-input>
+                                </td>
+                                <td>
+                                    <gl-form-input value="{{item.ClientId}}"></gl-form-input>
+                                </td>
+                                <td>
+                                    <gl-form-input value="{{item.Secret}}">
+                                        <div suffix>
+                                            <iron-icon icon="icons:refresh" style="cursor:pointer;">
+                                        </div>
+                                    </gl-form-input>
+                                </td>
+                                <td>
+                                    <vaadin-date-picker></vaadin-date-picker>
+                                </td>
+                                <td>
+                                    <gl-form-input value="{{item.app_secret}}"></gl-form-input>
+                                </td>
+                                <td>
+                                    <gl-form-input value="{{item.domain}}"></gl-form-input>
+                                </td>
+                                <td>
+                                    <gl-form-input value="{{item.allow_callback_url}}"></gl-form-input>
+                                </td>
+                                <td>
+                                    <gl-form-input value="{{item.allow_logout_url}}"></gl-form-input>
+                                </td>
+                                <td on-tap="delList" id="{{index}}">
+                                    <iron-icon icon="icons:delete" style="cursor:pointer;margin-bottom:-25px;"></iron-icon>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </paper-material>
             <div style="margin:10px"></div>
             <div class="flex-end-justified">
-                 <div>
+                <div>
                     <paper-button class="gl-btn-danger" raised>ยกเลิก</paper-button>
                 </div>
                 <div>
@@ -95,13 +106,13 @@
             delList: function (e) {
                 this.splice("list.clientList", e.currentTarget.id, 1);
             },
-            getForm:function(){
+            getForm: function () {
                 var newData = {
-                    id : this.list.id,
-                    clientList : this.list.clientList
+                    id: this.list.id,
+                    clientList: this.list.clientList
                 }
                 // console.log(newData);
-                this.dispatchAction('MY_APP_CLIENT_INSERT',newData);
+                this.dispatchAction('MY_APP_CLIENT_INSERT', newData);
             }
         });
     </script>
