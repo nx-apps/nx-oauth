@@ -81,11 +81,19 @@
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">ประเภทผู้ใช้งาน</th>
                             <th>
-                                <gl-combo-box id="form" no-label-float items="{{roleList}}" required value="{{data.role}}"></gl-combo-box>
+                                <gl-combo-box id="form" no-label-float items="{{roleList}}" item-label-path="role"  item-value-path="id" required value="{{data.role}}"></gl-combo-box>
                             </th>
                             <th style="width:20%;">
                               
                             </th>
+                        </tr>
+                        <tr class="hideBorder">
+                            <th style="width:30%;text-align: right; font-size: 18px;">Enable Pin</th>
+                            <th>
+                                <paper-checkbox></paper-checkbox>
+                                <!--<gl-form-input id="form" no-label-float value="{{data.pin}}" required></gl-form-input>-->
+                            </th>
+                            <th></th>
                         </tr>
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right; font-size: 18px;">PIN</th>
@@ -179,9 +187,10 @@
     <script>
         Polymer({
             is: 'user-manage',
+            behaviors: [ReduxBehavior],
             properties: {
                 roleList: {
-                    value: ['ADMIN', 'USER']
+                    statePath: 'commonSystem.role'
                 },
                 data: {
                     notify: true,
