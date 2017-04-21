@@ -6,7 +6,8 @@ const initialState = {
     select: {},
     data: {
         local: {}
-    }
+    },
+    appList: []
 }
 
 export function userReducer(state = initialState, action) {
@@ -18,6 +19,8 @@ export function userReducer(state = initialState, action) {
             return Object.assign({}, state, { list: action.payload });
         case 'USER_SELECT':
             return Object.assign({}, state, { data: action.payload });
+        case 'USER_SELECT_APP':
+            return Object.assign({}, state, { appList: action.payload });
         case 'USER_CLEAR_SELECT':
             return Object.assign({}, state, { data: { status: false, local: {} } });
         default:
@@ -45,9 +48,9 @@ export function userAction(store) {
         },
         USER_LIST_APP: function (id) {
             this.AppId = id;
-            axios.get('./users/userList?app_id='+id)
+            axios.get('./users/userList?app_id=' + id)
                 .then((response) => {
-                   store.dispatch({ type: 'USER_LIST_APP', payload: response.data })
+                    store.dispatch({ type: 'USER_LIST_APP', payload: response.data })
                 })
                 .catch((error) => {
                     console.log('error');
@@ -58,11 +61,26 @@ export function userAction(store) {
             axios.get(`/users/info/${id}`)
                 .then(res => {
                     store.dispatch({ type: 'USER_SELECT', payload: res.data })
-                    this.$$('panel-right').open();
+                    // this.selected = 0;
+                    // this.$$('panel-right').open();
                 })
                 .catch(err => {
                     console.log(err);
                 })
+        },
+        USER_SELECT_APP: function (id) {
+            this.selectAppID = id;
+            axios.get('./roles/manageApps/' + id)
+                .then((response) => {
+                    this.selected = 1;
+                    this.$$('panel-right').title = "ลงทะเบียน APP";
+                    this.$$('panel-right').open();
+                    store.dispatch({ type: 'USER_SELECT_APP', payload: response.data })
+                })
+                .catch((error) => {
+                    console.log('error');
+                    console.log(error);
+                });
         },
         USER_CLEAR_SELECT: function () {
             store.dispatch({ type: 'USER_CLEAR_SELECT' })
@@ -120,6 +138,25 @@ export function userAction(store) {
                 .catch(err => {
                     console.log(err);
                 })
+        },
+        USER_APP_INSERT: function (data) {
+            var newData = {
+                data : data
+            }
+            this.fire('toast',{status:'load'});
+            axios.put('./roles/manageApps/', newData)
+                .then((response) => {
+                  this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
+                    callback:()=>{
+                        this.USER_SELECT_APP(this.selectAppID)
+                    }
+                   });
+                   
+                })
+                .catch((error) => {
+                    console.log('error');
+                    console.log(error);
+                });
         }
     }
     ]
