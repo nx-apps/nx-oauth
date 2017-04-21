@@ -92,7 +92,7 @@ export function appUserAction(store) {
 
             axios.put(`/apps/users`, newData)
                 .then(res => {
-                    this.APP_USER_LIST(data.id);
+                    this.APP_USER_LIST(data);
                     this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
