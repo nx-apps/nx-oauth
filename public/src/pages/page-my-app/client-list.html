@@ -42,15 +42,16 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <template is="dom-repeat" items="[[list.client]]">
                             <tr>
                                 <td>
-                                    <gl-form-input value="{{item.ClientName}}"></gl-form-input>
+                                    <gl-form-input value="{{item.client_name}}"></gl-form-input>
                                 </td>
                                 <td>
-                                    <gl-form-input value="{{item.ClientId}}"></gl-form-input>
+                                    <gl-form-input value="{{item.client_id}}"></gl-form-input>
                                 </td>
                                 <td>
-                                    <gl-form-input value="{{item.Secret}}">
+                                    <gl-form-input value="{{item.secret}}">
                                         <div suffix>
                                             <iron-icon icon="icons:refresh" style="cursor:pointer;">
                                         </div>
@@ -76,6 +77,7 @@
                                 </td>
                                 <td></td>
                             </tr>
+                            </template>
                         </tbody>
                     </table>
                 </div>
@@ -101,15 +103,15 @@
                 }
             },
             addList: function () {
-                this.push("list.clientList", { ClientName: "", ClientId: "", Secret: "", ExpNet: "", app_secret: "", allow_callback_url: "", allow_logout_url: "" })
+                this.push("list.client", { client_name: "", client_id: "", secret: "", exp_net: "", app_secret: "", allow_callback_url: "", allow_logout_url: "" })
             },
             delList: function (e) {
-                this.splice("list.clientList", e.currentTarget.id, 1);
+                this.splice("list.client", e.currentTarget.id, 1);
             },
             getForm: function () {
                 var newData = {
                     id: this.list.id,
-                    clientList: this.list.clientList
+                    client: this.list.client
                 }
                 // console.log(newData);
                 this.dispatchAction('MY_APP_CLIENT_INSERT', newData);
