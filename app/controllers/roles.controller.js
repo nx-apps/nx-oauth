@@ -66,6 +66,19 @@ exports.manageApps = function (req, res) {
         function (left, right) {
             return left('id').eq(right('app_id'))
         }).zip()
+        .merge(function(row){
+            return r.branch(row.hasFields('role'),
+                {check:true}
+            ,  
+                {check:false,app_id:row('id'),uid:req.params.id,role:''}
+            )
+        })
+        .merge(function(row){
+            return {
+                list_role:r.table('roles').getAll(row('app_id'),{index:'app_id'})
+                .pluck('id','role').coerceTo('array')
+            }
+        })
 
         .run()
         .then(function (result) {
