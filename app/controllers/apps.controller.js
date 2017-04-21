@@ -212,7 +212,7 @@ exports.update_users = function (req, res) {
     if (req.body.updates.length > 0) {
         r.expr(req.body.updates)
             .forEach(function (row) {
-                return r.table('user_apps').get(row('id')).update(row.without('id'))
+                return r.table('user_apps').get(row('user_apps_id')).update(row.without('user_apps_id'))
             })
             .run()
             .then(function (result) {
@@ -220,7 +220,7 @@ exports.update_users = function (req, res) {
                 if (req.body.deletes.length > 0) {
                     r.expr(req.body.deletes)
                         .forEach(function (row) {
-                            return r.table('user_apps').get(row('id')).delete(row)
+                            return r.table('user_apps').get(row('user_apps_id')).delete(row)
                         })
                         .run()
                         .then(function (result) {
@@ -238,7 +238,7 @@ exports.update_users = function (req, res) {
     } else if (req.body.deletes.length > 0) {
         r.expr(req.body.deletes)
             .forEach(function (row) {
-                return r.table('user_apps').get(row('id')).delete(row)
+                return r.table('user_apps').get(row('user_apps_id')).delete(row)
             })
             .run()
             .then(function (result) {
