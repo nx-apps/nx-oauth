@@ -67,6 +67,7 @@
                     text: 'ต้องการบันทึกข้อมูลใช่หรือไม่ ?',
                     confirmed: (result) => {
                         if (result == true) {
+                            // console.log(this.list);
                             this.dispatchAction('APP_USER_SAVE',this.list,this.updates, this.deletes);
                         }
                     }

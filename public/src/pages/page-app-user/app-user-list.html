@@ -49,7 +49,7 @@
                                         [[item.name]]
                                     </td>
                                     <td>
-                                        <gl-combo-box always-float-label items="{{list.role}}" on-value-changed="editData" item="[[item]]" item-label-path="role" item-value-path="id" value="{{item.id}}"></gl-combo-box>
+                                        <gl-combo-box always-float-label items="{{list.role}}" on-value-changed="editData" item="[[item]]" item-label-path="role" item-value-path="id" value="{{item.role}}"></gl-combo-box>
                                     </td>
                                     <td style="text-align: center">
                                         <paper-checkbox checked="{{item.status}}" class="green" on-tap="editData" item="[[item]]" item="[[list.users]]"></paper-checkbox>
@@ -90,7 +90,7 @@
             },
             delUser: function (e) {
                 this.splice('list.users', e.currentTarget.index, 1);
-                this.dispatchAction('APP_USER_DELETE', { id: e.currentTarget.item.id });
+                this.dispatchAction('APP_USER_DELETE', { user_apps_id: e.currentTarget.item.user_apps_id });
                 console.log(this.deletes);
             }
         });

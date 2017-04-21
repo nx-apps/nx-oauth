@@ -56,26 +56,41 @@ export function appUserAction(store) {
 
 
         APP_USER_SAVE: function (data, updates, deletes) {
+            // console.log(deletes);
             this.fire('toast', { status: 'load' });
             // var user_dels=[];
-            var updates_ = [];
-            updates.forEach(function (user) {
-                var u = {
-                    id: user.id,
-                    app_id: user.app_id,
-                    role: user.role,
-                    status: user.status,
-                    uid: user.uid,
+            // console.log(updates);
+            var newUpdate = updates.map((item)=>{
+                let data = {
+                    user_apps_id: item.user_apps_id,
+                    role : item.role,
+                    status : item.status
                 }
-                updates_.push(u);
-            });
-            var user_apps = {
-                updates: updates_,
-                deletes: deletes
+                return data;
+            })
+            var newData = {
+                updates: newUpdate,
+                deletes:deletes
             }
-            console.log(user_apps.updates);
-/*
-            axios.put(`/apps/users`, user_apps)
+             console.log(newData);
+            // var updates_ = [];
+            // updates.forEach(function (user) {
+            //     var u = {
+            //         id: user.id,
+            //         app_id: user.app_id,
+            //         role: user.role,
+            //         status: user.status,
+            //         uid: user.uid,
+            //     }
+            //     updates_.push(u);
+            // });
+            // var user_apps = {
+            //     updates: updates_,
+            //     deletes: deletes
+            // }
+            // console.log(user_apps.updates);
+
+            axios.put(`/apps/users`, newData)
                 .then(res => {
                     this.APP_USER_LIST(data.id);
                     this.fire('toast', {
@@ -89,7 +104,6 @@ export function appUserAction(store) {
                 .catch(err => {
                     console.log({err});
                 })
-                */
         }
     }
 
