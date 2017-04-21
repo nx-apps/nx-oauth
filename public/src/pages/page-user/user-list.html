@@ -28,7 +28,7 @@
                         <tbody>
 
                             <template is="dom-repeat" items="[[list]]">
-                                <tr on-tap="selectList" item="[[item]]">
+                                <tr>
                                     <td>
                                         [[toIndex(index)]]
                                     </td>
@@ -42,9 +42,9 @@
                                         [[item.email]]
                                     </td>
                                     <td>
-                                        <iron-icon icon="icons:assignment-ind"></iron-icon>
+                                        <iron-icon icon="icons:assignment-ind" item="[[item]]" on-tap="selectApp"></iron-icon>
                                         &nbsp;
-                                        <iron-icon icon="icons:create"></iron-icon>
+                                        <iron-icon icon="icons:create" item="[[item]]" on-tap="selectList"></iron-icon>
                                     </td>
                                 </tr>
                             </template>
@@ -72,7 +72,15 @@
             },
             selectList: function (e) {
                 this.dispatchAction('USER_SELECT', e.currentTarget.item.id)
+                .then((res)=>{
+                     this.fire('select-user')
+                })
                 //this.fire('select-list',e.currentTarget.item.id);
+            },
+            selectApp:function(e){
+                // console.log(e.currentTarget.item.id);
+                var id = e.currentTarget.item.id;
+                this.dispatchAction('USER_SELECT_APP',id)
             }
         });
     </script>

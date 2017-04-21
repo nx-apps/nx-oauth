@@ -86,8 +86,8 @@
                     }
                     // console.log(newData);
                     if(typeof this.data.id == "undefined"){
-                        console.log(newData);
-                        // this.dispatchAction('USER_INSERT',newData)
+                        // console.log(newData);
+                        this.dispatchAction('USER_INSERT',newData)
                     }
                     else{
                         newData.id = this.data.id;
