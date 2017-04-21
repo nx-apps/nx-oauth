@@ -28,11 +28,10 @@
                         <thead>
                             <tr>
                                 <th class="header">Client Name</th>
+                                <th class="header">Domain</th>
                                 <th class="header">Client Id</th>
                                 <th class="header">Secret</th>
                                 <th class="header">EXP Date</th>
-                                <th class="header">App Secret</th>
-                                <th class="header">Domain</th>
                                 <th class="header">Allow Callback URL</th>
                                 <th class="header">Allow Logout URL</th>
                                 <th class="header">Delete </th>
@@ -48,6 +47,9 @@
                                     <gl-form-input value="{{item.client_name}}"></gl-form-input>
                                 </td>
                                 <td>
+                                    <gl-form-input value="{{item.domain}}"></gl-form-input>
+                                </td>
+                                <td>
                                     <gl-form-input value="{{item.client_id}}"></gl-form-input>
                                 </td>
                                 <td>
@@ -59,12 +61,6 @@
                                 </td>
                                 <td>
                                     <vaadin-date-picker></vaadin-date-picker>
-                                </td>
-                                <td>
-                                    <gl-form-input value="{{item.app_secret}}"></gl-form-input>
-                                </td>
-                                <td>
-                                    <gl-form-input value="{{item.domain}}"></gl-form-input>
                                 </td>
                                 <td>
                                     <gl-form-input value="{{item.allow_callback_url}}"></gl-form-input>
@@ -103,7 +99,7 @@
                 }
             },
             addList: function () {
-                this.push("list.client", { client_name: "", client_id: "", secret: "", exp_net: "", app_secret: "", allow_callback_url: "", allow_logout_url: "" })
+                this.push("list.client", { client_name: "", client_id: "", secret: "", exp_net: "", allow_callback_url: "", allow_logout_url: "" })
             },
             delList: function (e) {
                 this.splice("list.client", e.currentTarget.id, 1);
