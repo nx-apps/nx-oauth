@@ -30,7 +30,7 @@
         <div class="xcontainer">
 
             <div class="header gl-large">
-                จัดการสิทธิ์การใช้งาน : [[list.app_name]]
+                จัดการสิทธิ์การใช้งาน : [[app_name]]
             </div>
             <app-role-list app-id="{{getParam.AppId}}"></app-role-list>
 
@@ -50,6 +50,9 @@
             properties: {
                 list: {
                     statePath: 'appRole.list'
+                },
+                app_name:{
+                    statePath: 'appRole.app_name'
                 }
             },
             nylonPageActive: function () {

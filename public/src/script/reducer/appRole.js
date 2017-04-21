@@ -2,7 +2,8 @@ import axios from '../axios'
 import {commonAction} from '../config'
 
 const initialState = {
-    list:[]
+    list:[],
+    app_name:''
 }
 
 
@@ -10,7 +11,10 @@ export function appRoleReducer(state = initialState,action){
 
     switch (action.type) {
         case 'APP_ROLE_LIST':
-            return Object.assign({},state,{list:action.payload});
+            return Object.assign({},state,{
+                list:action.payload.roles,
+                app_name:action.payload.app_name
+            });
         default:
             return state
     }
@@ -25,7 +29,7 @@ export function appRoleAction(store){
                 // this.role_id = id;
                 axios.get(`/roles/roles/${id}`)
                 .then(res=>{
-                    res.data.push({
+                    res.data.roles.push({
                         des:'',
                         role:''
                     })
