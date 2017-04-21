@@ -123,7 +123,8 @@ export function myAppAction(store) {
             if (typeof data.register_auto == "undefined") data.register_auto = false;
 
             this.fire('toast', { status: 'load' });
-
+            //console.log(data);
+            data.client = [];
             axios.post('/apps/app', data)
                 .then(res => {
                     this.MY_APP_LIST(this.getParam.id);

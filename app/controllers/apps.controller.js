@@ -63,33 +63,34 @@ exports.getById = function (req, res) {
 exports.insert = function (req, res) {
 
     var r = req.r;
-    req.body.app_secret = sha1(req.body.app_domain);
-    appKey = req.body.app_secret;
+    //req.body.app_secret = sha1(req.body.app_domain);
+    //appKey = req.body.app_secret;
     //req.body.allow_callback_url = "https://localhost:" + config.server.port + "/" + req.body.app_name.toLowerCase() + "/oauth/callback";
     //req.body.allow_logout_url = "https://localhost:" + config.server.port + "/" + req.body.app_name.toLowerCase() + "/oauth/logout";
     r.table('apps')
         .insert(req.body)
         .run()
         .then(function (result) {
-            console.log(result);
-            appId = result.generated_keys[0];
-            r.db('rethinkdb')
-                .table('users')
-                .insert({ id: appId, password: appKey })
-                .run()
-                .then(function (re) {
-                   console.log(appId.replace(/-/g,""));
-                    var dbId=appId.replace(/-/g,"");
-                    // r.dbCreate(dbId).run().then(function (e) {
-                    //     r.db(dbId).grant(appId, { read: true, write: true, config: true })
-                    //         .run()
-                    //         .then(function (x) {
-                                 res.json(result);
-                    //         });
-                    // });
-                }).catch(function (e) {
-                    res.status(500).json(err);
-                });
+            res.json(result);
+            // console.log(result);
+            // appId = result.generated_keys[0];
+            // r.db('rethinkdb')
+            //     .table('users')
+            //     .insert({ id: appId, password: appKey })
+            //     .run()
+            //     .then(function (re) {
+            //        console.log(appId.replace(/-/g,""));
+            //         var dbId=appId.replace(/-/g,"");
+            //         // r.dbCreate(dbId).run().then(function (e) {
+            //         //     r.db(dbId).grant(appId, { read: true, write: true, config: true })
+            //         //         .run()
+            //         //         .then(function (x) {
+            //         //           res.json(result);
+            //         //         });
+            //         // });
+            //     }).catch(function (e) {
+            //         res.status(500).json(err);
+            //     });
 
         })
         .catch(function (err) {
@@ -380,7 +381,9 @@ exports.updateClient = function (req, res) {
     var r = req.r;
     var params = req.body;
 
-    r.table('apps').get(params.id).update(params)
+    //res.json(params);
+
+    r.table('apps').get(params.id).update(r.expr(params).without('id'))
         .run()
         .then(function (result) {
             res.json(result);
