@@ -117,7 +117,7 @@ exports.getById = function (req, res) {
 exports.infoById = function (req, res) {
     var r = req.r;
     r.table('users')
-        .get(req.params.id).without('providers','password')
+        .get(req.params.id).without('providers','password','pin')
         .run()
         .then(function (result) {
             res.json(result);
