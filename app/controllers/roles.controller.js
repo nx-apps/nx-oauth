@@ -56,10 +56,16 @@ exports.putRoles = function (req, res) {
 exports.manageApps = function (req, res) {
     var r = req.r;
     //var params = req.query;
-        r.table('user_apps').getAll(req.params.id, { index: 'uid' })
-        .merge(function (x) {
-            return r.table('apps').get(x('app_id')).pluck('app_name')
-        })
+    // r.table('user_apps').getAll(req.params.id, { index: 'uid' })
+    // .merge(function (x) {
+    //     return r.table('apps').get(x('app_id')).pluck('app_name')
+    // })
+    r.table('apps').pluck('app_name','id')
+        .outerJoin(r.table('user_apps').getAll(req.params.id, { index: 'uid' })
+            .without('id'),
+        function (left, right) {
+            return left('id').eq(right('app_id'))
+        }).zip()
 
         .run()
         .then(function (result) {
