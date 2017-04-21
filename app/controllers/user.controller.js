@@ -155,6 +155,10 @@ exports.update = function (req, res) {
         data.password = sha1(data.password);
     }
 
+    if (data.pin) {
+        data.pin = sha1(pin.password);
+    }
+
     r.table('users').get(data.id).update(r.expr(data).without('id'))
         .run()
         .then(function (result) {
