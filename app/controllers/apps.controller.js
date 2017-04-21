@@ -159,6 +159,37 @@ exports.connects = function (req, res) {
 
 exports.users = function (req, res) {
     var r = req.r;
+  r.table('apps').get(req.params.id)
+  .pluck('id', 'app_name')
+  .merge(function(x){
+    return   { users:
+       r.table('user_apps').getAll(req.params.id, { index: 'app_id' }).coerceTo('array')
+        .merge(function (row) {
+          return r.table('users').get(row('uid')).pluck('name', 'email')
+        })
+        .merge(function (row){
+            return {user_apps_id:row('id')}
+        })
+        .merge(function (row){
+          return r.table('roles').get(row('role')).pluck('role','id')
+        })
+        .merge(function(result){
+          return {role:result('id')}
+        })
+    }
+  })
+.merge(function(result){
+    return {
+    role:r.table('roles').getAll(req.params.id,'default', { index: 'app_id' }).coerceTo('array')
+    //.pluck('role')('role').coerceTo('array')
+    .filter(function(x){   
+        return x('id').ne('SuperAdmin')
+    })
+    .pluck('role','id').coerceTo('array')
+    }
+})
+
+/*
     r.table('apps')
         .get(req.params.id)
         .pluck('id', 'app_name', 'role')
@@ -172,7 +203,8 @@ exports.users = function (req, res) {
                     })
 
             }
-        })
+        }) 
+*/
         .run()
         .then(function (result) {
             res.json(result);
@@ -188,7 +220,7 @@ exports.update_users = function (req, res) {
     if (req.body.updates.length > 0) {
         r.expr(req.body.updates)
             .forEach(function (row) {
-                return r.table('user_apps').get(row('id')).update(row.without('id'))
+                return r.table('user_apps').get(row('user_apps_id')).update(row.without('user_apps_id'))
             })
             .run()
             .then(function (result) {
@@ -196,7 +228,7 @@ exports.update_users = function (req, res) {
                 if (req.body.deletes.length > 0) {
                     r.expr(req.body.deletes)
                         .forEach(function (row) {
-                            return r.table('user_apps').get(row('id')).delete(row)
+                            return r.table('user_apps').get(row('user_apps_id')).delete(row)
                         })
                         .run()
                         .then(function (result) {
@@ -214,7 +246,7 @@ exports.update_users = function (req, res) {
     } else if (req.body.deletes.length > 0) {
         r.expr(req.body.deletes)
             .forEach(function (row) {
-                return r.table('user_apps').get(row('id')).delete(row)
+                return r.table('user_apps').get(row('user_apps_id')).delete(row)
             })
             .run()
             .then(function (result) {
