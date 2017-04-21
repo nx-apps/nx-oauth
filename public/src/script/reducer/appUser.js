@@ -65,7 +65,7 @@ export function appUserAction(store) {
                     app_id: user.app_id,
                     role: user.role,
                     status: user.status,
-                    uid: user.uid
+                    uid: user.uid,
                 }
                 updates_.push(u);
             });
@@ -73,8 +73,8 @@ export function appUserAction(store) {
                 updates: updates_,
                 deletes: deletes
             }
-            console.log(user_apps);
-
+            console.log(user_apps.updates);
+/*
             axios.put(`/apps/users`, user_apps)
                 .then(res => {
                     this.APP_USER_LIST(data.id);
@@ -89,6 +89,7 @@ export function appUserAction(store) {
                 .catch(err => {
                     console.log({err});
                 })
+                */
         }
     }
 

@@ -184,6 +184,30 @@ exports.connects = function (req, res) {
 
 exports.users = function (req, res) {
     var r = req.r;
+
+  r.expr({users:[]}).merge(function(x){
+    return   { users:
+       r.table('user_apps').getAll(req.params.id, { index: 'app_id' }).coerceTo('array')
+        .merge(function (row) {
+          return r.table('users').get(row('uid')).pluck('name', 'email')
+        })
+        .merge(function (row){
+            return {user_apps_id:row('id')}
+        })
+        .merge(function (row){
+          return r.table('roles').get(row('role')).pluck('role','id')
+        })
+    }
+  })
+.merge(function(result){
+    return {
+    role:r.table('roles').getAll(req.params.id,'default', { index: 'app_id' }).coerceTo('array')
+    //.pluck('role')('role').coerceTo('array')
+    .pluck('role','id').coerceTo('array')
+    }
+})
+
+/*
     r.table('apps')
         .get(req.params.id)
         .pluck('id', 'app_name', 'role')
@@ -197,7 +221,8 @@ exports.users = function (req, res) {
                     })
 
             }
-        })
+        }) 
+*/
         .run()
         .then(function (result) {
             res.json(result);
