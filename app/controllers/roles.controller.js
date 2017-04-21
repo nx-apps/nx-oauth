@@ -101,7 +101,7 @@ exports.putManageApps = function (req, res) {
     r.do(
         r.expr(params.data).filter(function(row){
             return row('user_apps_id').ne('')
-        }).coerceTo('array').forEach(function(row){
+        }).forEach(function(row){
             return r.branch(
                 row('check').eq(true)
                 ,
@@ -113,7 +113,7 @@ exports.putManageApps = function (req, res) {
         ,
         r.expr(params.data).filter(function(row){
             return row('user_apps_id').eq('')
-        }).coerceTo('array').forEach(function(row){
+        }).forEach(function(row){
             return r.branch(
                 row('check').eq(true)
                 ,
@@ -125,6 +125,10 @@ exports.putManageApps = function (req, res) {
                 'not add'
             )
         })
+        ,
+        function(){
+            return 'ok'
+        }
 
     ).run()
     .then(function (result) {
