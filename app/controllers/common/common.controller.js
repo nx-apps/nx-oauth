@@ -14,7 +14,7 @@ class common {
 
     roleList(req,res){
         var r = req.r;
-        r.table('roles')
+        r.table('roles').filter({app_id:'default'})
         .run()
         .then(function (result) {
             res.json(result);
