@@ -1,7 +1,12 @@
 exports.getRoles = function (req, res) {
     var r = req.r;
     var params = req.params;
-    r.table('roles').getAll(params.app_id,{index:'app_id'})
+    r.table('roles').getAll(params.app_id,{index:'app_id'}).coerceTo('array').do(function(data){
+        return {
+            roles:data,
+            app_name:r.table('apps').get(params.app_id)('app_name')
+        }
+    })
     .run()
     .then(function (result) {
         res.json(result);
