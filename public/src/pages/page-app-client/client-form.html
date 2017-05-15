@@ -1,0 +1,105 @@
+<link rel="import" href="./../../../bower_components/gl-form/gl-form-input.html">
+<link rel="import" href="./../../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
+<link rel="import" href="./../../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="client-form">
+    <!--<link rel="import" type="css" href="client-form.css">-->
+    <template>
+        <style include="page-style">    
+              .flex-end-justified {
+                @apply(--layout-horizontal);
+                @apply(--layout-end-justified);
+            }
+        </style>
+        <paper-material elevation="1">
+            <table class="gl-table-default">
+                <thead>
+                    <tr class="hideBorder">
+                        <th style="width:30%;text-align: right; font-size: 18px;">Client Name</th>
+                        <th>
+                            <gl-form-input id="form" no-label-float value="{{data.client_name}}" required></gl-form-input>
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr class="hideBorder">
+                        <th style="width:30%;text-align: right; font-size: 18px;">Domain</th>
+                        <th>
+                            <gl-form-input id="form" no-label-float value="{{data.domain}}" required></gl-form-input>
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr class="hideBorder">
+                        <th style="width:30%;text-align: right; font-size: 18px;">Client Id</th>
+                        <th>
+                            <gl-form-input id="form" no-label-float value="{{data.client_id}}" required></gl-form-input>
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr class="hideBorder">
+                        <th style="width:30%;text-align: right; font-size: 18px;">Secret</th>
+                        <th>
+                            <gl-form-input id="form" no-label-float value="{{data.secret}}" required></gl-form-input>
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr class="hideBorder">
+                        <th style="width:30%;text-align: right; font-size: 18px;">EXP Date</th>
+                        <th>
+                            <vaadin-date-picker no-label-float value="{{data.exp_date}}" required></vaadin-date-picker>
+                            <!--<gl-form-input id="form" no-label-float value="{{data.exp_date}}" required></gl-form-input>-->
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr class="hideBorder">
+                        <th style="width:30%;text-align: right; font-size: 18px;">Allow Callback URL</th>
+                        <th>
+                            <gl-form-input id="form" no-label-float value="{{data.allow_callback_url}}" required></gl-form-input>
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr class="hideBorder">
+                        <th style="width:30%;text-align: right; font-size: 18px;">Allow Logout URL</th>
+                        <th>
+                            <gl-form-input id="form" no-label-float value="{{data.allow_logout_url}}" required></gl-form-input>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </paper-material>
+        <div class="flex-end-justified">
+             <paper-button class="gl-btn-success" on-tap="getForm" raised>บันทึก</paper-button>
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            is: 'client-form',
+            behaviors: [ReduxBehavior],
+            properties:{
+                data:{
+                    type:Object,
+                    value:{}
+                },
+                action:{
+                    type:String,
+                    value:''
+                },
+                position:{
+                    type:String,
+                    value:''
+                }
+            },
+            getForm:function(e){
+                // console.log(this.action);
+                if(this.action == 'add'){
+                    this.fire('add-data',this.data);
+                }   
+                else{
+                    this.fire('set-data',{item:this.data,index:this.position})
+                }
+                // console.log(this.data);
+            }
+        });
+    </script>
+</dom-module>

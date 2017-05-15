@@ -1,0 +1,73 @@
+<link rel="import" href="./../components/page-style.html">
+<link rel="import" href="./../components/panel-right/panel-right.html">
+<link rel="import" href="./../page-app-client/client-lists.html">
+<link rel="import" href="./../../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="./../components/page-style.html">
+<link rel="import" href="./client-form.html">
+<link rel="import" href="/src/nylon-param.html">
+
+<dom-module id="page-app-client">
+    <!--<link rel="import" type="css" href="page-client.css">-->
+    <template>
+        <style include="page-style"></style>
+        <nylon-param params="{{param}}" pattern="id"></nylon-param>
+        <div class="xcontainer">
+            <div class="header gl-large">
+                จัดการผู้ใช้งาน
+            </div>
+            <client-lists></client-lists>
+        </div>
+         <paper-fab icon="icons:add" title="" on-tap="setAction"></paper-fab>
+        <panel-right title="จัดการ client">
+            <div class="container">
+                <client-form data="{{getData}}" action="{{getAction}}" position="{{getIndex}}"></client-form>
+            </div>
+        </panel-right>       
+    </template>
+    <script>
+        Polymer({
+            is: 'page-app-client',
+            observers:['getParam(param)'],
+            behaviors: [nylonBehavior, ReduxBehavior,myAppAction],
+            listeners:{
+                'open-panel':'openPanelRight',
+                'add-data' :'pushData',
+                'set-data' : 'setData'
+            },
+            nylonPageActive:function(){
+                // comming soon
+            },
+            pushData:function(e){
+                var item = e.detail;
+                this.$$('client-lists').addData(item)
+            },
+            setData:function(e){
+                var item = e.detail.item;
+                var index = e.detail.index;
+                this.$$('client-lists').setData(item,index)
+            },
+            getParam:function(val){
+                if(val.page == 'app-client'){
+                    console.log('*',val);
+                    this.dispatchAction('MY_APP_SELECT_CLIENT',val.id)
+                    //  console.log('*',val);
+                }
+            },
+            setAction:function(){
+                 var newItem = {
+                    action:'add',
+                    item:{},
+                    index:''
+                }
+                this.fire('open-panel',newItem)
+            },
+            openPanelRight:function(e){
+                // console.log(e.detail);
+                this.getData = e.detail.item;
+                this.getAction = e.detail.action;
+                this.getIndex = e.detail.index;
+                this.$$('panel-right').open();
+            }
+        });
+    </script>
+</dom-module>
