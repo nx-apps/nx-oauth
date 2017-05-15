@@ -470,10 +470,10 @@ exports.editClient = function (req, res) {
     var params = req.body;
 
     r.expr(params).merge(function(x){
-        return {exp_date:r.ISO8601(params.exp_date+'T00:00:00+07:00')}
+        return {exp_date:r.ISO8601(x('exp_date').add('T00:00:00+07:00'))}
     })
     .do(function(report){
-        return r.table('client').get(report.id).update(report)
+        return r.table('client').get(report('id')).update(report)
     })
     .run()
     .then(function (result) {
