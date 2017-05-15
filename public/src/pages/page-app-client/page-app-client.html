@@ -15,12 +15,12 @@
             <div class="header gl-large">
                 จัดการผู้ใช้งาน
             </div>
-            <client-lists></client-lists>
+            <client-lists app-id="[[param.id]]"></client-lists>
         </div>
-         <paper-fab icon="icons:add" title="" on-tap="setAction"></paper-fab>
+         <paper-fab icon="icons:add" on-tap="openPanelRight"></paper-fab>
         <panel-right title="จัดการ client">
             <div class="container">
-                <client-form data="{{getData}}" action="{{getAction}}" position="{{getIndex}}"></client-form>
+                <client-form app-id="[[param.id]]"></client-form>
             </div>
         </panel-right>       
     </template>
@@ -28,45 +28,28 @@
         Polymer({
             is: 'page-app-client',
             observers:['getParam(param)'],
-            behaviors: [nylonBehavior, ReduxBehavior,myAppAction],
+            behaviors: [nylonBehavior, ReduxBehavior,clientAction],
             listeners:{
-                'open-panel':'openPanelRight',
-                'add-data' :'pushData',
-                'set-data' : 'setData'
+                'close-panel':'closePanelRight',
+                'open-panel':'openPanelRight'
             },
             nylonPageActive:function(){
                 // comming soon
             },
-            pushData:function(e){
-                var item = e.detail;
-                this.$$('client-lists').addData(item)
-            },
-            setData:function(e){
-                var item = e.detail.item;
-                var index = e.detail.index;
-                this.$$('client-lists').setData(item,index)
-            },
             getParam:function(val){
                 if(val.page == 'app-client'){
-                    console.log('*',val);
-                    this.dispatchAction('MY_APP_SELECT_CLIENT',val.id)
+                    this.dispatchAction('CLIENT_GET_LIST',val.id)
                     //  console.log('*',val);
                 }
             },
-            setAction:function(){
-                 var newItem = {
-                    action:'add',
-                    item:{},
-                    index:''
-                }
-                this.fire('open-panel',newItem)
-            },
             openPanelRight:function(e){
-                // console.log(e.detail);
-                this.getData = e.detail.item;
-                this.getAction = e.detail.action;
-                this.getIndex = e.detail.index;
-                this.$$('panel-right').open();
+                this.dispatchAction('CLIENT_CLEAR_DATA')
+                .then(function(){
+                    this.$$('panel-right').open();
+                }.bind(this))
+            },
+            closePanelRight:function(e){
+                this.$$('panel-right').close();
             }
         });
     </script>

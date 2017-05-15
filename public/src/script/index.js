@@ -14,7 +14,7 @@ import {appReducer,appAction} from './reducer/app'
 import {  myAppReducer, myAppAction } from './reducer/myApp'
 import { appUserReducer, appUserAction } from './reducer/appUser'
 import { userReducer, userAction } from './reducer/user'
-
+import {clientReducer , clientAction } from './reducer/client'
 import { settingReducer, settingAction } from './reducer/setting'
 
 const rootReducer = combineReducers({
@@ -27,8 +27,8 @@ const rootReducer = combineReducers({
     appUser: appUserReducer,
     myApp:myAppReducer,
     user: userReducer,
-    setting:settingReducer
-
+    setting:settingReducer,
+    client:clientReducer
 });
 const storeApp = createStore(
     rootReducer,
@@ -48,3 +48,4 @@ window.appUserAction = appUserAction(storeApp);
 window.myAppAction = myAppAction(storeApp);
 window.userAction = userAction(storeApp);
 window.settingAction = settingAction(storeApp);
+window.clientAction = clientAction(storeApp);

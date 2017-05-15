@@ -5,8 +5,8 @@
 <dom-module id="client-form">
     <!--<link rel="import" type="css" href="client-form.css">-->
     <template>
-        <style include="page-style">    
-              .flex-end-justified {
+        <style include="page-style">
+            .flex-end-justified {
                 @apply(--layout-horizontal);
                 @apply(--layout-end-justified);
             }
@@ -68,7 +68,7 @@
             </table>
         </paper-material>
         <div class="flex-end-justified">
-             <paper-button class="gl-btn-success" on-tap="getForm" raised>บันทึก</paper-button>
+            <paper-button class="gl-btn-success" on-tap="getForm" raised>บันทึก</paper-button>
         </div>
 
     </template>
@@ -76,29 +76,74 @@
         Polymer({
             is: 'client-form',
             behaviors: [ReduxBehavior],
-            properties:{
-                data:{
-                    type:Object,
-                    value:{}
+            properties: {
+                data: {
+                    statePath: 'client.data'
                 },
-                action:{
-                    type:String,
-                    value:''
+                appId: {
+                    type: String,
+                    value: ''
                 },
-                position:{
-                    type:String,
-                    value:''
+                position: {
+                    type: String,
+                    value: ''
                 }
             },
-            getForm:function(e){
-                // console.log(this.action);
-                if(this.action == 'add'){
-                    this.fire('add-data',this.data);
-                }   
-                else{
-                    this.fire('set-data',{item:this.data,index:this.position})
-                }
+            getForm: function () {
                 // console.log(this.data);
+                this.fire('toast', { status: 'load' });
+                if (typeof this.data.id == 'undefined') {
+                    this.data.apps_id = this.appId;
+                    // console.log('insert');
+                    this.dispatchAction('CLIENT_INSERT', this.data)
+                        .then(function (res) {
+                            this.fire('toast', {
+                                status: 'success', text: 'บันทึกสำเร็จ',
+                                callback: function () {
+                                    this.dispatchAction('CLIENT_GET_LIST',this.appId)
+                                    .then(function(){
+                                        this.fire('close-panel');
+                                        // this.dispatchAction('CLIENT_CLEAR')
+                                    }.bind(this))
+                                    //   this.fire('close-panel')
+                                }.bind(this)
+                            });
+                        }.bind(this))
+                        .catch(function (error) {
+                            this.fire('toast', {
+                                status: 'connectError', text: error,
+                                callback: function () {
+                                }
+                            })
+                        })
+                }
+                else {
+                    console.log(this.data);
+                    // console.log('update');
+                    this.dispatchAction('CLIENT_UPDATE', this.data)
+                        .then(function (res) {
+                            this.fire('toast', {
+                                status: 'success', text: 'บันทึกสำเร็จ',
+                                callback: function () {
+                                    this.dispatchAction('CLIENT_GET_LIST',this.appId)
+                                    .then(function(){
+                                        this.fire('close-panel');
+                                        // this.dispatchAction('CLIENT_SELECT',this.data.id)
+                                        // CLIENT_SELECT
+                                    }.bind(this))
+                                    //   this.fire('close-panel')
+                                }.bind(this)
+                            });
+                        }.bind(this))
+                        .catch(function (error) {
+                            this.fire('toast', {
+                                status: 'connectError', text: error,
+                                callback: function () {
+                                }
+                            })
+                        })
+                }
+
             }
         });
     </script>
