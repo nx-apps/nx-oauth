@@ -1,0 +1,136 @@
+
+<link rel="import" href="./../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="./../../../bower_components/iron-icon/iron-icon.html">
+
+<dom-module id="client-lists">
+    <!--<link rel="import" type="css" href="client-list.css">-->
+    <template>
+         <style include="page-style flex-style">
+            .header {
+                width: 500px;
+                /*padding: 20px 20px 5px 20px;*/
+            }
+            
+            .big {
+                --iron-icon-height: 32px;
+                --iron-icon-width: 32px;
+                padding: 5px;
+                cursor: pointer;
+            }
+            gl-form-input,vaadin-date-picker{
+                width: 200px;
+            }
+        </style>
+        <paper-material elevation="1">
+            <div style="overflow-x:auto;">
+                <table class="gl-table-default">
+                    <thead>
+                        <tr>
+                            <th class="header">Client Name</th>
+                            <th class="header">Domain</th>
+                            <th class="header">Client Id</th>
+                            <th class="header">Secret</th>
+                            <th class="header">EXP Date</th>
+                            <th class="header">Allow Callback URL</th>
+                            <th class="header">Allow Logout URL</th>
+                            <th class="header">จัดการ</th>
+                            <!--<th class="header">Delete </th>-->
+                            <!--<th class="header">
+                                <iron-icon icon="icons:add-circle" on-tap="addList" class="big"></iron-icon>
+                            </th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template is="dom-repeat" items="[[list.client]]">
+                            <tr>
+                                <td>
+                                    {{item.client_name}}
+                                    <!--<gl-form-input value="{{item.client_name}}"></gl-form-input>-->
+                                </td>
+                                <td>
+                                    {{item.domain}}
+                                    <!--<gl-form-input value="{{item.domain}}"></gl-form-input>-->
+                                </td>
+                                <td>
+                                    {{item.client_id}}
+                                    <!--<gl-form-input value="{{item.client_id}}"></gl-form-input>-->
+                                </td>
+                                <td>
+                                    {{item.secret}}
+                                    <!--<gl-form-input value="{{item.secret}}">
+                                        <div suffix>
+                                            <iron-icon icon="icons:refresh" style="cursor:pointer;">
+                                        </div>
+                                    </gl-form-input>-->
+                                </td>
+                                <td>
+                                    {{item.exp_date}}
+                                    <!--<vaadin-date-picker value="{{item.exp_date}}"></vaadin-date-picker>-->
+                                </td>
+                                <td>
+                                    {{item.allow_callback_url}}
+                                    <!--<gl-form-input value="{{item.allow_callback_url}}"></gl-form-input>-->
+                                </td>
+                                <td>
+                                    {{item.allow_logout_url}}
+                                    <!--<gl-form-input value="{{item.allow_logout_url}}"></gl-form-input>-->
+                                </td>
+                                <td>
+                                    <paper-icon-button icon="delete" index="{{index}}" on-tap="deleteData"></paper-icon-button>
+                                    <paper-icon-button icon="create" index="{{index}}" item="{{item}}" on-tap="editData"></paper-icon-button>
+                                </td>
+                                <!--<td on-tap="delList" id="{{index}}">
+                                    <iron-icon icon="icons:delete" style="cursor:pointer;margin-bottom:-25px;"></iron-icon>
+                                </td>-->
+                                <!--<td></td>-->
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </paper-material>
+        <paper-button on-tap="saveData" raised></paper-button>
+        
+    </template>
+    <script>
+        Polymer({
+            is: 'client-lists',
+            behaviors: [ReduxBehavior],
+            properties:{
+                list:{
+                    statePath:'myApp.client'
+                }
+            },
+            deleteData:function(e){
+                var element = e.currentTarget;
+                var index = element.index;
+                this.splice('list.client',index,1);
+            },
+            addData:function(val){
+                // console.log(val);
+                this.push('list.client',val)
+            },
+            setData:function(val,index){
+                // console.log(index);
+                // console.log(val);
+                this.set('list.client.'+index,val)
+            },
+            editData:function(e){
+                var element = e.currentTarget;
+                var item = element.item;
+                // console.log(element.index);
+                // var action = element.action;
+                var newItem = {
+                    action:'edit',
+                    item:item,
+                    index:element.index
+                }
+                // console.log(newItem);
+                this.fire('open-panel',newItem)
+            },
+            saveData:function(){
+
+            }
+        });
+    </script>
+</dom-module>
