@@ -18,4 +18,11 @@ module.exports = function (app) {
     app.get('/client', controller.getClient);
     app.put('/client', controller.updateClient);
 
+    //new client//
+    app.post('/clients', controller.sentClient);
+    app.get('/clients', controller.selectClient); 
+    app.get('/clientsAlone', controller.selectClientAlone); 
+    app.put('/clients', controller.editClient); 
+    app.delete('/clients', controller.deleteClient); 
+
 }
