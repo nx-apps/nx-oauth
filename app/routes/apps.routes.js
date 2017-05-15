@@ -23,6 +23,6 @@ module.exports = function (app) {
     app.get('/clients', controller.selectClient); 
     app.get('/clientsAlone', controller.selectClientAlone); 
     app.put('/clients', controller.editClient); 
-    app.delete('/clients', controller.deleteClient); 
+    app.delete('/clients/:id', controller.deleteClient); 
 
 }

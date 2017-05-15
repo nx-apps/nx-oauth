@@ -65,8 +65,9 @@ export function clientAction(store) {
             var newItem = {
                 id:id
             }
-            console.log(newItem);
-            return axios.delete('./apps/clients',newItem)
+            console.log(JSON.stringify(newItem));
+            // console.log(newItem);
+            return axios.delete('./apps/clients/'+id)
         },
         CLIENT_UPDATE:function(data){
             return axios.put('./apps/clients',data)
