@@ -41,7 +41,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <template is="dom-repeat" items="[[list.client]]">
+                        <template is="dom-repeat" items="[[list]]">
                             <tr>
                                 <td>
                                     {{item.client_name}}
@@ -64,7 +64,7 @@
                                     </gl-form-input>-->
                                 </td>
                                 <td>
-                                    {{item.exp_date}}
+                                    {{converDate(item.exp_date)}}
                                     <!--<vaadin-date-picker value="{{item.exp_date}}"></vaadin-date-picker>-->
                                 </td>
                                 <td>
@@ -76,8 +76,8 @@
                                     <!--<gl-form-input value="{{item.allow_logout_url}}"></gl-form-input>-->
                                 </td>
                                 <td>
-                                    <paper-icon-button icon="delete" index="{{index}}" on-tap="deleteData"></paper-icon-button>
                                     <paper-icon-button icon="create" index="{{index}}" item="{{item}}" on-tap="editData"></paper-icon-button>
+                                    <paper-icon-button icon="delete" index="{{index}}" item="{{item}}" on-tap="confirmData"></paper-icon-button>
                                 </td>
                                 <!--<td on-tap="delList" id="{{index}}">
                                     <iron-icon icon="icons:delete" style="cursor:pointer;margin-bottom:-25px;"></iron-icon>
@@ -89,7 +89,7 @@
                 </table>
             </div>
         </paper-material>
-        <paper-button on-tap="saveData" raised></paper-button>
+        <!--<paper-button on-tap="saveData" raised></paper-button>-->
         
     </template>
     <script>
@@ -98,38 +98,61 @@
             behaviors: [ReduxBehavior],
             properties:{
                 list:{
-                    statePath:'myApp.client'
+                    statePath:'client.list'
+                },
+                appId:{
+                    type:String,
+                    value:''
                 }
             },
-            deleteData:function(e){
-                var element = e.currentTarget;
-                var index = element.index;
-                this.splice('list.client',index,1);
+            converDate:function(val){
+                var newDate = val.split('T');
+                return newDate[0];
             },
-            addData:function(val){
-                // console.log(val);
-                this.push('list.client',val)
+            confirmData:function(e){
+                this.fire('toast',{ 
+                 status:'openDialog',
+                 text:'ต้องการลบข้อมูลใช่หรือไม่ ?',
+                 confirmed:this.deleteData.bind(this),  
+                 id:e.currentTarget.item.id 
+                 })
             },
-            setData:function(val,index){
-                // console.log(index);
-                // console.log(val);
-                this.set('list.client.'+index,val)
+            deleteData:function(check,data){
+                if(check == true){
+                    // var newItem = {
+                    //     id: data.id
+                    // }
+                    // console.log(newItem);
+                    this.fire('toast',{status:'load'});
+                    this.dispatchAction('CLIENT_DELETE',data.id)
+                    .then(function(){
+                        this.fire('toast',{status:'success',text:'ลบข้อมูลสำเร็จ',
+                          callback:function(){
+                             this.dispatchAction('CLIENT_GET_LIST',this.appId)
+                          }.bind(this)
+                         });
+                    }.bind(this))
+                    .catch(function(error){
+                         this.fire('toast',{status:'connectError',text:error,
+                         callback:function(){
+                         }})
+                    }.bind(this))
+                }
+               
             },
             editData:function(e){
-                var element = e.currentTarget;
-                var item = element.item;
-                // console.log(element.index);
-                // var action = element.action;
-                var newItem = {
-                    action:'edit',
-                    item:item,
-                    index:element.index
-                }
-                // console.log(newItem);
-                this.fire('open-panel',newItem)
-            },
-            saveData:function(){
-
+                var element = e.currentTarget
+                var id = element.item.id;
+                this.dispatchAction('CLIENT_SELECT',id)
+                .then(function(res){
+                    this.fire('open-panel')
+                }.bind(this))
+                .catch(function(error){
+                     this.fire('toast',{status:'connectError',text:error,
+                     callback:function(){
+                     }})
+                }.bind(this))
+                // console.log(id);
             }
         });
     </script>
