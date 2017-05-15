@@ -486,9 +486,8 @@ exports.editClient = function (req, res) {
 
 exports.deleteClient = function (req, res) {
     var r = req.r;
-    r.table('client')
-        .get(req.params.id)
-        .delete()
+    var params = req.body;
+    r.table('client').get(params.id).delete()
         .run()
         .then(function (result) {
             res.json(result);
