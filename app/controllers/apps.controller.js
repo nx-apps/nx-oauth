@@ -435,7 +435,24 @@ exports.selectClient = function (req, res) {
     var r = req.r;
     var params = req.query;
 
-    r.table('client').filter({apps_id:params.id})
+    r.table('client').filter({apps_id:params.apps_id})
+    .merge(function(x){
+        return {exp_date:x('exp_date').toISO8601()}
+    })
+    .run()
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    })
+}
+
+exports.selectClientAlone = function (req, res) {
+    var r = req.r;
+    var params = req.query;
+
+    r.table('client').get(params.id)
     .merge(function(x){
         return {exp_date:x('exp_date').toISO8601()}
     })

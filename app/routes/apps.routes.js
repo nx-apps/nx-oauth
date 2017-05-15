@@ -21,6 +21,7 @@ module.exports = function (app) {
     //new client//
     app.post('/clients', controller.sentClient);
     app.get('/clients', controller.selectClient); 
+    app.get('/clientsAlone', controller.selectClientAlone); 
     app.put('/clients', controller.editClient); 
     app.delete('/clients', controller.deleteClient); 
 
