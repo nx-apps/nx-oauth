@@ -5,14 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "npm-run-all --parallel webpack nylon",
-    "dev": "npm-run-all --parallel webpack nylon polymer",
+    "dev": "npm-run-all --parallel webpack nylon polymerDev",
     "build": "cd public && polymer build",
     "lint": "cd public && polymer lint",
-    "test": "polymer serve ./public/build/public --port 8081",
+    "test": "npm-run-all --parallel nylon polymerTest",
     "nylon": "nylon-cli serve",
     "bower": "cd ./public && bower install",
     "webpack": "webpack",
-    "polymer": "polymer serve ./public --port 8080"
+    "polymerDev": "polymer serve ./public --port 8080",
+    "polymerTest": "polymer serve ./public/build/public --port 8081"
+
   },
   "author": "",
   "license": "ISC",
