@@ -45,8 +45,9 @@ export function userAction(store) {
 
                 })
         },
-        USER_LIST_APP: function (id) {
-            var _this = pageUser;
+        USER_LIST_APP: function (page,id) {
+            // console.log(id);
+            var _this = window[page];
             _this.AppId = id;
             axios.get('./users/userList?app_id=' + id)
                 .then((response) => {
@@ -131,13 +132,13 @@ export function userAction(store) {
             //data.scope = data.scope.split(",");
 
             axios.put(`/users/user`, data)
-                .then(res => {
-                    this.USER_LIST_APP(_this.AppId);
-                    console.log('success');
+                .then((res) => {
+                    // console.log('success');
                     _this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
                             _this.$$('panel-right').close();
+                            this.USER_LIST_APP(page,' ');
                         }
                     });
                 })
