@@ -7,6 +7,7 @@ const initialState = {
         register_auto: false,
         status_enable: false
     },
+    // dataClient:{},
     client: []
 }
 
@@ -91,14 +92,13 @@ export function myAppAction(store) {
         },
         MY_APP_SELECT_CLIENT: function (id) {
             var _this = pageMyApp;
-
             axios.get('./apps/client?id=' + id)
                 .then((response) => {
                     // console.log(response.data);
-                    _this.selected = 3;
+                    // this.selected = 3;
                     store.dispatch({ type: 'MY_APP_SELECT_CLIENT', payload: response.data })
-                    _this.$$('panel-right').title = "จัดการ Client"
-                    _this.$$('panel-right').open();
+                    // this.$$('panel-right').title = "จัดการ Client"
+                    // this.$$('panel-right').open();
                 })
                 .catch((error) => {
                     console.log('error');

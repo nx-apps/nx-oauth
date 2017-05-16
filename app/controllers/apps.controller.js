@@ -399,10 +399,96 @@ exports.getClient = function (req, res) {
 exports.updateClient = function (req, res) {
     var r = req.r;
     var params = req.body;
+        r.table('apps').get(params.id).update(r.expr(params).without('id'))
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
+}
 
-    //res.json(params);
+/// New Cliet ///
 
-    r.table('apps').get(params.id).update(r.expr(params).without('id'))
+exports.sentClient = function (req, res) {
+    var r = req.r;
+    var params = req.body;
+    //date_moc:r.ISO8601(params.date_moc+'T00:00:00+07:00'), 
+
+    r.expr(params).merge(function(x){
+        return {exp_date:r.ISO8601(params.exp_date+'T00:00:00+07:00')}
+    }).do(function(report){
+        return r.table('client').insert(report)
+    })
+
+    .run()
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    })
+}
+
+exports.selectClient = function (req, res) {
+    var r = req.r;
+    var params = req.query;
+
+    r.table('client').filter({apps_id:params.apps_id})
+    .merge(function(x){
+        return {exp_date:x('exp_date').toISO8601()}
+    })
+    .run()
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    })
+}
+
+exports.selectClientAlone = function (req, res) {
+    var r = req.r;
+    var params = req.query;
+
+    r.table('client').get(params.id)
+    .merge(function(x){
+        return {exp_date:x('exp_date').toISO8601()}
+    })
+    .run()
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    })
+}
+
+exports.editClient = function (req, res) {
+    var r = req.r;
+    var params = req.body;
+
+    r.expr(params).merge(function(x){
+        return {exp_date:r.ISO8601(x('exp_date').add('T00:00:00+07:00'))}
+    })
+    .do(function(report){
+        return r.table('client').get(report('id')).update(report)
+    })
+    .run()
+    .then(function (result) {
+        res.json(result);
+    })
+    .catch(function (err) {
+        res.status(500).json(err);
+    })
+}
+
+exports.deleteClient = function (req, res) {
+    var r = req.r;
+    var params = req.body;
+    // console.log(req.params.id);
+    r.table('client').get(req.params.id).delete()
         .run()
         .then(function (result) {
             res.json(result);
