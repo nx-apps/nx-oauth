@@ -28,6 +28,8 @@ export function authAction(store){
 
     return {
             AUTH_LOGIN:function(formLogin){
+                var _this = pageLogin;
+
                 axios.post('./auth/login',{username:formLogin.user,password:formLogin.pass})
                 .then((response)=>{
 
@@ -43,9 +45,9 @@ export function authAction(store){
                     }
 
                     if(userInfo.role=="teacher"){
-                        this.fire('nylon-change-page',{path:'/examRoom'})
+                        _this.fire('nylon-change-page',{path:'/examRoom'})
                     }else{
-                        this.fire('nylon-change-page',{path:'/examHistory'})
+                        _this.fire('nylon-change-page',{path:'/examHistory'})
                     }
 
                 })

@@ -19,17 +19,19 @@ export function appConnectAction(store) {
 
     return {
         APP_CONNECT_LIST: function (id) {
+            var _this = pageAppConnect;
             axios.get(`/apps/connects/${id}`)
                 .then(res => {
                     store.dispatch({ type: 'APP_CONNECT_LIST', payload: res.data })
-                    this.nylonVisible(true);
+                    _this.nylonVisible(true);
                 })
                 .catch(err => {
 
                 })
         },
         APP_CONNECT_UPDATE: function (data) {
-            this.fire('toast', { status: 'load' });
+            var _this = pageAppConnect;
+            _this.fire('toast', { status: 'load' });
             var conns=[]
             data.connections.forEach(function (conn) {
                    if (conn.status == true) {
@@ -40,10 +42,10 @@ export function appConnectAction(store) {
             axios.put(`/apps/app`, data)
                 .then(res => {
                     this.APP_CONNECT_LIST(data.id);
-                    this.fire('toast', {
+                    _this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
-                            //this.$$('panel-right').close();
+                            //_this.$$('panel-right').close();
                         }
                     });
                 })

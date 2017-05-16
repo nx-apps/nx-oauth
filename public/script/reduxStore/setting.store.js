@@ -24,11 +24,12 @@ export function settingAction(store){
 
     return {
             SETTING_UPDATE:function(data){
-                this.fire('toast',{status:'load'});
+                var _this = pageSetting;
+                _this.fire('toast',{status:'load'});
 
                 axios.put('/setting/setting',data)
                 .then(res=>{
-                     this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',callback:function(){}});
+                     _this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',callback:function(){}});
                 })
                 .catch(err=>{
                     console.log(err);
@@ -36,6 +37,7 @@ export function settingAction(store){
 
             },
             SETTING_SELECT:function(){
+                var _this = pageSetting;
                 axios.get('/setting/setting')
                 .then(res=>{
                     store.dispatch({type:'SETTING_SELECT',payload:res.data})
