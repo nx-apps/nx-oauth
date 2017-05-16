@@ -1,11 +1,12 @@
 <link rel="import" href="./provider-list.html">
 <link rel="import" href="./provider-panel.html">
-<link rel="import" href="/src/nylon-param.html">
+<link rel="import" href="./../../nylon-param.html">
 
 <link rel="import" href="./../components/panel-right/panel-right.html">
 <link rel="import" href="./../../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="./../components/page-style.html">
-
+<link rel="import" href="./../../nylon-behavior.html">
+<link rel="import" href="./../../redux-behavior.html">
 
 <dom-module id="page-provider">
     <template>
@@ -46,7 +47,7 @@
     <script>
         Polymer({
             is: 'page-provider',
-            behaviors: [NylonBehavior,ReduxBehavior,providerAction],
+            behaviors: [NylonBehavior,ReduxBehavior],
             observers:['obGetParam(getParam)'],
             obGetParam:function(param){
                 if(param.page=="provider"){

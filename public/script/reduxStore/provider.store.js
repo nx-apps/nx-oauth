@@ -27,20 +27,22 @@ export function providerAction(store){
                 console.log(id);
             },
             PROVIDER_LIST:function(){
+                var _this = pageProvider;
                 axios.get('/providers')
                 .then(res=>{
                     store.dispatch({type:'PROVIDER_LIST',payload:res.data})
-                    this.nylonVisible(true);
+                    _this.nylonVisible(true);
                 })
                 .catch(err=>{
 
                 })
             },
             PROVIDER_SELECT:function(id){
+                var _this = pageProvider;
                 axios.get(`/providers/provider/${id}`)
                 .then(res=>{
                     store.dispatch({type:'PROVIDER_SELECT',payload:res.data})
-                    this.$$('panel-right').open();
+                    _this.$$('panel-right').open();
                 })
                 .catch(err=>{
                     console.log(err);
@@ -50,16 +52,16 @@ export function providerAction(store){
                 store.dispatch({type:'PROVIDER_CLEAR_SELECT'})
             },
             PROVIDER_INSERT:function(data){
-
-                this.fire('toast',{status:'load'});
+                var _this = pageProvider;
+                _this.fire('toast',{status:'load'});
                 data.scope = data.scope.split(",");
 
                 axios.post(`/providers/provider`,data)
                 .then(res=>{
                     this.PROVIDER_LIST();
-                    this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
+                    _this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
                         callback:()=>{
-                            this.$$('panel-right').close();
+                            _this.$$('panel-right').close();
                         }
                     });
                 })
@@ -69,15 +71,15 @@ export function providerAction(store){
 
             },
             PROVIDER_DELETE:function(id){
-                
-                this.fire('toast',{status:'load'});
+                var _this = pageProvider;
+                _this.fire('toast',{status:'load'});
 
                 axios.delete(`/providers/provider/${id}`)
                 .then(res=>{
                     this.PROVIDER_LIST();
-                    this.fire('toast',{status:'success',text:'ลบข้อมูลสำเร็จ',
+                    _this.fire('toast',{status:'success',text:'ลบข้อมูลสำเร็จ',
                         callback:()=>{
-                            this.$$('panel-right').close();
+                            _this.$$('panel-right').close();
                         }
                     });
                 })
@@ -86,15 +88,16 @@ export function providerAction(store){
                 })
             },
             PROVIDER_UPDATE:function(data){
-                this.fire('toast',{status:'load'});
+                var _this = pageProvider;
+                _this.fire('toast',{status:'load'});
                 data.scope = data.scope.split(",");
 
                 axios.put(`/providers/provider`,data)
                 .then(res=>{
                     this.PROVIDER_LIST();
-                    this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
+                    _this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
                         callback:()=>{
-                            this.$$('panel-right').close();
+                            _this.$$('panel-right').close();
                         }
                     });
                 })

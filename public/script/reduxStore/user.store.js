@@ -35,17 +35,19 @@ export function userAction(store) {
             console.log(id);
         },
         USER_LIST: function () {
+            var _this = pageUser;
             axios.get('/users/info')
                 .then(res => {
                     store.dispatch({ type: 'USER_LIST', payload: res.data })
-                    this.nylonVisible(true);
+                    _this.nylonVisible(true);
                 })
                 .catch(err => {
 
                 })
         },
         USER_LIST_APP: function (id) {
-            this.AppId = id;
+            var _this = pageUser;
+            _this.AppId = id;
             axios.get('./users/userList?app_id=' + id)
                 .then((response) => {
                     store.dispatch({ type: 'USER_LIST_APP', payload: response.data })
@@ -56,23 +58,25 @@ export function userAction(store) {
                 });
         },
         USER_SELECT: function (id) {
+            var _this = pageUser;
             axios.get(`/users/info/${id}`)
                 .then(res => {
                     store.dispatch({ type: 'USER_SELECT', payload: res.data })
-                    // this.selected = 0;
-                    // this.$$('panel-right').open();
+                    // _this.selected = 0;
+                    // _this.$$('panel-right').open();
                 })
                 .catch(err => {
                     console.log(err);
                 })
         },
         USER_SELECT_APP: function (id) {
-            this.selectAppID = id;
+            var _this = pageUser;
+            _this.selectAppID = id;
             axios.get('./roles/manageApps/' + id)
                 .then((response) => {
-                    this.selected = 1;
-                    this.$$('panel-right').title = "ลงทะเบียน APP";
-                    this.$$('panel-right').open();
+                    _this.selected = 1;
+                    _this.$$('panel-right').title = "ลงทะเบียน APP";
+                    _this.$$('panel-right').open();
                     store.dispatch({ type: 'USER_SELECT_APP', payload: response.data })
                 })
                 .catch((error) => {
@@ -84,18 +88,18 @@ export function userAction(store) {
             store.dispatch({ type: 'USER_CLEAR_SELECT' })
         },
         USER_INSERT: function (data) {
-
-            this.fire('toast', { status: 'load' });
+            var _this = pageUser;
+            _this.fire('toast', { status: 'load' });
             // data.scope = data.scope.split(",");
 
             axios.post(`/users/user`, data)
                 .then(res => {
-                    this.USER_LIST_APP(this.AppId);
+                    this.USER_LIST_APP(_this.AppId);
                     // this.USER_LIST();
-                    this.fire('toast', {
+                    _this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
-                            this.$$('panel-right').close();
+                            _this.$$('panel-right').close();
                         }
                     });
                 })
@@ -104,14 +108,15 @@ export function userAction(store) {
                 })
         },
         USER_DELETE: function (id) {
-            this.fire('toast', { status: 'load' });
+            var _this = pageUser;
+            _this.fire('toast', { status: 'load' });
             axios.delete(`/users/user/${id}`)
                 .then(res => {
-                    this.USER_LIST_APP(this.AppId);
-                    this.fire('toast', {
+                    _this.USER_LIST_APP(this.AppId);
+                    _this.fire('toast', {
                         status: 'success', text: 'ลบข้อมูลสำเร็จ',
                         callback: () => {
-                            this.$$('panel-right').close();
+                            _this.$$('panel-right').close();
                         }
                     });
                 })
@@ -120,16 +125,17 @@ export function userAction(store) {
                 })
         },
         USER_UPDATE: function (data) {
-            this.fire('toast', { status: 'load' });
+            var _this = pageUser;
+            _this.fire('toast', { status: 'load' });
             //data.scope = data.scope.split(",");
 
             axios.put(`/users/user`, data)
                 .then(res => {
-                    this.USER_LIST_APP(this.AppId);
-                    this.fire('toast', {
+                    this.USER_LIST_APP(_this.AppId);
+                    _this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
-                            this.$$('panel-right').close();
+                            _this.$$('panel-right').close();
                         }
                     });
                 })
@@ -141,12 +147,14 @@ export function userAction(store) {
             var newData = {
                 data : data
             }
-            this.fire('toast',{status:'load'});
+            var _this = pageUser;
+
+            _this.fire('toast',{status:'load'});
             axios.put('./roles/manageApps/', newData)
                 .then((response) => {
-                  this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
+                  _this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
                     callback:()=>{
-                        this.USER_SELECT_APP(this.selectAppID)
+                        this.USER_SELECT_APP(_this.selectAppID)
                     }
                    });
                    

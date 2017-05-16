@@ -30,6 +30,7 @@ export function appUserAction(store) {
 
     return {
         APP_USER_LIST: function (id) {
+            var _this = pageAppUser;
             // console.log('APP_USER_LIST');
             axios.get(`/apps/users/${id}`)
                 .then(res => {
@@ -37,7 +38,7 @@ export function appUserAction(store) {
                     // res.data.role.push("");
                     store.dispatch({ type: 'APP_USER_LIST', payload: res.data })
                     store.dispatch({ type: 'APP_USER_CLEAR' });
-                    this.nylonVisible(true);
+                    _this.nylonVisible(true);
                 })
                 .catch(err => {
 
@@ -54,8 +55,9 @@ export function appUserAction(store) {
 
 
         APP_USER_SAVE: function (data, updates, deletes) {
+            var _this = pageAppUser;
             // console.log(deletes);
-            this.fire('toast', { status: 'load' });
+            _this.fire('toast', { status: 'load' });
             // var user_dels=[];
             // console.log(updates);
             var newUpdate = updates.map((item)=>{
@@ -91,7 +93,7 @@ export function appUserAction(store) {
             axios.put(`/apps/users`, newData)
                 .then(res => {
                     this.APP_USER_LIST(data);
-                    this.fire('toast', {
+                    _this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
                             //  this.$$('panel-right').close();
