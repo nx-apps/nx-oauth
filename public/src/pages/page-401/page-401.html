@@ -31,9 +31,9 @@
         </style>
         <div class="xcontainer">
             <div class="header"> 401 </div>
-            <div class="content"> {{localize('msg')}} </div>
+            <div class="content">  </div>
             <div>
-                <paper-button on-tap="chagePage">{{localize('btnMsg')}}</paper-button>
+                <paper-button on-tap="chagePage"></paper-button>
             </div>
             
         </div>
@@ -42,7 +42,6 @@
     <script>
         Polymer({
             is: 'page-401',
-            behaviors:[nylonLocalizeBehavior],
             created:function(){
                 this.nylonLocalizeImport('/401.json');
             },

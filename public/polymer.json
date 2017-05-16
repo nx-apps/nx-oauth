@@ -1,0 +1,56 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/nylon-app.html",
+  "fragments": [
+    "src/pages/page-401/page-401.html",
+    "src/pages/page-403/page-403.html",
+    "src/pages/page-404/page-404.html",
+    "src/pages/page-app/page-app.html",
+    "src/pages/page-app-client/page-app-client.html",
+    "src/pages/page-app-connect/page-app-connect.html",
+    "src/pages/page-app-role/page-app-role.html",
+    "src/pages/page-app-user/page-app-user.html",
+    "src/pages/page-login/page-login.html",
+    "src/pages/page-my-app/page-my-app.html",
+    "src/pages/page-provider/page-provider.html",
+    "src/pages/page-setting/page-setting.html",
+    "src/pages/page-user/page-user.html"
+  ],
+  "sources": [
+    "src/**/*",
+    "images/**/*",
+    "bower.json",
+    "fonts/**/*"
+  ],
+  "extraDependencies": [
+    "bundle.js",
+    "manifest.json",
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js",
+    "bower_components/gl-font/fonts/rsu/rsu_bold-webfont.woff2",
+    "bower_components/gl-font/fonts/rsu/rsu_bold-webfont.woff",
+    "fonts/CSChatThaiUI.eot",
+    "fonts/CSChatThaiUI.svg",
+    "fonts/CSChatThaiUI.ttf",
+    "fonts/CSChatThaiUI.woff"
+  ],
+  "builds": [
+    {
+      "name": "public",
+      "bundle": true,
+      "html": {
+        "minify": true
+      },
+      "css": {
+        "minify": true
+      },
+      "js": {
+        "minify": false,
+        "compile": true
+      },
+      "addServiceWorker": false
+    }
+  ],
+  "lint": {
+    "rules": ["polymer-1"]
+  }
+}
