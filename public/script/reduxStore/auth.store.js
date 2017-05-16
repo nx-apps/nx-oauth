@@ -2,7 +2,10 @@ import axios from '../axios'
 import jwtDecode from 'jwt-decode'
 
 const initialState = {
-    user:{role:'none'}
+    user:{
+        id :'7e8272e1-ae7c-497b-b024-6b78e66294cb',
+        role:'none'
+    }
 }
 
 export function authReducer(state = initialState,action){

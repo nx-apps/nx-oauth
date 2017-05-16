@@ -57,7 +57,9 @@ export function myAppAction(store) {
         },
         MY_APP_REQUEST: function (app_id) {
             var _this = pageMyApp;
-            axios.post(`/apps/request`, { app_id })
+            var user_id = store.getState().auth.user.id;
+            var newItem = {app_id:app_id,user_id:user_id}
+            axios.post(`/apps/request`, newItem)
                 .then(res => {
                     //console.log(res.data)
                     this.MY_APP_LIST(_this.getParam.id);

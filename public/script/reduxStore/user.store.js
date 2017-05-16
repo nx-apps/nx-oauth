@@ -57,13 +57,13 @@ export function userAction(store) {
                     console.log(error);
                 });
         },
-        USER_SELECT: function (id) {
-            var _this = pageMyApp;
+        USER_SELECT: function (page,select,id) {
+            var _this = window[page];
             axios.get(`/users/info/${id}`)
                 .then(res => {
                     store.dispatch({ type: 'USER_SELECT', payload: res.data })
-                    // _this.selected = 0;
-                    // _this.$$('panel-right').open();
+                    _this.selected = select;
+                    _this.$$('panel-right').open();
                 })
                 .catch(err => {
                     console.log(err);
@@ -124,14 +124,16 @@ export function userAction(store) {
                     console.log(err);
                 })
         },
-        USER_UPDATE: function (data) {
-            var _this = pageUser;
+        USER_UPDATE: function (page,data) {
+            console.log(page,data);
+            var _this = window[page];
             _this.fire('toast', { status: 'load' });
             //data.scope = data.scope.split(",");
 
             axios.put(`/users/user`, data)
                 .then(res => {
                     this.USER_LIST_APP(_this.AppId);
+                    console.log('success');
                     _this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {

@@ -278,21 +278,22 @@ exports.insertRequest = function (req, res) {
     var r = req.r;
     var params = req.body;
     //params.uid = req.user.id;
-    console.log(req.user_id,req.app_id);
+    console.log(params.user_id,params.app_id);
+    
+    params.uid = params.user_id;
+    params.app_id = params.app_id;
+    params.role = 'user';
+    params.status = false;
 
-    // params.uid = req.user_id;
-    // params.app_id = req.app_id;
-    // params.role = 'user';
-    // params.status = false;
 
-    // r.table('user_apps').insert(params)
-    //     .run()
-    //     .then(function (result) {
-    //         res.json(result);
-    //     })
-    //     .catch(function (err) {
-    //         res.status(500).json(err);
-    //     })
+    r.table('user_apps').insert(params)
+        .run()
+        .then(function (result) {
+            res.json(result);
+        })
+        .catch(function (err) {
+            res.status(500).json(err);
+        })
 }
 
 

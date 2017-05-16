@@ -75,7 +75,7 @@
                 return index + 1
             },
             selectList: function (e) {
-                this.dispatchAction('USER_SELECT', e.currentTarget.item.id)
+                this.dispatchAction('USER_SELECT','pageUser','0', e.currentTarget.item.id)
                 .then((res)=>{
                      this.fire('select-user')
                 })

@@ -63,6 +63,10 @@
             properties: {
                 data: {
                     statePath: 'user.data'
+                },
+                page:{
+                    typeof: String,
+                    value:''
                 }
             },
             sendData: function () {
@@ -97,7 +101,7 @@
                             newData.photo = this.data.photo;
                         }
                         // console.log(newData);
-                        this.dispatchAction('USER_UPDATE',newData)
+                        this.dispatchAction('USER_UPDATE',this.page,newData)
                     }
                 }
             },

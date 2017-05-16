@@ -10,8 +10,7 @@
 <link rel="import" href="./../components/page-style.html">
 <link rel="import" href="./../../../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="./../page-user/user-panel.html">
-
-
+้
 <link rel="import" href="./../../nylon-behavior.html">
 <link rel="import" href="./../../redux-behavior.html">
 
@@ -58,7 +57,7 @@
                 <iron-pages selected="[[selected]]">
                     <my-app-panel></my-app-panel>
                     <app-panel></app-panel>
-                    <user-panel testenable="false"></user-panel>
+                    <user-panel page="pageMyApp" testenable="false"></user-panel>
                     <!--<user-form></user-form>-->
                     <!--<client-list></client-list>-->
                 </iron-pages>
@@ -105,7 +104,7 @@
                 } 
                 else if (action == 'addUser'){
                     this.selected = 2;
-                    this.dispatchAction('USER_SELECT','7e8272e1-ae7c-497b-b024-6b78e66294cb');
+                    this.dispatchAction('USER_SELECT','pageMyApp','2',this.user.id);
                     panelRight.title = "แก้ไขผู้ใช้งาน"
                 }
                 panelRight.open();
