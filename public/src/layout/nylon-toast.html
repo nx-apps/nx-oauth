@@ -2,94 +2,99 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="./../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="./../../bower_components/paper-spinner/paper-spinner.html">
+
 
 <dom-module id="nylon-toast">
-    <style>
-      paper-spinner{
-			--paper-spinner-stroke-width: 3px;
-		}
-        .toastLoading, .toastSuccess, .toastWarning, .toastError,.toastDialog{
-            width: 100%;
-            text-align: center;
-            font-size: 22px;
-            font-family: 'rsubold', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            color: white;
-        }
-	    .toastLoading>span{
-			padding-left:10px; 
-			position:relative; 
-			bottom: 6px;
-		}
-		.toastSuccess{
-			background-color: #5cb85c;
-		}
-		.toastSuccess>span{
-			padding-left:10px;
-		}
-		.toastWarning{
-			background-color: #f0ad4e;
-		}
-		.toastError,.toastConnectError{
-			background-color: #d9534f;
-		}
-		.toastConnectError,.toastDialog{
-			width: 100%;
-			text-align: center;
-		}
-		.toastDialog{
-			background-color: #337ab7;
-		}
-		.toastConnectError>span{
-			font-family: 'rsubold', sans-serif;
-            -webkit-font-smoothing: antialiased;
-			font-size: 20px;
-		}
-		.buttonDailog{
-			height: 30px;
-			width: 10px !important;
-			font-size: 20px !important;
-			border-radius: 2px;
-			font-family: 'rsubold', sans-serif;
-		}
-		iron-icon{
-			height: auto;
-			width: 30px;
-			margin-bottom: 5px;
-		}
-		paper-button{
-			border-radius: 2px;
-		}
-
-		.btYes{
-			background-color: #5cb85c;
-		}
-		.btNo{
-			background-color: #d9534f;
-		}
-		#bgToast{
-			position: fixed;
-			background-color: #000;
-			width:100%;
-			height:100%;
-			top:0;
-			right:0;
-			opacity: 0.5;
-			z-index: 2;
-		}
-		.iconClose{
-			width: 30px;
-			height: auto;
-			position: relative;
-			left: 600px;
-			top: 50px;
-		}
-		/*span{
-      		font-family: 'CSChatThaiUI', sans-serif !important;
-      		-webkit-font-smoothing: antialiased;
-    	}*/
-    </style>
+    
     <template>
+		<style>
+			paper-spinner{
+					--paper-spinner-stroke-width: 3px;
+				}
+				.toastLoading, .toastSuccess, .toastWarning, .toastError,.toastDialog{
+					width: 100%;
+					text-align: center;
+					font-size: 22px;
+					font-family: 'rsubold', sans-serif;
+					-webkit-font-smoothing: antialiased;
+					color: white;
+				}
+				.toastLoading>span{
+					padding-left:10px; 
+					position:relative; 
+					bottom: 6px;
+				}
+				.toastSuccess{
+					background-color: #5cb85c;
+				}
+				.toastSuccess>span{
+					padding-left:10px;
+				}
+				.toastWarning{
+					background-color: #f0ad4e;
+				}
+				.toastError,.toastConnectError{
+					background-color: #d9534f;
+				}
+				.toastConnectError,.toastDialog{
+					width: 100%;
+					text-align: center;
+				}
+				.toastDialog{
+					background-color: #337ab7;
+				}
+				.toastConnectError>span{
+					font-family: 'rsubold', sans-serif;
+					-webkit-font-smoothing: antialiased;
+					font-size: 20px;
+				}
+				.buttonDailog{
+					height: 30px;
+					width: 10px !important;
+					font-size: 20px !important;
+					border-radius: 2px;
+					font-family: 'rsubold', sans-serif;
+				}
+				iron-icon{
+					height: auto;
+					width: 30px;
+					margin-bottom: 5px;
+				}
+				paper-button{
+					border-radius: 2px;
+				}
+
+				.btYes{
+					background-color: #5cb85c;
+				}
+				.btNo{
+					background-color: #d9534f;
+				}
+				#bgToast{
+					position: fixed;
+					background-color: #000;
+					width:100%;
+					height:100%;
+					top:0;
+					right:0;
+					opacity: 0.5;
+					z-index: 2;
+				}
+				.iconClose{
+					width: 30px;
+					height: auto;
+					position: relative;
+					left: 600px;
+					top: 50px;
+				}
+				/*span{
+					font-family: 'CSChatThaiUI', sans-serif !important;
+					-webkit-font-smoothing: antialiased;
+				}*/
+		</style>
+		
 		<div id="bgToast" hidden$="[[!opened]]"></div>
 		<div id="bgToast" hidden$="[[!openedload]]"></div>
         <paper-toast class="toastLoading" id="toastLoading" opened="{{openedload}}" positionTarget duration="0" text="">
@@ -120,7 +125,7 @@
 			</span>
 		</paper-toast>
 		
-        <content></content>
+        <slot></slot>
 		
     </template>
     <script>
