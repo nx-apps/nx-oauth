@@ -41,9 +41,10 @@ export function clientAction(store) {
                     var newItem = response.data;
                     var newDate = newItem.exp_date.split('T');
                     newItem.exp_date = newDate[0];
+                    store.dispatch({ type: 'CLIENT_SELECT', payload: newItem })
                     // console.log(newItem);
                     res(response.data);
-                    store.dispatch({ type: 'CLIENT_SELECT', payload: newItem })
+                    
                 })
                 .catch((error)=>{
                     rej(error);

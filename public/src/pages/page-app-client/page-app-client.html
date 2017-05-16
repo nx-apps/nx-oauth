@@ -44,10 +44,17 @@
                 }
             },
             openPanelRight:function(e){
-                this.dispatchAction('CLIENT_CLEAR_DATA')
-                .then(function(){
+                var status = e.detail
+                // console.log(status);
+                if(status == 'select'){
                     this.$$('panel-right').open();
-                }.bind(this))
+                }
+               else{
+                    this.dispatchAction('CLIENT_CLEAR_DATA')
+                    .then(function(){
+                        this.$$('panel-right').open();
+                    }.bind(this))
+               }
             },
             closePanelRight:function(e){
                 this.$$('panel-right').close();

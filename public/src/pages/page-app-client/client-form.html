@@ -100,9 +100,10 @@
                             this.fire('toast', {
                                 status: 'success', text: 'บันทึกสำเร็จ',
                                 callback: function () {
+                                    this.fire('close-panel');
                                     this.dispatchAction('CLIENT_GET_LIST',this.appId)
                                     .then(function(){
-                                        this.fire('close-panel');
+                                        
                                         // this.dispatchAction('CLIENT_CLEAR')
                                     }.bind(this))
                                     //   this.fire('close-panel')
@@ -118,16 +119,16 @@
                         })
                 }
                 else {
-                    console.log(this.data);
+                    // console.log(this.data);
                     // console.log('update');
                     this.dispatchAction('CLIENT_UPDATE', this.data)
                         .then(function (res) {
                             this.fire('toast', {
                                 status: 'success', text: 'บันทึกสำเร็จ',
                                 callback: function () {
+                                    this.fire('close-panel');
                                     this.dispatchAction('CLIENT_GET_LIST',this.appId)
                                     .then(function(){
-                                        this.fire('close-panel');
                                         // this.dispatchAction('CLIENT_SELECT',this.data.id)
                                         // CLIENT_SELECT
                                     }.bind(this))

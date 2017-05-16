@@ -145,7 +145,7 @@
                 var id = element.item.id;
                 this.dispatchAction('CLIENT_SELECT',id)
                 .then(function(res){
-                    this.fire('open-panel')
+                    this.fire('open-panel','select')
                 }.bind(this))
                 .catch(function(error){
                      this.fire('toast',{status:'connectError',text:error,
