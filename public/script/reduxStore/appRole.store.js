@@ -20,11 +20,12 @@ export function appRoleReducer(state = initialState,action){
 
 }
 
-export function appRoleAction(_this,store){
+export function appRoleAction(store){
 
     return {
             APP_ROLE_LIST:function(id){
-                // this.role_id = id;
+                var _this = pageAppRole;
+                // _this.role_id = id;
                 axios.get(`/roles/roles/${id}`)
                 .then(res=>{
                     res.data.roles.push({
@@ -40,7 +41,9 @@ export function appRoleAction(_this,store){
 
                 })
             },
-            APP_ROLE_INSERT:function(_this,data){
+            APP_ROLE_INSERT:function(data){
+                var _this = pageAppRole;
+
                 _this.fire('toast',{status:'load'});
                 axios.put('./roles/roles',data)
                 .then((response)=>{
@@ -55,7 +58,8 @@ export function appRoleAction(_this,store){
                     console.log(error);
                 });
             },
-            APP_ROLE_UPDATE:function(_this,data){
+            APP_ROLE_UPDATE:function(data){
+                var _this = pageAppRole;
             //     _this.fire('toast',{status:'load'});
             //    // data.scope = data.scope.split(",");
             //    // /apps/app

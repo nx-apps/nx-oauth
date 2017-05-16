@@ -1,5 +1,4 @@
 import axios from '../axios'
-import { commonAction } from '../config'
 
 const initialState = {
     data:{},
@@ -23,10 +22,9 @@ export function clientReducer(state = initialState, action) {
 
 export function clientAction(store) {
 
-    return [commonAction(),
-    {
-
+    return {
         CLIENT_GET_LIST: function (id) {
+            
             axios.get('./apps/clients?id=' + id)
                 .then(res => {
                     store.dispatch({ type: 'CLIENT_GET_LIST', payload: res.data })
@@ -74,6 +72,5 @@ export function clientAction(store) {
         }
       
     }
-    ]
 
 }

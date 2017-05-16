@@ -58,7 +58,7 @@ export function userAction(store) {
                 });
         },
         USER_SELECT: function (id) {
-            var _this = pageUser;
+            var _this = pageMyApp;
             axios.get(`/users/info/${id}`)
                 .then(res => {
                     store.dispatch({ type: 'USER_SELECT', payload: res.data })

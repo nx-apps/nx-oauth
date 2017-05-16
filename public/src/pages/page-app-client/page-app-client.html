@@ -4,8 +4,9 @@
 <link rel="import" href="./../../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="./../components/page-style.html">
 <link rel="import" href="./client-form.html">
-<link rel="import" href="/src/nylon-param.html">
-
+<link rel="import" href="./../../nylon-param.html">
+<link rel="import" href="./../../nylon-behavior.html">
+<link rel="import" href="./../../redux-behavior.html">
 <dom-module id="page-app-client">
     <!--<link rel="import" type="css" href="page-client.css">-->
     <template>
@@ -28,7 +29,7 @@
         Polymer({
             is: 'page-app-client',
             observers:['getParam(param)'],
-            behaviors: [nylonBehavior, ReduxBehavior,clientAction],
+            behaviors: [NylonBehavior, ReduxBehavior],
             listeners:{
                 'close-panel':'closePanelRight',
                 'open-panel':'openPanelRight'
