@@ -1,6 +1,6 @@
 <script>
     
-    window.nylonBehavior = {
+    NylonBehavior = {
         properties:{
             nylonShow:{
                 value:true,
@@ -27,6 +27,19 @@
         nylonVisible:function(b){
             if(typeof b == "undefined") b = true;
             this.nylonShow = b;
+        },
+        created:function(){
+            var arr = this.is.split('-');
+            var str = '';
+            arr.map(function(row,i){
+                if(i==0){
+                    str += row;
+                }else{
+                    str += row[0].toUpperCase();
+                    str += row.substr(1, row.length)
+                }
+            })
+            window[str] = this;
         }
 
     };

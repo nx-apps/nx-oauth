@@ -1,5 +1,4 @@
 import axios from '../axios'
-import {commonAction} from '../config'
 
 const initialState = {
     list:[],
@@ -23,8 +22,7 @@ export function settingReducer(state = initialState,action){
 
 export function settingAction(store){
 
-    return [commonAction(),
-        {
+    return {
             SETTING_UPDATE:function(data){
                 this.fire('toast',{status:'load'});
 
@@ -47,6 +45,5 @@ export function settingAction(store){
                 })
             }
         }
-    ]
 
 }

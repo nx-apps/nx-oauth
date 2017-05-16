@@ -40,7 +40,7 @@
     <script>
         Polymer({
             is: 'page-app-role',
-            behaviors: [nylonBehavior, ReduxBehavior, appRoleAction],
+            behaviors: [NylonBehavior, ReduxBehavior],
             observers: ['obGetParam(getParam.AppId)'],
             obGetParam: function (AppId) {
                 if (this.getParam.page == 'app-role') {

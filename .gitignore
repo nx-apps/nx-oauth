@@ -1,9 +1,11 @@
 /node_modules
 /public/bower_components
+/public/build
 /public/node_modules
 /public/bundle.js
-/public/css/main.css
-
+/public/bundle.js.map
+/public/css/main.cssx
+/temp
 /loggers/*
 !/loggers/file.log
 npm-debug*

@@ -1,5 +1,4 @@
 import axios from '../axios'
-import { commonAction } from '../config'
 
 const initialState = {
     list: []
@@ -18,8 +17,7 @@ export function appConnectReducer(state = initialState, action) {
 
 export function appConnectAction(store) {
 
-    return [commonAction(),
-    {
+    return {
         APP_CONNECT_LIST: function (id) {
             axios.get(`/apps/connects/${id}`)
                 .then(res => {
@@ -54,6 +52,5 @@ export function appConnectAction(store) {
                 })
         }
     }
-    ]
 
 }

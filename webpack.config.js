@@ -1,32 +1,23 @@
 module.exports = {
     entry: [
-        './public/src/script/index.js'
+        'babel-polyfill', './public/script/main.js'
     ],
     output: {
-        filename: './public/bundle.js'
+        filename: './public/bundle.js',
+        libraryTarget: 'var',
+        library: 'bundle'
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.js?$/,
+                exclude: /node_modules/,
+                loaders: [
+                    'babel-loader'
+                ]
+            }
+        ]
     },
     watch: true,
-    devtool:"inline-source-map"
+    devtool: "inline-source-map"
 };
-
-
-// module.exports = {
-//     entry: [
-//         './public/src/redux-store/index.js'
-//     ],
-//     output: {
-//         filename: './public/src/redux-store.js'
-//     },
-//     module: {
-//         loaders: [
-//             {
-//                 exclude: /node_modules/,
-//                 loader: 'babel',
-//                 query: {
-//                     presets: ['es2015']
-//                 }
-//             }
-//         ]
-//     },
-//     watch: true
-// };

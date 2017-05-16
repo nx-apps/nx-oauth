@@ -1,5 +1,4 @@
 import axios from '../axios'
-import { commonAction } from '../config'
 
 const initialState = {
     list: [],
@@ -31,8 +30,7 @@ export function userReducer(state = initialState, action) {
 
 export function userAction(store) {
 
-    return [commonAction(),
-    {
+    return {
         USER_TEST: function (id) {
             console.log(id);
         },
@@ -159,6 +157,5 @@ export function userAction(store) {
                 });
         }
     }
-    ]
 
 }

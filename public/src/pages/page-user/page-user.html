@@ -59,7 +59,7 @@
     <script>
         Polymer({
             is: 'page-user',
-            behaviors: [nylonBehavior, ReduxBehavior, userAction, commonSystemAction],
+            behaviors: [NylonBehavior, ReduxBehavior, userAction, commonSystemAction],
             observers: ['obGetParam(getParam)','getAppId(appSelect)'],
             properties:{
                 appList:{

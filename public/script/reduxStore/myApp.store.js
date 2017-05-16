@@ -1,5 +1,4 @@
 import axios from '../axios'
-import { commonAction } from '../config'
 
 const initialState = {
     list: [],
@@ -32,14 +31,14 @@ export function myAppReducer(state = initialState, action) {
 
 export function myAppAction(store) {
 
-    return [commonAction(),
-    {
+    return {
 
         MY_APP_LIST: function (id) {
+            var _this = pageMyApp;
             axios.get(`/apps/appList`)
                 .then(res => {
                     store.dispatch({ type: 'MY_APP_LIST', payload: res.data })
-                    this.nylonVisible(true);
+                    _this.nylonVisible(true);
                 })
                 .catch(err => {
                     console.log(err);
@@ -56,20 +55,22 @@ export function myAppAction(store) {
 
         },
         MY_APP_REQUEST: function (app_id) {
+            var _this = pageMyApp;
             axios.post(`/apps/request`, { app_id })
                 .then(res => {
                     //console.log(res.data)
-                    this.MY_APP_LIST(this.getParam.id);
-                    this.MY_APP_BALANCE_LIST(this.getParam.id);
-                    this.$$('panel-right').close();
+                    this.MY_APP_LIST(_this.getParam.id);
+                    this.MY_APP_BALANCE_LIST(_this.getParam.id);
+                    _this.$$('panel-right').close();
                 })
                 .catch(err => {
                     console.log(err);
                 })
         },
         MY_APP_SELECT: function (id) {
-            var panelRight = this.$$('panel-right');
-            this.selected = 1;
+            var _this = pageMyApp;
+            var panelRight = _this.$$('panel-right');
+            _this.selected = 1;
             panelRight.title = "จัดการแอป"
             panelRight.open();
 
@@ -81,7 +82,7 @@ export function myAppAction(store) {
                     //var data = res.data;
                     //data.clientList = [];
                     store.dispatch({ type: 'MY_APP_SELECT', payload: res.data })
-                    this.$$('panel-right').open();
+                    _this.$$('panel-right').open();
                 })
                 .catch(err => {
                     console.log(err);
@@ -89,13 +90,15 @@ export function myAppAction(store) {
 
         },
         MY_APP_SELECT_CLIENT: function (id) {
+            var _this = pageMyApp;
+
             axios.get('./apps/client?id=' + id)
                 .then((response) => {
                     // console.log(response.data);
-                    this.selected = 3;
+                    _this.selected = 3;
                     store.dispatch({ type: 'MY_APP_SELECT_CLIENT', payload: response.data })
-                    this.$$('panel-right').title = "จัดการ Client"
-                    this.$$('panel-right').open();
+                    _this.$$('panel-right').title = "จัดการ Client"
+                    _this.$$('panel-right').open();
                 })
                 .catch((error) => {
                     console.log('error');
@@ -103,12 +106,13 @@ export function myAppAction(store) {
                 });
         },
         MY_APP_CLIENT_INSERT: function (data) {
-            this.fire('toast',{status:'load'});
+            var _this = pageMyApp;
+            _this.fire('toast',{status:'load'});
             axios.put('./apps/client', data)
                 .then((response) => {
-                    this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
+                    _this.fire('toast',{status:'success',text:'บันทึกสำเร็จ',
                       callback:()=>{
-                          this.$$('panel-right').close();
+                          _this.$$('panel-right').close();
                       }
                      });
                 })
@@ -118,20 +122,20 @@ export function myAppAction(store) {
                 });
         },
         MY_APP_INSERT: function (data) {
-
+            var _this = pageMyApp;
             if (typeof data.status_enable == "undefined") data.status_enable = false;
             if (typeof data.register_auto == "undefined") data.register_auto = false;
 
-            this.fire('toast', { status: 'load' });
+            _this.fire('toast', { status: 'load' });
             //console.log(data);
             data.client = [];
             axios.post('/apps/app', data)
                 .then(res => {
-                    this.MY_APP_LIST(this.getParam.id);
-                    this.fire('toast', {
+                    this.MY_APP_LIST(_this.getParam.id);
+                    _this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
-                            this.$$('panel-right').close();
+                            _this.$$('panel-right').close();
                         }
                     });
                 })
@@ -140,15 +144,16 @@ export function myAppAction(store) {
                 })
         },
         MY_APP_DELETE: function (id) {
-
-            this.fire('toast', { status: 'load' });
+            var _this = pageMyApp;
+            _this.fire('toast', { status: 'load' });
             axios.delete(`/apps/app/${id}`)
                 .then(res => {
-                    this.MY_APP_LIST(this.getParam.id);
-                    this.fire('toast', {
+                    console.log('ss');
+                    this.MY_APP_LIST(_this.getParam.id);
+                    _this.fire('toast', {
                         status: 'success', text: 'ลบข้อมูลสำเร็จ',
                         callback: () => {
-                            this.$$('panel-right').close();
+                            _this.$$('panel-right').close();
                         }
                     });
                 })
@@ -157,15 +162,16 @@ export function myAppAction(store) {
                 })
         },
         MY_APP_UPDATE: function (data) {
-            this.fire('toast', { status: 'load' });
+            var _this = pageMyApp;
+            _this.fire('toast', { status: 'load' });
 
             axios.put(`/apps/app`, data)
                 .then(res => {
-                    this.MY_APP_LIST(this.getParam.id);
-                    this.fire('toast', {
+                    this.MY_APP_LIST(_this.getParam.id);
+                    _this.fire('toast', {
                         status: 'success', text: 'บันทึกสำเร็จ',
                         callback: () => {
-                            this.$$('panel-right').close();
+                            _this.$$('panel-right').close();
                         }
                     });
                 })
@@ -181,6 +187,5 @@ export function myAppAction(store) {
             store.dispatch({ type: 'MY_APP_CLEAR', payload: obj })
         }
     }
-    ]
 
 }

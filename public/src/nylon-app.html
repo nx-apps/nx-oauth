@@ -5,6 +5,7 @@
 <link rel="import" href="nylon-behavior.html">
 <link rel="import" href="nylon-init.html">
 
+
 <dom-module id="nylon-app">
     <template>
         <app-location route="{{route}}"></app-location>
@@ -21,6 +22,9 @@
         Polymer({
             is:'nylon-app',
             behaviors:[ReduxBehavior],
+            listeners: {
+                'dispatchAction': 'dispatchAction',
+            },
             properties:{
                 user:{
                     statePath:'auth.user'
@@ -54,13 +58,36 @@
                     }
                     , true
                 );
-    },
+            },
             _changePage:function(e){
                 this.$.changePath.setAttribute("href", e.detail.path);
                 this.$.changePath.click();
             },
             _onSendElementLayoutMainDrawer:function(e){
                 this.elementLayoutMainDrawer = e.detail;
+            },
+            dispatchAction: function (e) {
+                var detail = e.detail;
+                var args = detail.args;
+                var callback = detail.callback;
+
+                var methodName = args[0];
+                var args = Array.prototype.slice.call(args);
+                if (args.length > 1)
+                    args = args.slice(1, args.length);
+
+                var argsText = "";
+                var params = [];
+                args.map((row, i) => {
+                    params.push(row);
+                    if (i != 0) argsText += ',';
+                    argsText += `params[${i}]`
+                });
+
+                callback(eval(`
+                    if(bundle.default.ReduxAction.${methodName})
+                    bundle.default.ReduxAction.${methodName}(${argsText})
+                `));
             }
             
         });

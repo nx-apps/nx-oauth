@@ -1,5 +1,4 @@
 import axios from '../axios'
-import { commonAction } from '../config'
 
 const initialState = {
     list: [],
@@ -29,8 +28,7 @@ export function appUserReducer(state = initialState, action) {
 
 export function appUserAction(store) {
 
-    return [commonAction(),
-    {
+    return {
         APP_USER_LIST: function (id) {
             // console.log('APP_USER_LIST');
             axios.get(`/apps/users/${id}`)
@@ -106,7 +104,5 @@ export function appUserAction(store) {
                 })
         }
     }
-
-    ]
 
 }

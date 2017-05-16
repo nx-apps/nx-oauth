@@ -1,5 +1,4 @@
 import axios from '../axios'
-import {commonAction} from '../config'
 import jwtDecode from 'jwt-decode'
 
 const initialState = {
@@ -27,8 +26,7 @@ export function authReducer(state = initialState,action){
 
 export function authAction(store){
 
-    return [commonAction(),
-        {
+    return {
             AUTH_LOGIN:function(formLogin){
                 axios.post('./auth/login',{username:formLogin.user,password:formLogin.pass})
                 .then((response)=>{
@@ -58,6 +56,4 @@ export function authAction(store){
                 });
             }
         }
-    ]
-
 }

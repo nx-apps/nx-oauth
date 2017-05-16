@@ -1,5 +1,4 @@
 import axios from '../axios'
-import {commonAction} from '../config'
 
 const initialState = {
     list:[],
@@ -23,8 +22,7 @@ export function providerReducer(state = initialState,action){
 
 export function providerAction(store){
 
-    return [commonAction(),
-        {
+    return {
             PROVIDER_TEST:function(id){
                 console.log(id);
             },
@@ -105,6 +103,5 @@ export function providerAction(store){
                 })
             }
         }
-    ]
 
 }

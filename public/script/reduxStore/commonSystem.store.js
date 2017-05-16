@@ -1,5 +1,4 @@
 import axios from '../axios'
-import { commonAction } from '../config'
 
 const initialState = {
     module: [],
@@ -21,8 +20,7 @@ export function commonSystemReducer(state = initialState, action) {
 }
 
 export function commonSystemAction(store) {
-    return [
-        commonAction(), {
+    return {
             COMMON_MODULE: function (data) {
                 // var user = store.getState().auth.user;
                 axios.get('/common/module/')
@@ -54,5 +52,4 @@ export function commonSystemAction(store) {
                     });
             }
         }
-    ]
 }

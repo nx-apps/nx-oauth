@@ -46,7 +46,7 @@
     <script>
         Polymer({
             is: 'page-provider',
-            behaviors: [nylonBehavior,ReduxBehavior,providerAction],
+            behaviors: [NylonBehavior,ReduxBehavior,providerAction],
             observers:['obGetParam(getParam)'],
             obGetParam:function(param){
                 if(param.page=="provider"){
