@@ -1,0 +1,38 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="o-auth">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]</h2>
+    <button on-tap="login">login</button>
+    <button on-tap="logout">logout</button>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'o-auth',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'o-auth',
+        },
+      },
+      ready:function(){
+        console.log('ready')
+      },
+      login:function(){
+        console.log('login')
+      },
+      logout:function(){
+        console.log('logout')
+      }
+
+    });
+  </script>
+</dom-module>
