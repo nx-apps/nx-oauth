@@ -5,6 +5,8 @@
 <link rel="import" href="./../../redux-behavior.html">
 <link rel="import" href="./../../../bower_components/paper-material/paper-material.html">
 
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
 
 <dom-module id="client-form">
     <!--<link rel="import" type="css" href="client-form.css">-->
@@ -19,12 +21,32 @@
             <table class="gl-table-default">
                 <thead>
                     <tr class="hideBorder">
+                        <th style="width:30%;text-align: right; font-size: 18px;">Client Id</th>
+                        <th>
+                            [[data.id]]
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr class="hideBorder">
+                        <th style="width:30%;text-align: right; font-size: 18px;">Secret</th>
+                        <th>
+                            [[data.secret]]
+                            <paper-icon-button icon="autorenew" on-tap="genSecret"></paper-icon-button>
+                            <!-- <gl-form-input id="form" no-label-float value="{{data.secret}}" required></gl-form-input> -->
+                        </th>
+
+                        <th></th>
+                    </tr>
+                    <tr class="hideBorder">
                         <th style="width:30%;text-align: right; font-size: 18px;">Client Name</th>
                         <th>
                             <gl-form-input id="form" no-label-float value="{{data.client_name}}" required></gl-form-input>
                         </th>
                         <th></th>
                     </tr>
+
+
+
                     <tr class="hideBorder">
                         <th style="width:30%;text-align: right; font-size: 18px;">Domain</th>
                         <th>
@@ -32,20 +54,8 @@
                         </th>
                         <th></th>
                     </tr>
-                    <tr class="hideBorder">
-                        <th style="width:30%;text-align: right; font-size: 18px;">Client Id</th>
-                        <th>
-                            <gl-form-input id="form" no-label-float value="{{data.client_id}}" required></gl-form-input>
-                        </th>
-                        <th></th>
-                    </tr>
-                    <tr class="hideBorder">
-                        <th style="width:30%;text-align: right; font-size: 18px;">Secret</th>
-                        <th>
-                            <gl-form-input id="form" no-label-float value="{{data.secret}}" required></gl-form-input>
-                        </th>
-                        <th></th>
-                    </tr>
+
+
                     <tr class="hideBorder">
                         <th style="width:30%;text-align: right; font-size: 18px;">EXP Date</th>
                         <th>
@@ -93,6 +103,19 @@
                     value: ''
                 }
             },
+            genSecret: function () {
+                function guid() {
+                    function s4() {
+                        return Math.floor((1 + Math.random()) * 0x10000)
+                            .toString(16)
+                            .substring(1);
+                    }
+                    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                        s4() + '-' + s4() + s4() + s4();
+                }
+
+                this.set('data.secret',guid())
+            },
             getForm: function () {
                 // console.log(this.data);
                 this.fire('toast', { status: 'load' });
@@ -105,11 +128,11 @@
                                 status: 'success', text: 'บันทึกสำเร็จ',
                                 callback: function () {
                                     this.fire('close-panel');
-                                    this.dispatchAction('CLIENT_GET_LIST',this.appId)
-                                    .then(function(){
-                                        
-                                        // this.dispatchAction('CLIENT_CLEAR')
-                                    }.bind(this))
+                                    this.dispatchAction('CLIENT_GET_LIST', this.appId)
+                                        .then(function () {
+
+                                            // this.dispatchAction('CLIENT_CLEAR')
+                                        }.bind(this))
                                     //   this.fire('close-panel')
                                 }.bind(this)
                             });
@@ -131,11 +154,11 @@
                                 status: 'success', text: 'บันทึกสำเร็จ',
                                 callback: function () {
                                     this.fire('close-panel');
-                                    this.dispatchAction('CLIENT_GET_LIST',this.appId)
-                                    .then(function(){
-                                        // this.dispatchAction('CLIENT_SELECT',this.data.id)
-                                        // CLIENT_SELECT
-                                    }.bind(this))
+                                    this.dispatchAction('CLIENT_GET_LIST', this.appId)
+                                        .then(function () {
+                                            // this.dispatchAction('CLIENT_SELECT',this.data.id)
+                                            // CLIENT_SELECT
+                                        }.bind(this))
                                     //   this.fire('close-panel')
                                 }.bind(this)
                             });
