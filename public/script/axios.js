@@ -2,8 +2,9 @@ import {create} from 'axios'
 import {baseURL} from './config'
 import Cookies from 'js-cookie'
 
+window.baseURL = baseURL+'/api';
 export default create({
-    baseURL:baseURL+'/api'
+    baseURL:window.baseURL
     // ,
     // headers: {
     //    // 'Authorization': 'JWT '+ Cookies.get('jwt'),

@@ -5,6 +5,8 @@
 <link rel="import" href="./../../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="./../../redux-behavior.html">
 <link rel="import" href="./../../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="./upload-image.html">
 
 <dom-module id="app-manage">
     <template>
@@ -75,7 +77,11 @@
                         </template>
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right;">Icon URL</th>
-                            <th><gl-form-textarea no-label-float value="{{select.icon_url}}"></gl-form-textarea></th></th>
+                            <th>
+                                <!-- <gl-form-textarea no-label-float value="{{select.icon_url}}"></gl-form-textarea> -->
+                                <iron-image style="width:150px; height:150px; border-radius: 10px;" src="{{_showImage(select.image_id)}}"></iron-image>
+                                <upload-image image-id="{{select.image_id}}"></upload-image>
+                            </th>
                             <th></th>
                         </tr>
                         <tr class="hideBorder">
@@ -105,10 +111,6 @@
                     observer:'obSelect',
                     notify:true
                 }
-                // clientList:{
-                //     type:Array,
-                //     value:[]
-                // }
             },
             addList:function(){
                 this.push("select.clientList",{ClientName:"",ClientId:"",Secret:"",ExpNet:""})
@@ -133,7 +135,13 @@
                     this.notifyPath('select.provider',this.select.provider)
                 }
                 
+            },
+            _showImage:function(id){
+                if(!id)
+                    return
+                return baseURL+'/image/image/'+id
             }
+
         });
     </script>
 </dom-module>
