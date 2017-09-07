@@ -90,8 +90,8 @@
             redirect: function (e) {
                 var item = e.currentTarget.item;
                 if (item.status) {
-                    //  window.location.href = item.allow_callback_url;
-                    var url = item.allow_callback_url;
+                    //window.location.href = item.web_url;
+                    var url = item.web_url;
                     window.open(url, '_blank');
                 }
             },
