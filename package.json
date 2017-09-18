@@ -9,12 +9,11 @@
     "build": "cd public && polymer build",
     "lint": "cd public && polymer lint",
     "test": "npm-run-all --parallel nylon polymerTest",
-    "nylon": "nylon-cli serve",
+    "nylon": "nylon-cli serve 3000",
     "bower": "cd ./public && bower install",
     "webpack": "webpack",
     "polymerDev": "polymer serve ./public --port 8080",
     "polymerTest": "polymer serve ./public/build/public --port 8081"
-
   },
   "author": "",
   "license": "ISC",
@@ -34,6 +33,7 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
+    "activedirectory2": "^1.2.1",
     "async": "^2.4.0",
     "axios": "^0.15.3",
     "csv-parse": "^1.2.0",
@@ -44,6 +44,12 @@
     "jwt-decode": "^2.1.0",
     "multiparty": "^4.1.2",
     "nodemailer": "^3.1.4",
+    "passport": "^0.3.2",
+    "passport-activedirectory": "^1.0.4",
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth20": "^1.0.0",
+    "passport-jwt": "^2.2.1",
+    "passport-local": "^1.0.0",
     "polymer-redux": "^0.4.2",
     "redux": "^3.6.0",
     "sleep": "^5.1.0",

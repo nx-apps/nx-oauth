@@ -8,19 +8,21 @@
 <dom-module id="client-lists">
     <!--<link rel="import" type="css" href="client-list.css">-->
     <template>
-         <style include="page-style flex-style">
+        <style include="page-style flex-style">
             .header {
                 width: 500px;
                 /*padding: 20px 20px 5px 20px;*/
             }
-            
+
             .big {
                 --iron-icon-height: 32px;
                 --iron-icon-width: 32px;
                 padding: 5px;
                 cursor: pointer;
             }
-            gl-form-input,vaadin-date-picker{
+
+            gl-form-input,
+            vaadin-date-picker {
                 width: 200px;
             }
         </style>
@@ -29,13 +31,14 @@
                 <table class="gl-table-default">
                     <thead>
                         <tr>
+                            <th class="header">Client Id</th>
                             <th class="header">Client Name</th>
                             <th class="header">Domain</th>
-                            <th class="header">Client Id</th>
-                            <th class="header">Secret</th>
+
+                            <!-- <th class="header">Secret</th> -->
                             <th class="header">EXP Date</th>
-                            <th class="header">Allow Callback URL</th>
-                            <th class="header">Allow Logout URL</th>
+                            <!-- <th class="header">Lo Callback URL</th>
+                            <th class="header">Allow Logout URL</th> -->
                             <th class="header">จัดการ</th>
                             <!--<th class="header">Delete </th>-->
                             <!--<th class="header">
@@ -47,6 +50,10 @@
                         <template is="dom-repeat" items="[[list]]">
                             <tr>
                                 <td>
+                                    {{item.id}}
+                                    <!--<gl-form-input value="{{item.client_id}}"></gl-form-input>-->
+                                </td>
+                                <td>
                                     {{item.client_name}}
                                     <!--<gl-form-input value="{{item.client_name}}"></gl-form-input>-->
                                 </td>
@@ -54,30 +61,27 @@
                                     {{item.domain}}
                                     <!--<gl-form-input value="{{item.domain}}"></gl-form-input>-->
                                 </td>
-                                <td>
-                                    {{item.id}}
-                                    <!--<gl-form-input value="{{item.client_id}}"></gl-form-input>-->
-                                </td>
-                                <td>
-                                    {{item.secret}}
-                                    <!--<gl-form-input value="{{item.secret}}">
+
+                                <!-- <td>
+                                    {{item.secret}} -->
+                                <!--<gl-form-input value="{{item.secret}}">
                                         <div suffix>
                                             <iron-icon icon="icons:refresh" style="cursor:pointer;">
                                         </div>
                                     </gl-form-input>-->
-                                </td>
+                                <!-- </td> -->
                                 <td>
                                     {{converDate(item.exp_date)}}
                                     <!--<vaadin-date-picker value="{{item.exp_date}}"></vaadin-date-picker>-->
                                 </td>
+                                <!-- <td>
+                                    {{item.allow_callback_url}} -->
+                                <!--<gl-form-input value="{{item.allow_callback_url}}"></gl-form-input>-->
+                                <!-- </td>
                                 <td>
-                                    {{item.allow_callback_url}}
-                                    <!--<gl-form-input value="{{item.allow_callback_url}}"></gl-form-input>-->
-                                </td>
-                                <td>
-                                    {{item.allow_logout_url}}
-                                    <!--<gl-form-input value="{{item.allow_logout_url}}"></gl-form-input>-->
-                                </td>
+                                    {{item.allow_logout_url}} -->
+                                <!--<gl-form-input value="{{item.allow_logout_url}}"></gl-form-input>-->
+                                <!-- </td> -->
                                 <td>
                                     <paper-icon-button icon="create" index="{{index}}" item="{{item}}" on-tap="editData"></paper-icon-button>
                                     <paper-icon-button icon="delete" index="{{index}}" item="{{item}}" on-tap="confirmData"></paper-icon-button>
@@ -93,68 +97,73 @@
             </div>
         </paper-material>
         <!--<paper-button on-tap="saveData" raised></paper-button>-->
-        
+
     </template>
     <script>
         Polymer({
             is: 'client-lists',
             behaviors: [ReduxBehavior],
-            properties:{
-                list:{
-                    statePath:'client.list'
+            properties: {
+                list: {
+                    statePath: 'client.list'
                 },
-                appId:{
-                    type:String,
-                    value:''
+                appId: {
+                    type: String,
+                    value: ''
                 }
             },
-            converDate:function(val){
+            converDate: function (val) {
                 var newDate = val.split('T');
                 return newDate[0];
             },
-            confirmData:function(e){
-                this.fire('toast',{ 
-                 status:'openDialog',
-                 text:'ต้องการลบข้อมูลใช่หรือไม่ ?',
-                 confirmed:this.deleteData.bind(this),  
-                 id:e.currentTarget.item.id 
-                 })
+            confirmData: function (e) {
+                this.fire('toast', {
+                    status: 'openDialog',
+                    text: 'ต้องการลบข้อมูลใช่หรือไม่ ?',
+                    confirmed: this.deleteData.bind(this),
+                    id: e.currentTarget.item.id
+                })
             },
-            deleteData:function(check,data){
-                if(check == true){
+            deleteData: function (check, data) {
+                if (check == true) {
                     // var newItem = {
                     //     id: data.id
                     // }
                     // console.log(newItem);
-                    this.fire('toast',{status:'load'});
-                    this.dispatchAction('CLIENT_DELETE',data.id)
-                    .then(function(){
-                        this.fire('toast',{status:'success',text:'ลบข้อมูลสำเร็จ',
-                          callback:function(){
-                             this.dispatchAction('CLIENT_GET_LIST',this.appId)
-                          }.bind(this)
-                         });
-                    }.bind(this))
-                    .catch(function(error){
-                         this.fire('toast',{status:'connectError',text:error,
-                         callback:function(){
-                         }})
-                    }.bind(this))
+                    this.fire('toast', { status: 'load' });
+                    this.dispatchAction('CLIENT_DELETE', data.id)
+                        .then(function () {
+                            this.fire('toast', {
+                                status: 'success', text: 'ลบข้อมูลสำเร็จ',
+                                callback: function () {
+                                    this.dispatchAction('CLIENT_GET_LIST', this.appId)
+                                }.bind(this)
+                            });
+                        }.bind(this))
+                        .catch(function (error) {
+                            this.fire('toast', {
+                                status: 'connectError', text: error,
+                                callback: function () {
+                                }
+                            })
+                        }.bind(this))
                 }
-               
+
             },
-            editData:function(e){
+            editData: function (e) {
                 var element = e.currentTarget
                 var id = element.item.id;
-                this.dispatchAction('CLIENT_SELECT',id)
-                .then(function(res){
-                    this.fire('open-panel','select')
-                }.bind(this))
-                .catch(function(error){
-                     this.fire('toast',{status:'connectError',text:error,
-                     callback:function(){
-                     }})
-                }.bind(this))
+                this.dispatchAction('CLIENT_SELECT', id)
+                    .then(function (res) {
+                        this.fire('open-panel', 'select')
+                    }.bind(this))
+                    .catch(function (error) {
+                        this.fire('toast', {
+                            status: 'connectError', text: error,
+                            callback: function () {
+                            }
+                        })
+                    }.bind(this))
                 // console.log(id);
             }
         });

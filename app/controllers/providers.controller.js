@@ -1,13 +1,13 @@
 exports.list = function (req, res) {
     var r = req.r;
     r.table('providers')
-        .merge((pv_merge) => {
-            return {
-                scope: pv_merge('scope').reduce((l, r) => {
-                    return l.add(',', r);
-                })
-            }
-        })
+        // .merge((pv_merge) => {
+        //     return {
+        //         scope: pv_merge('scope').reduce((l, r) => {
+        //             return l.add(',', r);
+        //         })
+        //     }
+        // })
         .run()
         .then(function (result) {
             res.json(result);
@@ -20,13 +20,13 @@ exports.get = function (req, res) {
     var r = req.r;
     r.table('providers')
         .filter(req.query)
-        .merge((pv_merge) => {
-            return {
-                scope: pv_merge('scope').reduce((l, r) => {
-                    return l.add(',', r);
-                })
-            }
-        })
+        // .merge((pv_merge) => {
+        //     return {
+        //         scope: pv_merge('scope').reduce((l, r) => {
+        //             return l.add(',', r);
+        //         })
+        //     }
+        // })
         .run()
         .then(function (result) {
             res.json(result);
@@ -39,13 +39,13 @@ exports.getById = function (req, res) {
     var r = req.r;
     r.table('providers')
         .get(req.params.id)
-        .merge((pv_merge) => {
-            return {
-                scope: pv_merge('scope').reduce((l, r) => {
-                    return l.add(',', r);
-                })
-            }
-        })
+        // .merge((pv_merge) => {
+        //     return {
+        //         scope: pv_merge('scope').reduce((l, r) => {
+        //             return l.add(',', r);
+        //         })
+        //     }
+        // })
         .run()
         .then(function (result) {
             res.json(result);
@@ -98,4 +98,5 @@ exports.delete = function (req, res) {
         .catch(function (err) {
             res.status(500).json(err);
         })
-}
+
+    }

@@ -1,12 +1,11 @@
 html
     head
         title=title
-        link(href='/css/main.css',rel='stylesheet')
     body
         h1=message
         
     div
-        form(action='/oauth/login',method='post')
+        form(action='/api/oauth/login',method='post')
             h3 Username
             input(type='text',name='username', value='')
             br
@@ -17,7 +16,5 @@ html
             input(type='submit', value='Login')
     div
         ui
-            li
-                a(href='/oauth/facebook') Login with facebook
             li 
-                a(href='/oauth/google') Login with google 
+                a(href='/api/oauth/google') Login with google

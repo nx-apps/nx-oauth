@@ -90,7 +90,7 @@ export function providerAction(store){
             PROVIDER_UPDATE:function(data){
                 var _this = pageProvider;
                 _this.fire('toast',{status:'load'});
-                data.scope = data.scope.split(",");
+                data.scope = data.scope;//.split(",");
 
                 axios.put(`/providers/provider`,data)
                 .then(res=>{

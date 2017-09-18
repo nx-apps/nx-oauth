@@ -11,70 +11,87 @@
 <dom-module id="app-manage">
     <template>
         <style include="page-style">
-            .question{
+            .question {
                 margin-top: 8px;
                 text-align: right;
                 font-size: 20px;
             }
-            paper-radio-button{
-                --paper-radio-button-size:22px;
+
+            paper-radio-button {
+                --paper-radio-button-size: 22px;
             }
-            gl-form-input{
-                --paper-input-container-label:{
+
+            gl-form-input {
+                --paper-input-container-label: {
                     font-size: 12px;
-                    font-weight:normal;
+                    font-weight: normal;
                 }
             }
+
             .flex-end-justified {
                 @apply(--layout-horizontal);
                 @apply(--layout-end-justified);
             }
+
             .flex-horizontal-with-ratios {
                 @apply(--layout-horizontal);
             }
+
             .flexchild {
                 @apply(--layout-flex);
             }
+
             .flex2child {
                 @apply(--layout-flex-2);
             }
+
             .flex3child {
                 @apply(--layout-flex-3);
             }
+
             .flex4child {
                 @apply(--layout-flex-4);
             }
-            .hideBorder{
+
+            .hideBorder {
                 border-bottom: 2px solid white;
             }
-            .header{
-                padding:20px 20px 5px 20px;
+
+            .header {
+                padding: 20px 20px 5px 20px;
             }
+
             .big {
                 --iron-icon-height: 32px;
                 --iron-icon-width: 32px;
-                padding:5px;
-                cursor:pointer;
+                padding: 5px;
+                cursor: pointer;
             }
         </style>
         <div class="container">
             <paper-material elevation="1">
                 <table class="gl-table-default">
                     <thead>
+                        <template is="dom-if" if="{{select.id}}">
+                            <tr class="hideBorder" hidden>
+                                <th style="width:30%;text-align: right;">App ID</th>
+                                <th>
+                                    <gl-form-input no-label-float value="{{select.id}}" disabled></gl-form-input>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </template>
+
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right;">App Name</th>
-                            <th><gl-form-input no-label-float value="{{select.app_name}}"></gl-form-input></th>
+                            <th>
+                                <gl-form-input no-label-float value="{{select.app_name}}"></gl-form-input>
+                            </th>
                             <th>
                                 <div style="width:100px"></div>
                             </th>
                         </tr>
-                        <template is="dom-if" if="{{select.id}}">
-                            <tr class="hideBorder" hidden>
-                                <th style="width:30%;text-align: right;">App ID</th>
-                                <th><gl-form-input no-label-float value="{{select.id}}" disabled></gl-form-input></th>
-                                <th></th>
-                            </tr>
-                        </template>
+
                         <tr class="hideBorder">
                             <th style="width:30%;text-align: right;">Web URL</th>
                             <th>
@@ -83,12 +100,22 @@
                             <th></th>
                         </tr>
                         <tr class="hideBorder">
-                            <th style="width:30%;text-align: right;">Icon URL</th>
+                            <th style="width:30%;text-align: right;">Icon</th>
                             <th>
                                 <!-- <gl-form-textarea no-label-float value="{{select.icon_url}}"></gl-form-textarea> -->
                                 <iron-image style="width:150px; height:150px; border-radius: 10px;" src="{{_showImage(select.image_id)}}"></iron-image>
                                 <upload-image image-id="{{select.image_id}}"></upload-image>
                             </th>
+                            <th></th>
+                        </tr>
+                        <tr class="hideBorder">
+                            <th style="width:30%;text-align: right; font-size: 18px;">App Secret</th>
+                            <th>
+                                [[select.app_secret]]
+                                <paper-icon-button icon="autorenew" on-tap="genSecret"></paper-icon-button>
+                                <!-- <gl-form-input id="form" no-label-float value="{{data.secret}}" required></gl-form-input> -->
+                            </th>
+
                             <th></th>
                         </tr>
                         <tr class="hideBorder">
@@ -104,49 +131,62 @@
             </paper-material>
             </br>
         </div>
-        
+
     </template>
     <script>
         Polymer({
             is: 'app-manage',
-            behaviors:[ReduxBehavior],
-            properties:{
-                providerList:{
-                    statePath:'app.providerList'
+            behaviors: [ReduxBehavior],
+            properties: {
+                providerList: {
+                    statePath: 'app.providerList'
                 },
-                select:{
-                    observer:'obSelect',
-                    notify:true
+                select: {
+                    observer: 'obSelect',
+                    notify: true
                 }
             },
-            addList:function(){
-                this.push("select.clientList",{ClientName:"",ClientId:"",Secret:"",ExpNet:""})
+            addList: function () {
+                this.push("select.clientList", { ClientName: "", ClientId: "", Secret: "", ExpNet: "" })
             },
-            delList:function(e){
-                this.splice("select.clientList",e.target.positon,1);
+            delList: function (e) {
+                this.splice("select.clientList", e.target.positon, 1);
             },
-            obSelect:function(ob){
-                if(typeof ob.connections!="undefined"){
+            genSecret: function () {
+                function guid() {
+                    function s4() {
+                        return Math.floor((1 + Math.random()) * 0x10000)
+                            .toString(16)
+                            .substring(1);
+                    }
+                    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                        s4() + '-' + s4() + s4() + s4();
+                }
 
-                    this.select.provider = this.providerList.map((row)=>{
+                this.set('select.app_secret',guid())
+            },
+            obSelect: function (ob) {
+                if (typeof ob.connections != "undefined") {
+
+                    this.select.provider = this.providerList.map((row) => {
 
                         var select = false;
-                        ob.connections.map(function(con_row){
-                            if(con_row.id==row.id)
-                            select = true;
+                        ob.connections.map(function (con_row) {
+                            if (con_row.id == row.id)
+                                select = true;
                         })
 
-                        return {id:row.id,provider_name:row.provider_name,checked:select}
+                        return { id: row.id, provider_name: row.provider_name, checked: select }
                     })
 
-                    this.notifyPath('select.provider',this.select.provider)
+                    this.notifyPath('select.provider', this.select.provider)
                 }
-                
+
             },
-            _showImage:function(id){
-                if(!id)
+            _showImage: function (id) {
+                if (!id)
                     return
-                return baseURL+'/image/image/'+id
+                return baseURL + '/image/image/' + id
             }
 
         });

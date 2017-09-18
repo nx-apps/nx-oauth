@@ -1,0 +1,33 @@
+html
+    head
+        title=message
+        link(href='/css/main.css',rel='stylesheet')
+    body
+        h3=message
+        table
+            tr
+                td ข้อมูลผู้ใช้งาน
+            tr
+                td ชื่อ :
+                td #{userName}
+            tr
+                td สถานะ :
+                td #{userStatus}
+            tr
+                td สิทธิ์ :
+                td #{userRole}
+            tr
+                td(colspan=2)
+                    hr
+            tr
+                td ข้อมูลระบบ
+            tr
+                td ชื่อระบบ :
+                td #{appName}
+            tr
+                td สถานะการใช้งาน :
+                td #{appStatus}
+            tr
+                td สิทธิ์การใช้งาน :
+                td #{appRole}
+        a(href=link) #{messageLink}

@@ -85,7 +85,7 @@
                             <td>
                                 <div class="flex-horizontal-with-ratios">
                                     <div class="flex4child">
-                                        <gl-form-textarea label="Client ID" value="{{select.client_id}}"></gl-form-textarea>
+                                        <gl-form-textarea label="Client Id" value="{{select.client_id}}"></gl-form-textarea>
                                     </div>
                                 </div>
                             </td>
@@ -99,7 +99,7 @@
                             <td>
                                 <div class="flex-horizontal-with-ratios">
                                     <div class="flex4child">
-                                        <gl-form-textarea label="Client ID" value="{{select.client_secret}}"></gl-form-textarea>
+                                        <gl-form-textarea label="Client Key" value="{{select.client_secret}}"></gl-form-textarea>
                                     </div>
                                 </div>
                             </td>
@@ -132,7 +132,7 @@
             is: 'provider-manage',
             properties:{
                 providerList:{
-                    value:['LOCAL','GOOGLE','FACEBOOK','LDAP','AD']
+                    value:['GOOGLE','LDAP']
                 },
                 select:{
                     notify:true

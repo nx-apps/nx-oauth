@@ -1,94 +1,57 @@
 var config = {
   
-  development: {
-    server: {
-      port: 3000,
-      cluster:1,
-      https:true
-    },
+      host: "http://127.0.0.1:8080",
+      appId: "d8fcffc5-d1ab-40f1-ac63-d2643d7b9464",
+      appKey: "5fc02522e60958787b8298067513c5f4b44ca78a",
+      database: {
+        host: 'rdb.codeunbug.com',
+        port: 28015
+      },
+  
+      ws:{
+         url: 'ws://128.199.230.199/ws',
+         realm: 'realm1'
+      },
+  
+      oauth: {
+        facebook: {
+          provoider: 'facebook',
+          clientId: '157316171444270',
+          clientSecret: '71c15fa338a11f411fc6432b04cad3ca',
+          callbackURL: 'http://localhost:3000/api/oauth/facebook/callback'
+        },
+        google: {
+          provoider: 'google',
+          clientId: '464475406694-skti62k23di8uemcanuc6h6ah5nnl55a.apps.googleusercontent.com',
+          clientSecret: '24WehldQ1ZPo2hXCXmxI_FFg',
+          callbackURL: 'http://localhost:3000/api/oauth/google/callback'
+        }
+      },
+      java: true,
+      jdbc: [
+        {
+          name: "mysql",
+          driver: "com.mysql.jdbc.Driver",
+          url: "jdbc:mysql://db.codeunbug.com:3306/rmut_expert_db",
+          user: "xx",
+          password: "xx"
+        },
+        {
+          name: "mssql",
+          driver: "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+          url: "jdbc:sqlserver://202.44.34.86:1433;databaseName=RiceDB",
+          user: "xx",
+          password: "xx"
+        },
+        {
+          name: "oracle",
+          driver: "oracle.jdbc.OracleDriver",
+          url: "jdbc:oracle:thin:@25.32.200.27:1521:gl3d",
+          user: "xx",
+          password: "xx"
+        }
+      ]
     
-    database: {
-      max: 10,
-      servers: [
-        {host: 'rdb.codeunbug.com', port: 28015,user:'admin',password:'next@2017'}
-      ],
-      db:'d8fcffc5d1ab40f1ac63d2643d7b9464'
-    },
-
-    oauth:{
-       local:{
-         provider:'local'
-       },
-       facebook:{
-         provoider:'facebook',
-         clientId:'1438197499538604',
-         clientSecret:'d39bcc969fab3f784ec24c301535b7a4',
-         callbackURL:'http://localhost:8080/oauth/facebook/callback'
-       },
-        google:{
-         provoider:'google',
-         clientId:'464475406694-skti62k23di8uemcanuc6h6ah5nnl55a.apps.googleusercontent.com',
-         clientSecret:'24WehldQ1ZPo2hXCXmxI_FFg',
-         callbackURL:'http://localhost:8080/oauth/google/callback'
-       }
-     },
-     java:true,
-     jdbc:[
-       {
-         name:"mysql",
-         driver:"com.mysql.jdbc.Driver",
-         url:"jdbc:mysql://db.codeunbug.com:3306/rmut_expert_db",
-         user:"test",
-         password:"If1C5B13eeNWvyCr"
-       },
-        {
-         name:"mssql",
-         driver:"com.microsoft.sqlserver.jdbc.SQLServerDriver",
-         url:"jdbc:sqlserver://192.168.10.117:1433;databaseName=external",
-         user:"external",
-         password:"external@2017"
-       }
-       ,
-        {
-         name:"oracle",
-         driver:"oracle.jdbc.OracleDriver",
-         url:"jdbc:oracle:thin:@25.32.200.27:1521:gl3d",
-         user:"wzeB505",
-         password:"acreporter"
-       }
-     ]
-  },
-
-  production: {
-    server: {
-      port: 8080,
-      cluster:1
-    },
-    database: {
-      servers: [
-        {host: 'rdb.codeunbug.com', port: 28015}
-      ],
-      db:'oauth'
-    },
-    oauth:[
-       {
-         provider:'local'
-       },
-       {
-         provoider:'facebook',
-         clientId:'1438197499538604',
-         clientSecret:'d39bcc969fab3f784ec24c301535b7a4',
-         callbackURL:'http://localhost:8080/oauth/facebook/callback'
-       },
-        {
-         provoider:'google',
-         clientId:'464475406694-skti62k23di8uemcanuc6h6ah5nnl55a.apps.googleusercontent.com',
-         clientSecret:'24WehldQ1ZPo2hXCXmxI_FFg',
-         callbackURL:'http://localhost:8080/oauth/google/callback'
-       }
-    ]
-  }
-
-};
-
-module.exports = config[process.env.NODE_ENV || 'development'];
+  };
+  
+  module.exports = config;
